@@ -3,6 +3,7 @@ import os
 from distutils.core import setup
 
 import sys
+import Karrigell
 
 package_dir = { 'Karrigell':'Karrigell','HTMLTags':'HTMLTags'}
 package_data = {
@@ -10,11 +11,11 @@ package_data = {
     }
 
 setup(name='Karrigell',
-      version='4.0',
+      version=Karrigell.version,
       description='Web framework for Python 3.2+',
       author='Pierre Quentel',
       author_email='pierre.quentel@gmail.com',
-      url='http://www.karrigell.fr/',
+      url='http://code.google.com/p/karrigell/',
       packages=['Karrigell','HTMLTags'],
       package_dir=package_dir,
       package_data=package_data,
