@@ -1,0 +1,6 @@
+#summary Karrigell HOWTOs
+
+=HOWTO...=
+  * PronounceKarrigell
+  * InstallIt
+  * RunHelloWorld
