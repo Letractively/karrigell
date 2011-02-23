@@ -297,9 +297,11 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         """import by url - in threaded environments, "import" is unsafe
         Returns an object whose names are those of the module at this url"""
         fs_path = self.get_file(self.abs_url(url))
-        ns = {}
+        # update builtins so that imported scripts use script namespace
+        __builtins__.update(self.namespace)
+        ns = {'__builtins__':__builtins__}
         fileobj = open(fs_path)
-        exec(fileobj.read(),ns) # run imported module in empty namespace
+        exec(fileobj.read(),ns)
         fileobj.close()
         class Imported:
             def __init__(self,ns):
