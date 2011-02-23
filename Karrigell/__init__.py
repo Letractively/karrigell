@@ -20,12 +20,14 @@ to a specified URL (raise HTTP_REDIRECTION, url)
 Parameters passed to the server
 - root : document root
 - port : server port
-- patterns : a list of tuples (reg_exp,func) where
-    . regexp is a regular expression
-    . if the url path matches regexp : if func is None, return code 403
-      (permission denied) ; else, func is a function taking the match
-      object as argument, and returns a 2-element tuple, the path to the
-      script and function, and a list of arguments
+- filters : a list of functions taking the request handler as single
+  argument. A function
+    . returns None if no action should be done. Execute next funtion
+    . returns a path in the file system (typically if the url starts
+      with an alias)
+    . raises Error(msg) where msg is a 2-element tuple (code,message),
+      typically (403,"Permission denied") if the folder is protected
+      and/or the user doesn't have the requested access rights
 - session_dir : directory for session object files
 """
 
@@ -48,6 +50,8 @@ import http.server
 import http.cookies
 import email.utils
 import email.message
+
+version = "4.0"
 
 def _log(*data):
     for item in data:
@@ -81,7 +85,7 @@ class Error(Exception):
 class RequestHandler(http.server.CGIHTTPRequestHandler):
     """One instance of this class is created for each HTTP request"""
 
-    name = 'ScriptServer'
+    name = 'Karrigell'
     filters = []
     root = os.getcwd()
     session_dir = os.path.join(root,"sessions")
@@ -360,7 +364,7 @@ def run(handler=RequestHandler,port=80,root=os.getcwd(),filters=[]):
     handler.root = root
     handler.filters = filters
     s=socketserver.ThreadingTCPServer(('',port),handler)
-    print("%s running on port %s" %(handler.name,port))
+    print("%s %s running on port %s" %(handler.name,version,port))
     s.serve_forever()
 
 def run_app(host="http://localhost",*args,**kw):
