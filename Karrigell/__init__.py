@@ -51,7 +51,6 @@ import http.cookies
 import email.utils
 import email.message
 
-import Karrigell.filters
 import Karrigell.users_db
 
 version = "4.0"
@@ -146,8 +145,6 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.encoding = sys.getdefaultencoding() # Unicode encoding
         try:
             fs_path = self.get_file(self.elts[2])
-        except Karrigell.filters.REDIRECTION as url:
-            return self.redir(url)
         except Exception as msg:
             code,expl = msg.message
             return self.send_error(code,expl)
