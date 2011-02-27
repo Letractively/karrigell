@@ -51,6 +51,9 @@ import http.cookies
 import email.utils
 import email.message
 
+import Karrigell.filters
+import Karrigell.users_db
+
 version = "4.0"
 
 def _log(*data):
@@ -89,6 +92,10 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
     filters = []
     root = os.getcwd()
     session_dir = os.path.join(root,"sessions")
+    login_cookie = 'login'
+    login_session_key = 'skey'
+    alias = {}
+    users_db = None
     
     def do_GET(self):
         """Begin serving a GET request"""
@@ -139,22 +146,35 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.encoding = sys.getdefaultencoding() # Unicode encoding
         try:
             fs_path = self.get_file(self.elts[2])
-        except Error as msg:
+        except Karrigell.filters.REDIRECTION as url:
+            return self.redir(url)
+        except Exception as msg:
             code,expl = msg.message
             return self.send_error(code,expl)
         if fs_path is None:
             return self.send_error(403,'Permission denied')
         elts = list(self.elts)
         if os.path.isdir(fs_path):  # url matches a directory
+            if self.users_db is not None: # control access rights
+                level,login_url = self.users_db.infos(self.elts[2])
+                if level == 'None':
+                    return self.send_error(403,'Permission denied')
+                elif level != 'All':
+                    if not self.users_db.is_valid(self.cookies,level):
+                        if login_url:
+                            return self.redir(login_url+
+                                '?origin='+urllib.parse.quote(self.elts[2]))
+                        else:
+                            return self.send_error(403,'Permission denied')
             if not elts[2].endswith('/'):
                 elts[2] += '/'
-                return self.redir(elts)
+                return self.redir(urllib.parse.urlunparse(elts))
             if os.path.exists(os.path.join(fs_path,'index.py')):
                 elts[2] += 'index.py/index'
-                return self.redir(elts)
+                return self.redir(urllib.parse.urlunparse(elts))
             elif os.path.exists(os.path.join(fs_path,'index.html')):
                 elts[2] += 'index.html'
-                return self.redir(elts)
+                return self.redir(urllib.parse.urlunparse(elts))
             else:
                 # list directory
                 dir_list = self.list_directory(fs_path) # send resp + headers
@@ -163,7 +183,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         ext = os.path.splitext(fs_path)[1].lower()
         if ext.lower()=='.py':
             elts[2] += '/index'
-            return self.redir(elts) # redirect to function index of script
+            # redirect to function index of script
+            return self.redir(urllib.parse.urlunparse(elts))
         script_path,func = fs_path.rsplit(os.sep,1)
         if os.path.splitext(script_path)[1] == '.py':
             # Python script called with a function name
@@ -206,9 +227,9 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                 self.date_time_string(os.stat(fs_path).st_mtime)
             self.done(200,f)
 
-    def redir(self,elts):
-        # redirect
-        self.resp_headers['Location'] = urllib.parse.urlunparse(elts)
+    def redir(self,url):
+        # redirect to the specified url
+        self.resp_headers['Location'] = url
         self.done(301,io.BytesIO())
 
     def get_file(self,path):
@@ -219,7 +240,28 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                 return res
         # default : built path from root dir and url elements
         elts = urllib.parse.unquote(path).split('/')
+        if elts[0] in self.alias:
+            return os.path.join(self.alias[elts[0]],*elts[1:])
         return os.path.join(self.root,*elts)
+
+    def erase_cookie(self,name):
+        self.set_cookie[name] = ''
+        self.set_cookie[name]['path'] = '/'
+        new = datetime.date.today() + datetime.timedelta(days = -10) 
+        self.set_cookie[name]['expires'] = \
+            new.strftime("%a, %d-%b-%Y 23:59:59 GMT")
+        self.set_cookie[name]['max-age'] = 0
+
+    def login(self,role='admin'):
+        if not self.users_db.is_valid(self.cookies,role):
+            self.redir(self.login_url+'?origin='+self.path)
+
+    def logout(self,redir_to=None):
+        if redir_to is None:
+            redir_to = urllib.parse.urljoin(self.path,'index')
+        self.erase_cookie(self.login_cookie)
+        self.erase_cookie(self.login_session_key)
+        self.redir(redir_to)
 
     def abs_path(self,*rel_path):
         return os.path.join(os.path.dirname(self.script_path),*rel_path)
@@ -238,6 +280,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             'COOKIE':self.cookies,'SET_COOKIE':self.set_cookie,
             'ENCODING':self.encoding,
             'Template':self.template,'Session':self.Session,
+            'Logout':self.logout,'Login':self.login,
             'Import':self._import,'THIS': self }
         import HTMLTags
         for k in dir(HTMLTags):
@@ -257,10 +300,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             result = self.namespace[func](**self.body) # string or bytes
             self.save_session()
         except HTTP_REDIRECTION as url:
-            self.resp_headers['Location'] = url
             self.save_session()
-            self.done(301,io.StringIO())
-            return
+            return self.redir(url)
 
         encoding = self.namespace['ENCODING']
         if not "charset" in self.resp_headers["Content-type"]:
@@ -361,10 +402,28 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.copyfile(infile, self.wfile)
         self.wfile.flush()
 
-def run(handler=RequestHandler,port=80,root=os.getcwd(),filters=[]):
+def run(handler=RequestHandler,port=80,root=os.getcwd(),filters=[],
+    users_db=None,login_url='/login.py/login'):
     import socketserver
     handler.root = root
     handler.filters = filters
+    handler.users_db = users_db
+    handler.login_url = login_url
+    if users_db is not None and users_db.is_empty():
+        print('Users database is empty')
+        print('Set login and password for administrator')
+        while True:
+            login = input('Login : ')
+            if login:
+                break
+        while True:
+            password = input('Password : ')
+            if len(password)<6 or password==login:
+                print('Password must have at least 6 characters and must ')
+                print('be different from login')
+            else:
+                break
+        users_db.set_admin(login,password)    
     s=socketserver.ThreadingTCPServer(('',port),handler)
     print("%s %s running on port %s" %(handler.name,version,port))
     s.serve_forever()
