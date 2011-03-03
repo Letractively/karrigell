@@ -2,6 +2,6 @@
 #labels Featured
 
 =HOWTO...=
-  * PronounceKarrigell
+  * [http://code.google.com/p/karrigell/wiki/PronounceKarrigell Pronounce Karrigell]
   * InstallIt
   * RunHelloWorld
