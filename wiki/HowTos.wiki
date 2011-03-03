@@ -1,4 +1,5 @@
 #summary Karrigell HOWTOs
+#labels Featured
 
 =HOWTO...=
   * PronounceKarrigell
