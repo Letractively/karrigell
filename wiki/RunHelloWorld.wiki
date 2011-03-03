@@ -10,8 +10,8 @@ def index():
 Create another script called server.py:
 
 {{{
-   import Karrigell
-   Karrigell.run()
+import Karrigell
+Karrigell.run()
 }}}
 
 Save server.py in the same folder as index.py, then run it : 
