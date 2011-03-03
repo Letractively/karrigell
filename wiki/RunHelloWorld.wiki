@@ -3,8 +3,8 @@
 Create a new directory. Save this script in a file called "index.py":
 
 {{{
-   def index():
-      return "Hello world"
+def index():
+   return "Hello world"
 }}}
 
 Create another script called server.py:
