@@ -4,4 +4,4 @@
 =HOWTO...=
   * [http://code.google.com/p/karrigell/wiki/PronounceKarrigell Pronounce Karrigell]
   * [http://code.google.com/p/karrigell/wiki/InstallIt Install the package]
-  * RunHelloWorld
+  * [http://code.google.com/p/karrigell/wiki/RunHelloWorld Run the "Hello World" script]
