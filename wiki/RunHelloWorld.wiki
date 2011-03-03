@@ -1,20 +1,20 @@
 #summary Run the "Hello world" script
 
-Create a new directory. Save this script in a file called *index.py*:
+Create a new directory. Save this script in a file called <font color="#106010" face="courier">index.py</font>:
 
 {{{
 def index():
    return "Hello world"
 }}}
 
-Create another script called *server.py*:
+Create another script called <font color="#106010" face="courier">server.py</font>:
 
 {{{
 import Karrigell
 Karrigell.run()
 }}}
 
-Save *server.py* in the same folder as *index.py*, then run it : 
+Save *server.py* in the same folder as <font color="#106010" face="courier">index.py</font>, then run it : 
 
 <code>python server.py</code>
 
