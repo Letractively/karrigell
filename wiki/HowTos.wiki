@@ -3,5 +3,5 @@
 
 =HOWTO...=
   * [http://code.google.com/p/karrigell/wiki/PronounceKarrigell Pronounce Karrigell]
-  * InstallIt
+  * [http://code.google.com/p/karrigell/wiki/InstallIt Install the package]
   * RunHelloWorld
