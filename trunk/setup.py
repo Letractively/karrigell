@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-import os
 from distutils.core import setup
 
-import sys
 import Karrigell
 
 package_dir = { 'Karrigell':'Karrigell','HTMLTags':'HTMLTags'}
@@ -28,4 +26,3 @@ setup(name='Karrigell',
           'Topic :: Internet :: WWW/HTTP :: Dynamic Content'
           ]
      )
-
