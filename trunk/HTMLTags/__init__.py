@@ -274,6 +274,7 @@ class SELECT(TAG):
         elif key == 'value':
             for option in self.children:
                 option.attrs['SELECTED'] = option.attrs['value'] in attr
+        return self
 
 # Classes to build a list of radio and checkbox INPUT tags from a list
 # of strings. All INPUT tags have the same attributes, including name
