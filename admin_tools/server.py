@@ -1,8 +1,10 @@
 # -*- coding: latin-1 -*-
 
 import sys
-k_path = r'c:\Karrigell-Python3\20110223_2'
-sys.path.insert(0,k_path)
+
+folder = r'c:\Karrigell-Python3\20110304'
+if not folder in sys.path:
+    sys.path.insert(0,folder)
 
 import Karrigell
 import Karrigell.admin_db

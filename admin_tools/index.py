@@ -7,8 +7,10 @@ def index():
     head <= LINK(rel="stylesheet",href="../style.css")
     container = DIV(Id="container")
     container <= banner.banner()
-    container <= A(_('Users management'),href="../users.py")
-    container <= BR()+A(_('Translations'),href="../translations.py")
+    menu = DIV(Id="content")
+    menu <= A(_('Users management'),href="../users.py")
+    menu <= BR()+A(_('Translations'),href="../translations.py")
+    container <= menu
     return HTML(head+BODY(container))   
 
 def logout():

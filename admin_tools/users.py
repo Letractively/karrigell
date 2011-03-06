@@ -9,7 +9,6 @@ style = LINK(rel="stylesheet",href="../style.css")
 
 def index():
     body = DIV(Id="container")
-    body <= A(_('Home'),href='/')
     body <= banner.banner()
     content = H2(_('Users management'))
     conn = THIS.users_db.get_connection()
