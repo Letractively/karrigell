@@ -1,0 +1,64 @@
+#summary Using HTMLTags to generate HTML with Python code
+
+= Introduction =
+
+A dynamic web application presents data inside an HTML document. One of the ways you can do it in Karrigell is to use the HTMLTags module
+
+
+= Basics =
+
+HTMLTags defines a class for each valid HTML tag, in uppercase letters : for instance, there are classes <tt>HTML, HEAD, BODY, TABLE, B, I</tt>, etc.
+
+These classes are initiated with a value, and optional keyword arguments :
+
+<code>DIV(content,key1=value1,key2=value2...)</code>
+
+The {{{__str()__}}} method of these classes returns the HTML code matching the tag name and arguments. For HTML attributes without arguments, such as the MULTIPLE argument of SELECT tags, the constructor must be called with the value True :
+
+<code>SELECT(name="foo",multiple=True)</code>
+
+= Nesting tags =
+
+The content argument of a tag can be another instance of an HTMLTags class. For instance :
+
+{{{
+title = TITLE("FC Barcelona Home Page")
+head = HEAD(title)
+print(head)
+>>> <HEAD><TITLE>FC Barcelona Home Page</TITLE></HEAD>
+}}}
+
+You can add tags :
+
+{{{
+line = TD("email")+TD(INPUT(name="email"))
+print(line)
+>>> <TD>email</TD><TD><INPUT name="email"></TD>
+}}}
+
+The operator <= means "add child", you can use it to build complex HTML documents :
+
+{{{
+body = BODY()
+body <= H2("Home page")
+table = TABLE(Class="players")
+table <= TR(TH("Name")+TH("Birth"))
+for name,birth in [("Andres Iniesta","1984-05-11"),
+    ("Lionel Messi","1987-06-24")]:
+    table <= TR(TD(name)+TD(birth))
+}}}
+
+= Using HTMLTags in Karrigell scripts =
+
+All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts
+
+{{{
+def index():
+   return B("Hello world")
+}}}
+
+When a function is executed, the string representation of the return value is sent to the browser. Here, the return value is an instance of the HTMLTags class B ; its string representation is
+
+{{{<B>Hello world</B>}}}
+
+
