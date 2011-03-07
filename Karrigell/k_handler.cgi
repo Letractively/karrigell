@@ -10,11 +10,12 @@ class Server:
 
 try:
     import Karrigell
-    import root
-
+    import cgi_config
+    
     class RequestHandler(Karrigell.RequestHandler):
 
-        root = root.root_dir
+        apps = cgi_config.apps
+        alias = dict((app.root_url[1:],app) for app in apps)
 
         def __init__(self, request, client_address):
             env = os.environ
@@ -41,6 +42,7 @@ try:
             self.requestline = "%s %s %s" %(env["REQUEST_METHOD"],
                 env["REQUEST_URI"],env["SERVER_PROTOCOL"])
             self.method = env["REQUEST_METHOD"]
+            self.command = self.method
             if self.method in ['GET','POST']:
                 command = getattr(self,'do_'+self.method)
                 command()
@@ -64,7 +66,26 @@ try:
         msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
     client_address = (os.environ["REMOTE_ADDR"],int(os.environ["REMOTE_PORT"]))
+
     handler = RequestHandler(sys.stdin,client_address)
+    """for app in apps:
+        if app.users_db is not None and app.users_db.is_empty():
+            print('Users database %s is empty for app at %s'
+                %(app.users_db.name,app.root_url))
+            print('Set login and password for administrator')
+            while True:
+                login = input('Login : ')
+                if login:
+                    break
+            while True:
+                password = input('Password : ')
+                if len(password)<6 or password==login:
+                    print('Password must have at least 6 characters and must ')
+                    print('be different from login')
+                else:
+                    break
+            app.users_db.set_admin(login,password)"""
+
     handler.handle_data()
 
 except:
