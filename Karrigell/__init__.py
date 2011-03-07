@@ -285,6 +285,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             self.session_storage.save(self)
             return self.redir(url)
         except HTTP_ERROR as msg:
+            self.resp_headers.replace_header("Content-type","text/plain")
             return self.send_error(msg.code,msg.message)
         encoding = self.namespace['ENCODING']
         if not "charset" in self.resp_headers["Content-type"]:
