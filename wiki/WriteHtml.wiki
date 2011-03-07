@@ -65,4 +65,6 @@ def index():
 
 When a function is executed, the string representation of the return value is sent to the browser. Here, the return value is an instance of the HTMLTags class B ; its string representation is
 
-{{{<B>Hello world</B>}}}
+{{{
+<B>Hello world</B>
+}}}
