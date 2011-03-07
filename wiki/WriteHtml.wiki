@@ -52,7 +52,9 @@ for name,birth in [("Andres Iniesta","1984-05-11"),
 
 All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts. That is, you don't have to start the script with the line
 
-{{{from HTMLTags import *}}}
+{{{
+from HTMLTags import *
+}}}
 
 Suppose you have a script with this function <tt>index()</tt> :
 
