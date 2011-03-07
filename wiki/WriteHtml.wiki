@@ -50,7 +50,11 @@ for name,birth in [("Andres Iniesta","1984-05-11"),
 
 = Using HTMLTags in Karrigell scripts =
 
-All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts
+All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts. That is, you don't have to start the script with the line
+
+{{{from HTMLTags import *}}}
+
+Suppose you have a script with this function <tt>index()</tt> :
 
 {{{
 def index():
@@ -60,5 +64,3 @@ def index():
 When a function is executed, the string representation of the return value is sent to the browser. Here, the return value is an instance of the HTMLTags class B ; its string representation is
 
 {{{<B>Hello world</B>}}}
-
-
