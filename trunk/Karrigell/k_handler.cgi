@@ -5,6 +5,12 @@ import sys
 import email
 import datetime
 
+if os.path.exists(r'c:\Karrigell-Python3\trace.txt'):
+    trace_file = open(r'c:\Karrigell-Python3\trace.txt','a')
+else:
+    trace_file = open(r'c:\Karrigell-Python3\trace.txt','w')
+
+
 class Server:
     pass
 
@@ -58,6 +64,11 @@ try:
             self.send_header('Status',
                     '%s %s' %(code,message))
 
+        def trace(self,*data):
+            for elt in data:
+                trace_file.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S ')+str(elt)+'\n')
+        
+
     # on windows all \n are converted to \r\n if stdout is a terminal 
     # and is not set to binary mode
     # this will then cause an incorrect Content-length.
@@ -86,7 +97,7 @@ try:
                     break
             app.users_db.set_admin(login,password)"""
 
-    handler.handle_data()
+    #handler.handle_data()
 
 except:
     import traceback
