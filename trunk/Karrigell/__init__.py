@@ -258,6 +258,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             'ACCEPTED_LANGUAGES':self.headers.get("accept-language",None),
             'RESPONSE_HEADERS':self.resp_headers,
             'HTTP_REDIRECTION':HTTP_REDIRECTION,
+            'HTTP_ERROR':HTTP_ERROR,
             'COOKIE':self.cookies,'SET_COOKIE':self.set_cookie,
             'ENCODING':self.encoding,'_':self.translation,
             'Template':self.template,'Session':self.Session,
@@ -285,7 +286,6 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             self.session_storage.save(self)
             return self.redir(url)
         except HTTP_ERROR as msg:
-            self.resp_headers.replace_header("Content-type","text/plain")
             return self.send_error(msg.code,msg.message)
         encoding = self.namespace['ENCODING']
         if not "charset" in self.resp_headers["Content-type"]:
@@ -378,36 +378,26 @@ class App:
     skey_cookie = None
 
     def get_login_url(self):
-        return self.login_url or \
-                self.root_url.rstrip('/')+'/login.py/login'
+        if self.login_url is not None:
+            return self.login_url
+        elif not self.root_url.lstrip('/'):
+            return '/login.py/login'
+        else:
+            return self.root_url+'/login.py/login'
 
     def get_cookie_names(self):
-        suffix = self.root_url[1:].replace('/','_')
+        suffix = self.root_url.lstrip('/').replace('/','_')
         login_cookie = self.login_cookie or 'login_'+suffix
         skey_cookie = self.skey_cookie or 'skey_'+suffix
         return login_cookie,skey_cookie
 
 def run(handler=RequestHandler,port=80,apps=[App()]):
     import socketserver
-    for app in apps:
-        if app.users_db is not None and app.users_db.is_empty():
-            print('Users database %s is empty for app at %s'
-                %(app.users_db.name,app.root_url))
-            print('Set login and password for administrator')
-            while True:
-                login = input('Login : ')
-                if login:
-                    break
-            while True:
-                password = input('Password : ')
-                if len(password)<6 or password==login:
-                    print('Password must have at least 6 characters and must ')
-                    print('be different from login')
-                else:
-                    break
-            app.users_db.set_admin(login,password)
+    import Karrigell.check_apps
+    check_apps.check(apps)
     handler.apps = apps
-    handler.alias = dict((app.root_url[1:],app) for app in apps)
+    handler.alias = dict((app.root_url.lstrip('/'),app)
+        for app in apps)
     s=socketserver.ThreadingTCPServer(('',port),handler)
     print("%s %s running on port %s" %(handler.name,version,port))
     s.serve_forever()
