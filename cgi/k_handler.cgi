@@ -5,23 +5,19 @@ import sys
 import email
 import datetime
 
-if os.path.exists(r'c:\Karrigell-Python3\trace.txt'):
-    trace_file = open(r'c:\Karrigell-Python3\trace.txt','a')
-else:
-    trace_file = open(r'c:\Karrigell-Python3\trace.txt','w')
-
-
 class Server:
     pass
 
 try:
     import Karrigell
     import cgi_config
+    import check_apps
+    check_apps.check(cgi_config.apps)
     
     class RequestHandler(Karrigell.RequestHandler):
 
         apps = cgi_config.apps
-        alias = dict((app.root_url[1:],app) for app in apps)
+        alias = dict((app.root_url.lstrip('/'),app) for app in apps)
 
         def __init__(self, request, client_address):
             env = os.environ
@@ -64,11 +60,6 @@ try:
             self.send_header('Status',
                     '%s %s' %(code,message))
 
-        def trace(self,*data):
-            for elt in data:
-                trace_file.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S ')+str(elt)+'\n')
-        
-
     # on windows all \n are converted to \r\n if stdout is a terminal 
     # and is not set to binary mode
     # this will then cause an incorrect Content-length.
@@ -77,27 +68,7 @@ try:
         msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
     client_address = (os.environ["REMOTE_ADDR"],int(os.environ["REMOTE_PORT"]))
-
     handler = RequestHandler(sys.stdin,client_address)
-    """for app in apps:
-        if app.users_db is not None and app.users_db.is_empty():
-            print('Users database %s is empty for app at %s'
-                %(app.users_db.name,app.root_url))
-            print('Set login and password for administrator')
-            while True:
-                login = input('Login : ')
-                if login:
-                    break
-            while True:
-                password = input('Password : ')
-                if len(password)<6 or password==login:
-                    print('Password must have at least 6 characters and must ')
-                    print('be different from login')
-                else:
-                    break
-            app.users_db.set_admin(login,password)"""
-
-    #handler.handle_data()
 
 except:
     import traceback
@@ -107,5 +78,3 @@ except:
     print("Content-Type: text/plain;")
     print()
     print(out.getvalue())
-
-    print("\n".join(sys.path))
