@@ -2,7 +2,7 @@
 
 = Contents =
 
-* ApplicationSettings
-* AdministrationTools
-** UsersManagement
-** TranslationManagement
+  * ApplicationSettings
+  * AdministrationTools
+    * UsersManagement
+    * TranslationManagement
