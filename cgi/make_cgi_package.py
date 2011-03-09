@@ -5,10 +5,16 @@ import datetime
 import Karrigell
 
 name = 'Karrigell-{}-cgi'.format(Karrigell.version)
+parent = os.path.dirname(os.getcwd())
+
 dest_dir = os.path.join(os.getcwd(),'cgi-package')
 if os.path.exists(dest_dir):
     shutil.rmtree(dest_dir)
 os.mkdir(dest_dir)
+local_cgi_dir = os.path.join(dest_dir,'cgi_directory')
+os.mkdir(local_cgi_dir)
+local_root_dir = os.path.join(dest_dir,'root_directory')
+os.mkdir(local_root_dir)
 
 print(
 """Builds a Karrigell package to install in the CGI folder of a web server
@@ -59,7 +65,7 @@ if set_users_db.lower()=="y":
         if users_db_path:
             break
 
-out = open(os.path.join(dest_dir,'cgi_config.py'),'w')
+out = open(os.path.join(local_cgi_dir,'cgi_config.py'),'w')
 out.write("# generated ")
 out.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
 out.write("""import Karrigell
@@ -72,24 +78,68 @@ class App(Karrigell.App):
 if set_users_db.lower() == "y":
     out.write("\n    users_db = Karrigell.admin_db.SQLiteUsersDb(r'{}')".format(
         users_db_path))
+    login_url = root_url.rstrip('/')+'/admin/login.py/login'
+    out.write("\n    login_url = '{}'".format(login_url))
 
 out.write('\n\napps = [App()]\n')
+
+# create folder for document root with the .htaccess file and an index file
+while True:
+    cgi_url = input('\nEnter the url path of the CGI directory (usually /cgi-bin) :')
+    if cgi_url.startswith('/'):
+        break
+htaccess = """
+# this is the .htaccess file for CGI mode
+Options -Indexes -MultiViews
+
+ErrorDocument 403 {0}/k_handler.cgi
+
+# rewrite urls so that Karrigell handles all scripts
+# excecpt those with static files extension
+
+RewriteEngine On
+RewriteCond  %{{SCRIPT_FILENAME}} !\.cgi$
+RewriteCond  %{{SCRIPT_FILENAME}} !\.(html|htm|css|js|jpg|jpeg|gif|png)$
+
+RewriteRule (.*) {0}/k_handler.cgi
+"""
+
+out = open(os.path.join(local_root_dir,'.htaccess'),'w')
+out.write(htaccess.format(cgi_url))
+out.close()
+
+# basic index file in folder www
+out = open(os.path.join(local_root_dir,'index.py'),'w')
+out.write("def index():\n    return 'Karrigell successfully installed'")
+out.close()
+
+# if users db defined, add folder admin_tools
+if set_users_db.lower() == 'y':
+    os.mkdir(os.path.join(local_root_dir,'admin'))
+    admin_path = os.path.join(parent,'admin_tools')
+    for filename in os.listdir(admin_path):
+        shutil.copyfile(os.path.join(admin_path,filename),
+            os.path.join(local_root_dir,'admin',filename))
 
 # replace first line of k_handler with the right Python path
 lines = open('k_handler.cgi').readlines()
 lines[0] = '#!'+python_path+'\n'
-out = open(os.path.join(dest_dir,'k_handler.cgi'),'w')
+out = open(os.path.join(local_cgi_dir,'k_handler.cgi'),'w')
 out.writelines(lines)
 out.close()
 
 # add Karrigell and HTMLTags modules
-parent = os.path.dirname(os.getcwd())
 for path in ['Karrigell','HTMLTags']:
     abs_path = os.path.join(parent,path)
-    os.mkdir(os.path.join(dest_dir,path))
+    os.mkdir(os.path.join(local_cgi_dir,path))
     for filename in os.listdir(abs_path):
         print('add',filename)
         shutil.copyfile(os.path.join(abs_path,filename),
-            os.path.join(dest_dir,path,filename))
+            os.path.join(local_cgi_dir,path,filename))
 
-# create folder for document root with the .htaccess file and an index file
+print("""
+The Karrigell distribution was created successfully. Copy/upload the content
+of subfolder "cgi_directory" in the CGI directory and the content
+of subfolder "root_directory" in the root directory. Then enter
+http://<hostname>/<root-url> in a browser. You should see the message
+"Karrigell successfully installed" """)
