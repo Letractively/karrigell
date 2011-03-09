@@ -1,0 +1,8 @@
+#summary Reference manual for Karrigell
+
+= Contents =
+
+* ApplicationSettings
+* AdministrationTools
+** UsersManagement
+** TranslationManagement
