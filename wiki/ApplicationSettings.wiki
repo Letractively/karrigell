@@ -26,12 +26,29 @@ The directory in the file system to serve scripts and documents from. Defaults t
 The class used to manage the storage and retrieval of session objects (see SessionManagement). Defaults to the class <font color="#363" size="2"><b>`FileSessionManagement`</b></font> in module Karrigell.sessions
 
 ===users_db===
-An object representing the users database. It must have the same interface as the class SQLiteUsersDb in module Karrigell.admin_db
+An object representing the users database. It must have the same interface as the class <font color="#363" size="2"><b>`SQLiteUsersDb`</b></font> in module Karrigell.admin_db
 
 You can use a SQLite users database by specifying its path in the file system :
 
 {{{
-users_db = Karrigell.admin_db.SQLiteUsersDB(_db_path_)
+users_db = Karrigell.admin_db.SQLiteUsersDb(db_path)
 }}}
 
 Defaults to None, meaning that there is no users management for this application
+
+===translations_db===
+An object representing the translations database, used to localize the application. It must have the same interface as the class <font color="#363" size="2"><b>`SQLiteTranslationDb`</b></font> in module Karrigell.admin_db
+
+You can use a SQLite translation database by specifying its path in the file system :
+
+{{{
+users_db = Karrigell.admin_db.SQLiteTranslationDb(db_path)
+}}}
+
+Defaults to None, meaning that there is no translation management for this application
+
+===login_url===
+If a users database has been defined, indicates the url where a script must be redirected if it requires user login. Defaults to root_url/admin/login.py/login (the script login.py is provided in the directory admin_tools of the distribution)
+
+
+
