@@ -2,10 +2,6 @@
 
 import sys
 
-folder = r'c:\Karrigell-Python3\20110304'
-if not folder in sys.path:
-    sys.path.insert(0,folder)
-
 import Karrigell
 import Karrigell.admin_db
 
