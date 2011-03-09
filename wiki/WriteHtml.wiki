@@ -46,6 +46,7 @@ table <= TR(TH("Name")+TH("Birth"))
 for name,birth in [("Andres Iniesta","1984-05-11"),
     ("Lionel Messi","1987-06-24")]:
     table <= TR(TD(name)+TD(birth))
+body <= table
 }}}
 
 = Using HTMLTags in Karrigell scripts =
