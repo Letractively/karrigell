@@ -3,16 +3,17 @@ import tarfile
 import Karrigell
 
 name = 'Karrigell-{}'.format(Karrigell.version)
-dist_dir = os.path.join(os.path.dirname(os.getcwd()),'dist')
-if not os.path.exists(dist_dir):
-    os.mkdir(dist_dir)
-dist = tarfile.open(os.path.join(dist_dir,name+'.gz'),mode='w:gz')
+dist = tarfile.open(name+'.gz',mode='w:gz')
+
+parent = os.path.dirname(os.getcwd())
 
 for path in ['README.txt','MANIFEST','setup.py']:
-    dist.add(path,arcname=os.path.join(name,path))
+    dist.add(os.path.join(parent,'trunk',path),
+        arcname=os.path.join(name,path))
 
 for path in ['Karrigell','HTMLTags']:
-    for (dirpath,dirnames,filenames) in os.walk(path):
+    abs_path = os.path.join(parent,'trunk',path)
+    for (dirpath,dirnames,filenames) in os.walk(abs_path):
         exclude = [ d for d in dirnames if d[0] in '._' ]
         for d in exclude:
             dirnames.remove(d)
@@ -24,7 +25,7 @@ for path in ['Karrigell','HTMLTags']:
 # admin tools,cgi,wsgi
 folders = ['admin_tools','cgi','wsgi']
 for folder in folders:
-    folder_abs = os.path.join(os.path.dirname(os.getcwd()),folder)
+    folder_abs = os.path.join(parent,folder)
     for path in os.listdir(folder_abs):
         if not os.path.isfile(os.path.join(folder_abs,path)):
             continue
