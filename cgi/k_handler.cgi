@@ -10,9 +10,9 @@ class Server:
 
 try:
     import Karrigell
+    import Karrigell.check_apps
     import cgi_config
-    import check_apps
-    check_apps.check(cgi_config.apps)
+    Karrigell.check_apps.check(cgi_config.apps)
     
     class RequestHandler(Karrigell.RequestHandler):
 
