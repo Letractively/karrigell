@@ -14,7 +14,7 @@ This page explains how you can change these default settings
 
 = Creating an application =
 
-An application is described by an instance of a subclass of the class <font color="#363"><b>Karrigell.App</b></font>. Each subclass defines the following attributes :
+An application is described by an instance of a subclass of the class <font color="#363" size="2"><b>`Karrigell.App`</b></font>. Each subclass defines the following attributes :
 
 ===root_url===
 A string beginning with a forward slash (/), indicates the first part of the urls served by this application. Defaults to "/"
@@ -23,7 +23,7 @@ A string beginning with a forward slash (/), indicates the first part of the url
 The directory in the file system to serve scripts and documents from. Defaults to the directory where the server script stands
 
 ===session_storage_class===
-The class used to manage the storage and retrieval of session objects (see SessionManagement). Defaults to the class <font color="#363" size="2"><b>FileSessionManagement</b></font> in module Karrigell.sessions
+The class used to manage the storage and retrieval of session objects (see SessionManagement). Defaults to the class <font color="#363" size="2"><b>`FileSessionManagement`</b></font> in module Karrigell.sessions
 
 ===users_db===
 An object representing the users database. It must have the same interface as the class SQLiteUsersDb in module Karrigell.admin_db
