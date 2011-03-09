@@ -12,7 +12,7 @@ means that there is only one application, serving scripts and documents from the
 
 This page explains how you can change these default settings
 
-= Creating an application =
+= Application settings =
 
 An application is described by an instance of a subclass of the class <font color="#363" size="2"><b>`Karrigell.App`</b></font>. Each subclass defines the following attributes :
 
@@ -50,5 +50,23 @@ Defaults to None, meaning that there is no translation management for this appli
 ===login_url===
 If a users database has been defined, indicates the url where a script must be redirected if it requires user login. Defaults to root_url/admin/login.py/login (the script login.py is provided in the directory admin_tools of the distribution)
 
+= Serving an application =
 
+Edit the script server.py :
 
+{{{
+import Karrigell
+import Karrigell.admin_db
+
+class Default(Karrigell.App):
+    pass
+
+class Pictures(Karrigell.App):
+    root_url = "/pics"
+    root_dir = "/path/to/pictures"
+    users_db = Karrigell.admin_db.SQLiteUsersDb('/path/to/users_db')
+
+Karrigell.run(apps=[Default(),Pictures()])
+}}}
+
+The function run takes a keyword argument apps, set to a list of instances of application classes
