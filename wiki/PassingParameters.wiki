@@ -19,3 +19,7 @@ def index():
 def show(foo):
     return B(foo)
 }}}
+
+In index() we build the form, with an attribute action set to "show", the name of the function in the same script that will manage the form
+
+This function takes a single argument, foo, the same as the name of the only INPUT field in the form. It returns the submitted data in bold character (using the HTML tag B)
