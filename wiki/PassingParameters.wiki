@@ -17,19 +17,67 @@ def index():
     return HTML(BODY(form))
 
 def show(foo):
-    return B(foo)
+    return foo
 }}}
 
 In index() we build the form, with an attribute action set to "show", the name of the function in the same script that will manage the form
 
-This function takes a single argument, foo, the same as the name of the only INPUT field in the form. It returns the submitted data in bold character (using the HTML tag B)
+This function takes a single argument, foo, the same as the name of the only INPUT field in the form. Here it simply returns the submitted data
 
+In this simple example, the value of the argument is a (unicode) string
+
+== Arbitrary arguments ==
 Sometimes the form has fields that may or may not be filled by the user, such as check buttons, radiobuttons, options in a SELECT tag, etc
 
-In this case the matching value may be set or not. In this case, the function can use the usual Python syntax for arbitrary argument list, and test if a specific field has been sent :
+In this case, the function can use the usual Python syntax for arbitrary argument list, and check if a specific field was actually sent :
 
 {{{
 def manage(**kw):
     if 'foo' in kw:
         (...)
 }}}
+
+==Multiple values for the same field==
+In some cases the same field can take more than one value : this is the case for instance for SELECT tags with the attribute MULTIPLE set, meaning that the user can select several options
+
+In this case, Karrigell uses a convention : the name of the field must end with `[]`. The framework will pass the argument to the receiving function _as a list of string values_, with the same name stripped of the trailing `[]`
+
+{{{
+def index(**kw):
+    form = FORM(action="show")
+    select = SELECT(name="foo[]",multiple=True) # field name ends with []
+    select <= OPTION("black",value=0)
+    select <= OPTION("white",value=1)
+    form <= select
+    form <= INPUT(Type="submit",value="Ok")
+    return HTML(BODY(form))
+
+def show(foo):
+    return foo
+}}}
+
+==File uploads==
+This script prompts the user to select a file in the file system, then upload it to the server using the POST method and a specific enctype :
+
+{{{
+def index():
+    form = FORM(action="upload",method="post",enctype="multipart/form-data")
+    form <= INPUT(Type="file",name="src")
+    form <= INPUT(Type="submit",value="Ok")
+    return HTML(BODY(form))
+ 
+def upload(src):
+    import mimetypes
+    gtype,encoding = mimetypes.guess_type(src.filename)
+    RESPONSE_HEADERS['Content-type'] = gtype
+    data = src.file.read()
+    return data
+}}}
+
+The upload() function receives an object with 2 attributes 
+  ** file : a file-like object. Its methods read() and readline() return bytes
+  ** filename : the name of the file
+
+In the example, the mimetype of the file is guessed using the Python built-in module mimetypes. It is used to set the content type of the returned data. The content of the file is read from the attribute file and sent as the return value of the function
+
+If the uploaded file was a JPEG image, the image will be displayed in the browser
