@@ -1,5 +1,7 @@
 #summary Application settings
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+
 = Introduction =
 
 The server can run one or several applications. By default, starting the server with
