@@ -6,7 +6,7 @@ The user enters data in an HTML form. Each field in the form is identified by a 
 
 In Karrigell, the "action" is a function in a script, and the form names are the arguments of this function
 
-= Example =
+= Basic example =
 
 {{{
 def index():
@@ -23,3 +23,13 @@ def show(foo):
 In index() we build the form, with an attribute action set to "show", the name of the function in the same script that will manage the form
 
 This function takes a single argument, foo, the same as the name of the only INPUT field in the form. It returns the submitted data in bold character (using the HTML tag B)
+
+Sometimes the form has fields that may or may not be filled by the user, such as check buttons, radiobuttons, options in a SELECT tag, etc
+
+In this case the matching value may be set or not. In this case, the function can use the usual Python syntax for arbitrary argument list, and test if a specific field has been sent :
+
+{{{
+def manage(**kw):
+    if 'foo' in kw:
+        (...)
+}}}
