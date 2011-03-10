@@ -378,12 +378,8 @@ class App:
     skey_cookie = None
 
     def get_login_url(self):
-        if self.login_url is not None:
-            return self.login_url
-        elif not self.root_url.lstrip('/'):
-            return '/login.py/login'
-        else:
-            return self.root_url+'/login.py/login'
+        return self.login_url or \
+            self.root_url.lstrip('/')+'/admin/login.py/login'
 
     def get_cookie_names(self):
         suffix = self.root_url.lstrip('/').replace('/','_')
@@ -394,7 +390,7 @@ class App:
 def run(handler=RequestHandler,port=80,apps=[App()]):
     import socketserver
     import Karrigell.check_apps
-    check_apps.check(apps)
+    Karrigell.check_apps.check(apps)
     handler.apps = apps
     handler.alias = dict((app.root_url.lstrip('/'),app)
         for app in apps)
@@ -404,11 +400,12 @@ def run(handler=RequestHandler,port=80,apps=[App()]):
 
 def run_app(host="http://localhost",*args,**kw):
     """Start the server in a thread, then open a web browser"""
+    import threading
+    import webbrowser
     class Launcher(threading.Thread):
         def run(self):
             run(*args,**kw)
     Launcher().start()
-    import webbrowser
     webbrowser.open(host)
 
 if __name__=="__main__":
