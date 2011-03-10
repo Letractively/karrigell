@@ -5,6 +5,8 @@
 = Contents =
 
   * ApplicationSettings
+  * PassingParameters
+  * SessionManagement
   * AdministrationTools
     * UsersManagement
     * TranslationManagement
