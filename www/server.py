@@ -1,0 +1,2 @@
+import Karrigell
+Karrigell.run()
