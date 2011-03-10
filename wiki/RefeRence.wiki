@@ -1,5 +1,7 @@
 #summary Reference manual for Karrigell
 
+[http://code.google.com/p/karrigell/wiki/Home Home]
+
 = Contents =
 
   * ApplicationSettings
