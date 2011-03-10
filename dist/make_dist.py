@@ -23,7 +23,7 @@ for path in ['Karrigell','HTMLTags']:
                 arcname=os.path.join(name,path,filename))
 
 # admin tools,cgi,wsgi
-folders = ['admin_tools','cgi','wsgi']
+folders = ['www','cgi','wsgi',os.path.join('www','admin')]
 for folder in folders:
     folder_abs = os.path.join(parent,folder)
     for path in os.listdir(folder_abs):
