@@ -6,12 +6,13 @@ banner = Import('banner.py')
 levels = list(Karrigell.admin_db.levels.keys())
 
 style = LINK(rel="stylesheet",href="../style.css")
-head = TITLE(_("Users_management"))+style
+head = TITLE(_("Users management"))+style
 
 def index():
     body = DIV(Id="container")
     body <= banner.banner(home=True,title=_("Users management"))
-    content = H2(_('Users management'))
+    content = DIV(Id="content")
+    content <= H2(_('Users management'))
     conn = THIS.users_db.get_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT rowid,login,role,created,last_visit,nb_visits \
@@ -32,28 +33,36 @@ def index():
     form = FORM(action="new_entry")
     form <= INPUT(Type="submit",value=_("Insert new..."))
     
-    content += table + form
+    content <= table + form
     body <= content
     return HTML(HEAD(head)+BODY(body))
 
 def edit(rowid):
+    body = DIV(Id="container")
+    body <= banner.banner(home=True,title=_("Users management"))
+
+    content = DIV(Id="content")
+    content <= H4(_("Edit user information"))
     conn = THIS.users_db.get_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT login,role FROM users WHERE rowid=?',(rowid,))
     login,role = cursor.fetchone()
-    body = A(_('Home'),href='/')
-    body += H2(_('Users management'))
-    table = TABLE()
-    table <= TR(TH(_('Login'))+TD(INPUT(name="login",value=login)))
-    table <= TR(TH(_('Role'))+TD(SELECT(name="role").from_list(levels).select(content=role)))
 
     form = FORM(action="update",method="post")
-    form <= table+P()
+    form <= DIV('Login',Class="login_prompt")
+    form <= INPUT(name='login',value=login)
+    form <= DIV(_('Password')+'&nbsp;'+SMALL(_('(leave empty to keep the same)')),
+        Class="login_prompt")
+    form <= INPUT(Type="password",name="password",value='')
+    form <= DIV(_('Role'),Class="login_prompt")
+    form <= SELECT(name="role").from_list(levels).select(content=role)
+    form <= P()
     form <= INPUT(Type="hidden",name="rowid",value=rowid)
     form <= INPUT(Type="submit",name="action",value=_("Update"))
     form <= INPUT(Type="submit",name="action",value=_("Delete"))
     form <= INPUT(Type="submit",name="action",value=_("Cancel"))
-    body += form
+    content <= form
+    body <= content
 
     return HTML(HEAD(TITLE(_("Users management"))+style)+BODY(body))
 
@@ -61,42 +70,71 @@ def new_entry():
     body = DIV(Id="container")
     body <= banner.banner(home=True,title=_("Users management"))
 
-    form_container = DIV(Id="form_container")
+    content = DIV(Id="content")
+    content <= H4(_("New user"))
     form = FORM(action="insert",method="POST")
     form <= DIV('Login',Class="login_prompt")
     form <= INPUT(name='login',value='')
     form <= DIV(_('Password'),Class="login_prompt")
     form <= INPUT(Type="password",name="password",value='')
-    form <= INPUT(Type="submit",value="Ok")
-    form_container <= form
     form <= DIV(_('Role'),Class="login_prompt")
-    form <= SELECT(name="role").from_list(levels)
+    form <= SELECT(name="role").from_list(levels).select(content=levels[-1])
     form <= P()+INPUT(Type="submit",value=_("Insert"))
-    form_container <= form
-    body <= form
+    content <= form
+    body <= content
     return HTML(HEAD(head)+BODY(body))
 
-def update(action,rowid,login,role):
+def update(action,rowid,role,login='',password=''):
+    if login=='':
+        return _error('Login field was empty')
+    if len(login)<6:
+        return _error('Login must be at least 6 character long')
+    if password and len(password)<6:
+        return _error('Password must be at least 6 character long')
+    if login == password:
+        return _error('Password and Login must be different')    
     role = levels[int(role)]
     if action == _("Cancel"):
         raise HTTP_REDIRECTION("index")
     conn = THIS.users_db.get_connection()
     cursor = conn.cursor()
     if action == _("Update"):
-        cursor.execute("UPDATE users SET login=?,role=? WHERE rowid=?",
-            (login,role,rowid))
+        if password:
+            import hashlib
+            _hash = hashlib.md5()
+            _hash.update(password.encode('utf-8'))
+            cursor.execute("UPDATE users SET login=?,role=?,password=? "
+                "WHERE rowid=?",(login,role,_hash.digest(),rowid))
+        else:
+            cursor.execute("UPDATE users SET login=?,role=? WHERE rowid=?",
+                (login,role,rowid))
+        
     elif action == _("Delete"):
         cursor.execute("DELETE FROM users WHERE rowid=?",(rowid,))
     conn.commit()
     raise HTTP_REDIRECTION("index")
 
-def insert(login,password,role):
+def _error(msg):
+    body = DIV(Id="container")
+    body <= banner.banner(home=True,title=_("Users management"))
+    body <= DIV(msg,Id="content")
+    return HTML(HEAD(head)+BODY(body))
+
+def insert(**kw):
+    if not 'login' in kw:
+        return _error('Login field was empty')
+    if not 'password' in kw:
+        return _error('Login field was empty')
+    login,password,role = kw['login'],kw['password'],int(kw['role'])
+    if len(login)<6:
+        return _error('Login must be at least 6 character long')
+    if len(password)<6:
+        return _error('Password must be at least 6 character long')
+    if login == password:
+        return _error('Password and Login must be different')    
     role = levels[int(role)]
     conn = THIS.users_db.get_connection()
     cursor = conn.cursor()
-    import hashlib
-    _hash = hashlib.md5()
-    _hash.update(password.encode('utf-8'))
     try:
         THIS.users_db.add_user(login,password,role)
         raise HTTP_REDIRECTION("index")

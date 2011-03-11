@@ -5,6 +5,8 @@ def index():
     head += TITLE('Karrigell home page')
     container = DIV(Id="container")
     container <= banner.banner(title = _("Home"))
-    container <= "Karrigell is installed"
-    container <= BR()+A("Administration",href="/admin/index.py")
+    content = DIV(Id="content")
+    content <= "Karrigell is installed"
+    content <= BR()+A("Administration",href="/admin/index.py")
+    container <= content
     return HTML(HEAD(head)+BODY(container))

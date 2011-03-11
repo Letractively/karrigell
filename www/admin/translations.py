@@ -17,7 +17,7 @@ def index(url_path='/'):
     # url path is unquoted
     head <= TITLE('Karrigell - '+_('Administration tools'))
     container = DIV(Id="container")
-    container <= banner.banner()
+    container <= banner.banner(home=True,title=_('Translations'))
     
     if THIS.translation_db is None:
         content = DIV(style="padding:50px;")
@@ -132,6 +132,5 @@ def update(**kw):
         for language in [ lang for lang in dico[num] if lang != 'orig' ]:
             THIS.translation_db.set_translation(original,language,
                 dico[num][language])
-
-    raise HTTP_REDIRECTION(url_path)
+    raise HTTP_REDIRECTION("index?url_path="+url_path)
 
