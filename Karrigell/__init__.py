@@ -32,6 +32,7 @@ import email.utils
 import email.message
 
 import Karrigell.sessions
+import Karrigell.admin_db as admin_db
 
 version = "4.1"
 
@@ -201,13 +202,16 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             new.strftime("%a, %d-%b-%Y 23:59:59 GMT")
         self.set_cookie[name]['max-age'] = 0
 
-    def login(self,role='admin',login_url=None):
+    def login(self,role=None,login_url=None):
         """If user is logged in with specified role, do nothing, else
         redirect to login_url"""
         login_url = login_url or self.login_url
         if not self.users_db:
             raise HTTP_ERROR(500,"Can't login, no users database set")
-        elif not self.role(role):
+        if not self.skey_cookie in self.cookies:
+            self.redir(login_url+'?role='+role+'&origin='+self.path)
+        skey = self.cookies[self.skey_cookie].value
+        if not self.users_db.key_has_role(skey,role):
             self.redir(login_url+'?role='+role+'&origin='+self.path)
 
     def logout(self,redir_to=None):
@@ -217,18 +221,13 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.erase_cookie(self.skey_cookie)
         self.redir(redir_to)
 
-    def role(self,required_role=None):
-        """If required_role is None, return user role, or False if user is not
-        identified. Else, return True if user has at least the required role"""
+    def role(self):
         if self.users_db is None:
-            raise HTTP_ERROR(500,"Can't get user role, no users database set")
+            return None
         if not self.skey_cookie in self.cookies:
             return False
         skey = self.cookies[self.skey_cookie].value
-        if required_role is None: # return role as string
-            return self.users_db.get_role(skey)
-        else: # return a boolean : user has a level >= requested role
-            return self.users_db.key_has_role(skey,required_role)
+        return self.users_db.get_role(skey)
 
     def translation(self,src,language=None):
         """Return the translation of string src in the specified language. If
@@ -262,7 +261,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             'COOKIE':self.cookies,'SET_COOKIE':self.set_cookie,
             'ENCODING':self.encoding,'_':self.translation,
             'Template':self.template,'Session':self.Session,
-            'Logout':self.logout,'Login':self.login,
+            'Logout':self.logout,'Login':self.login,'Role':self.role,
             'Import':self._import,'THIS': self }
         # import names from HTMLTags
         import HTMLTags
