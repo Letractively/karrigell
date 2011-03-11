@@ -6,7 +6,7 @@ def index():
     head <= TITLE('Karrigell - '+_('Administration tools'))
     head <= LINK(rel="stylesheet",href="../style.css")
     container = DIV(Id="container")
-    container <= banner.banner()
+    container <= banner.banner(home=True,title=_('Administration tools'))
     menu = DIV(Id="content")
     menu <= A(_('Users management'),href="../users.py")
     menu <= BR()+A(_('Translations'),href="../translations.py")

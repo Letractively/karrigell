@@ -1,9 +1,18 @@
-def banner():
+def banner(home=False,title='',log=True):
     bandeau = DIV(Id="bandeau")
-    home = A(_("Home"),href='../',Class="banner")
-    bandeau <= DIV(home+' Karrigell - '+_('Administration tools'),Class="page_title")
-    if THIS.login_cookie in COOKIE:
-        log = COOKIE[THIS.login_cookie].value+'&nbsp;&nbsp;'
-        log += A(_("Logout"),href="logout",Class="banner")
-        bandeau <= DIV(log,Class="login")
+    content = DIV(Class="page_title")
+    if home:
+        content <= A(_("Home"),href='/',Class="banner")
+    content <= ' Karrigell - '+title
+    bandeau <= content
+    if log:
+        if THIS.login_cookie in COOKIE:
+            c_log = COOKIE[THIS.login_cookie].value+'&nbsp;&nbsp;'
+            c_log += A(_("Logout"),href="/admin/login.py/logout?redir_to="+
+                THIS.path_info,Class="banner")
+            bandeau <= DIV(c_log,Class="login")
+        else:
+            c_log = A(_("Login"),href="/admin/login.py/login?origin="+
+                THIS.path_info,Class="banner")
+            bandeau <= DIV(c_log,Class="login")
     return bandeau

@@ -18,6 +18,12 @@ def index(url_path='/'):
     head <= TITLE('Karrigell - '+_('Administration tools'))
     container = DIV(Id="container")
     container <= banner.banner()
+    
+    if THIS.translation_db is None:
+        content = DIV(style="padding:50px;")
+        content <= H3("No translation database set")
+        container <= content
+        return HTML(head+BODY(container))
 
     elts = url_path.lstrip('/').split('/')
 

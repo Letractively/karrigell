@@ -6,30 +6,35 @@ banner = Import('banner.py')
 levels = list(Karrigell.admin_db.levels.keys())
 
 style = LINK(rel="stylesheet",href="../style.css")
+head = TITLE(_("Users_management"))+style
 
 def index():
     body = DIV(Id="container")
-    body <= banner.banner()
+    body <= banner.banner(home=True,title=_("Users management"))
     content = H2(_('Users management'))
     conn = THIS.users_db.get_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT rowid,login,role FROM users')
+    cursor.execute('SELECT rowid,login,role,created,last_visit,nb_visits \
+        FROM users')
     table = TABLE(Id="users-table")
-    table <= TR(TH('&nbsp;')+TH(_('Login'))+TH(_('Role')))
+    table <= TR(TH(_('Login'))+TH(_('Role'))+TH(_('Created'))+
+        TH(_('Last visit'))+TH(_('Visits')))
     while True:
         row = cursor.fetchone()
         if row is None:
             break
-        table <= TR(TD(A('Edit',href='edit?rowid={}'.format(row[0])))+
-            Sum(TD(x) for x in row[1:]))
+        rowid,login,role,created,last_visit,nb_visits = row
+        line = TD(A(login,href='edit?rowid={}'.format(rowid),Class="login"))
+        line += TD(role)+TD(created)+TD(last_visit)+TD(nb_visits)
+        
+        table <= TR(line)
 
     form = FORM(action="new_entry")
     form <= INPUT(Type="submit",value=_("Insert new..."))
     
     content += table + form
     body <= content
-    
-    return HTML(HEAD(TITLE("Users")+style)+BODY(body))
+    return HTML(HEAD(head)+BODY(body))
 
 def edit(rowid):
     conn = THIS.users_db.get_connection()
@@ -53,18 +58,23 @@ def edit(rowid):
     return HTML(HEAD(TITLE(_("Users management"))+style)+BODY(body))
 
 def new_entry():
-    body = A(_('Home'),href='/')
-    body += H2(_('Users management'))
-    table = TABLE()
-    table <= TR(TH(_('Login'))+TD(INPUT(name="login")))
-    table <= TR(TH(_('Password'))+TD(INPUT(Type="password",name="password")))
-    table <= TR(TH(_('Role'))+TD(SELECT(name="role").from_list(levels)))
+    body = DIV(Id="container")
+    body <= banner.banner(home=True,title=_("Users management"))
 
-    form = FORM(action="insert",method="post")
-    form <= table
-    form <= INPUT(Type="submit",value=_("Insert"))
-    body += form
-    return HTML(HEAD(TITLE("Users")+style)+BODY(body))
+    form_container = DIV(Id="form_container")
+    form = FORM(action="insert",method="POST")
+    form <= DIV('Login',Class="login_prompt")
+    form <= INPUT(name='login',value='')
+    form <= DIV(_('Password'),Class="login_prompt")
+    form <= INPUT(Type="password",name="password",value='')
+    form <= INPUT(Type="submit",value="Ok")
+    form_container <= form
+    form <= DIV(_('Role'),Class="login_prompt")
+    form <= SELECT(name="role").from_list(levels)
+    form <= P()+INPUT(Type="submit",value=_("Insert"))
+    form_container <= form
+    body <= form
+    return HTML(HEAD(head)+BODY(body))
 
 def update(action,rowid,login,role):
     role = levels[int(role)]
@@ -87,7 +97,14 @@ def insert(login,password,role):
     import hashlib
     _hash = hashlib.md5()
     _hash.update(password.encode('utf-8'))
-    cursor.execute("INSERT INTO users (login,password,role) VALUES (?,?,?)",
-        (login,_hash.digest(),role))
-    conn.commit()
-    raise HTTP_REDIRECTION("index")
+    try:
+        THIS.users_db.add_user(login,password,role)
+        raise HTTP_REDIRECTION("index")
+    except ValueError as msg:
+        body = DIV(Id="container")
+        body <= banner.banner(home=True,title=_("Users management"))
+        content = H2(_('Users management'))
+        content += msg
+        body <= content
+        return HTML(HEAD(head)+BODY(body))
+    

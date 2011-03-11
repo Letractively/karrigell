@@ -5,9 +5,9 @@ lifetime = 30 # how long a cookie lasts, in days
 
 style = LINK(rel="stylesheet",href="../style.css")
 
-def login(role,origin):
+def login(origin,role=None):
     container = DIV(Id="container")
-    container <= banner.banner()
+    container <= banner.banner(home=True,title=_("Login"),log=False)
     
     if THIS.users_db is None:
         container <= 'No users database declared for this application'
@@ -21,10 +21,11 @@ def login(role,origin):
         form <= INPUT(name='login')
         form <= DIV(_('Password'),Class="login_prompt")
         form <= INPUT(Type="password",name="password")
-        form <= INPUT(Type="submit",value="Ok")
+        form <= P()+INPUT(Type="submit",value="Ok")
         form_container <= form
         container <= form_container
     else:
+        role = role or "-1"
         form_container = DIV(Id="form_container")
         form = FORM(action="check_login",method="POST")
         form <= INPUT(Type="hidden",name="origin",value=origin)
@@ -37,7 +38,7 @@ def login(role,origin):
         save <= _('Remember me')
         save <= INPUT(Type="checkbox",name="remember")
         form <= save
-        form <= INPUT(Type="submit",value="Ok")
+        form <= P()+INPUT(Type="submit",value="Ok")
         form_container <= form
         container <= form_container
 
@@ -66,13 +67,19 @@ def _set_cookies(remember,login,password):
 
 def check_login(required_role,origin,login,password,remember=False):
     db = THIS.users_db
+    if required_role == "-1":
+        required_role = None
     if db.user_has_role(login,password,required_role):
         _set_cookies(remember,login,password)
+        THIS.users_db.update_visits(SET_COOKIE[THIS.skey_cookie].value)
     raise HTTP_REDIRECTION(origin)
 
 def set_admin(origin,login,password):
     if not THIS.users_db.is_empty():
         raise HTTP_ERROR(500,'db not empty')
-    THIS.users_db.set_admin(login,password)
+    THIS.users_db.add_user(login,password,'admin')
     _set_cookies(False,login,password)
     raise HTTP_REDIRECTION(origin)
+
+def logout(redir_to):
+    Logout(redir_to)

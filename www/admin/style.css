@@ -9,6 +9,7 @@ body
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 13px;
     color: #363;
+    background-color: #cf9;
 }
 
 textarea
@@ -80,6 +81,15 @@ a.banner {color: #FFF;
     font-size:13px;}
 a.banner:visited {color: #FFF;}
 
+a.login {text-decoration: none;
+    color:#040;
+    }
+a.login:visited {text-decoration: none;
+    color:#040;
+    }
+a.login:hover {color:#FFF;
+    background-color: #363;
+}
 
 #users-table
 {
