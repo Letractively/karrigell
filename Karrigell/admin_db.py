@@ -33,14 +33,15 @@ class SQLiteUsersDb:
         if not req_role in levels:
             fmt = 'Unknow role : {} - must be one of {}'
             raise ValueError(fmt.format(req_role,list(levels.keys())))
-        conn = sqlite3.connect(self.path)
+        """conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
         cursor.execute('SELECT role FROM users WHERE skey=?',(skey,))
-        result = cursor.fetchall()
-        if not result:
+        result = cursor.fetchall()"""
+        role = self.get_role(skey=skey)
+        if not role:
             return False
         else:
-            return levels[result[0][0]] >= levels[req_role]
+            return levels[role] >= levels[req_role]
 
     def user_has_role(self,login,password,req_role):
         """Test if the database has a user with the specified login
@@ -48,7 +49,7 @@ class SQLiteUsersDb:
         if req_role is not None and not req_role in levels:
             fmt = 'Unknow role : {} - must be one of {}'
             raise ValueError(fmt.format(req_role,list(levels.keys())))
-        role = self.role(login,password)
+        role = self.get_role(login=login,password=password)
         if role is None: # user not found
             return False
         elif req_role is None: # user found, unspecified required role
@@ -56,29 +57,25 @@ class SQLiteUsersDb:
         else: # user found, specified required role
             return levels[role] >= levels[req_role]
 
-    def get_role(self,skey):
+    def get_role(self,**kw):
         """Return the role of user with session key skey"""
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        cursor.execute('SELECT role FROM users WHERE skey=?',(skey,))
+        args = []
+        for key in kw.keys():
+            value = kw[key]
+            if key=='password':
+                _hash = hashlib.md5()
+                _hash.update(value.encode('utf-8'))
+                value = _hash.digest()
+            args.append(value)
+        clause = ' AND '.join(key+'=?' for key in kw.keys())
+        cursor.execute('SELECT role FROM users WHERE '+clause,args)
         result = cursor.fetchall()
         if not result:
             return None
         else:
             return result[0][0]
-
-    def role(self,login,password):
-        conn = sqlite3.connect(self.path)
-        cursor = conn.cursor()
-        _hash = hashlib.md5()
-        _hash.update(password.encode('utf-8'))
-        cursor.execute('SELECT role FROM users WHERE login=? AND password=?',
-            (login,_hash.digest()))
-        results = cursor.fetchall()
-        if not results:
-            return None
-        else:
-            return results[0][0]
 
     def set_session_key(self,login,skey):
         conn = sqlite3.connect(self.path)
