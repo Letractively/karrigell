@@ -93,6 +93,18 @@ a.login:hover {color:#FFF;
     background-color: #363;
 }
 
+a.subfolder {font-weight:bold;
+	text-decoration: none;
+	color: #040;
+	}
+a.subfolder:visited {font-weight:bold;
+	text-decoration: none;
+	color: #040;
+	}
+
+a.localize { color: #040: }
+a.localize:visited { color: #040: }
+
 #users-table
 {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;

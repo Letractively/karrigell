@@ -46,10 +46,10 @@ def index(url_path='/'):
     subfolders = [ p for p in paths if os.path.isdir(os.path.join(folder,p)) ]
     for subfolder in subfolders:
         sub_url = urllib.parse.urljoin(url_path,subfolder)
+        href="?url_path="+urllib.parse.quote_plus(sub_url)
         row = TR()
-        row <= TD(A(IMG(src="../folder_open.png",border=0),
-            href="?url_path="+urllib.parse.quote_plus(sub_url)))
-        row <= TD(B(subfolder))
+        row <= TD(A(IMG(src="../folder_open.png",border=0),href=href))
+        row <= TD(A(subfolder,href=href,Class="subfolder"))
         table <= row
 
     files = [ p for p in paths if os.path.isfile(os.path.join(folder,p)) ]
@@ -59,7 +59,8 @@ def index(url_path='/'):
             and script_strings.get_strings(abs_path):
             sub_path = urllib.parse.urljoin(url_path,_file)
             sub_path = urllib.parse.quote_plus(sub_path)
-            cell = A(_file,href="?url_path={}".format(sub_path))
+            cell = A(_file,href="?url_path={}".format(sub_path),
+                Class="localize")
         else:
             cell = _file
         table <= TR(TD('&nbsp;')+TD(cell))
