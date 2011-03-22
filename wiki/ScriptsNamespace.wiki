@@ -81,5 +81,13 @@ foo = Import('foo.py')
 
 Since the imported script is run in the "importing" script namespace, it means that all the values and functions of this namespace can be used in the imported script
 
-===Login(_`[`role`[`,login_url`]]`_),Logout(_`[`redir_to`]`_),Role()===
+===Login(_`[`role`[`,login_url`]]`_), Logout(_`[`redir_to`]`_), Role()===
 Functions used by the built-in user management system. See UserManagement
+
+= Exceptions =
+
+===HTTP_REDIRECTION(_url_)===
+Raising this exception in a script results in an HTTP redirection (code 301) to the specified url
+
+===HTTP_ERROR(_code,`[`message`]`_)===
+Raising this exception sends the HTTP error code and message to the user. If no message is specified, the default message for this error code is used
