@@ -23,16 +23,18 @@ for path in ['Karrigell','HTMLTags']:
                 arcname=os.path.join(name,path,filename))
 
 # admin tools,cgi,wsgi
-folders = ['www','cgi','wsgi',os.path.join('www','admin')]
+folders = ['www','cgi','wsgi',os.path.join('www','admin'),'data']
 for folder in folders:
     folder_abs = os.path.join(parent,folder)
+    dist.add(os.path.join(parent,folder),arcname=os.path.join(name,folder),
+        recursive=False)
     for path in os.listdir(folder_abs):
         if not os.path.isfile(os.path.join(folder_abs,path)):
+            print(os.path.join(folder_abs,path),'not included')
             continue
         if os.path.splitext(path)[1] in ['.sqlite']:
             continue
         print('add',path)
         dist.add(os.path.join(folder_abs,path),
             arcname=os.path.join(name,folder,path))
-
 dist.close()
