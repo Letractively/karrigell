@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Karrigell scripts are Python scripts, run in a namespace prepared by the framework
+
+= Request information =
+
+The script receives information from the request sent by the user. This includes the request headers, including cookies, and the values passed in the query string or in the request body (for POST requests)
+
+==HEADERS==
+A dictionary-like object with keys and values matching the headers sent by the user
