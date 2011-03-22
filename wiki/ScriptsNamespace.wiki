@@ -21,6 +21,23 @@ The value associated with the "accept-language" tag
 
 The data passed in the query string or request body is passed as arguments to the functions managing the request : this is described in PassingParameters
 
+= Script information =
+
+===THIS===
+The instance of Karrigell.RequestHeader representing the request. It provides useful attributes and methods :
+
+====THIS.path_info====
+Same as the CGI PATH_INFO value : the url of script, stripped of the query string, if any
+
+====THIS.script_path====
+The path of the script in the file system
+
+====THIS.abs_path(*rel_path)====
+Transforms a relative path in the file system into an absolute path, based on the script directory
+
+====THIS.abs_url(*rel_url)====
+Transforms a relative url into an absolute url, based on the script url
+
 = Values set in the script =
 
 ===SET_COOKIE===
@@ -36,4 +53,4 @@ RESPONSE_HEADER.replace_header('Content-type',<i>value</i>)
 }}}
 
 ===ENCODING===
-The encoding that the browser will use to print strings and to encode form data
+The encoding that the browser will use to print strings and to encode form data. Defaults to sys.getdefaultencoding()
