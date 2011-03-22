@@ -6,10 +6,10 @@
 
 Karrigell scripts are Python scripts, run in a namespace prepared by the framework
 
-[ScriptsNamespace#Request_information Request information]
-[ScriptsNamespace#Script_information Script information]
-[ScriptsNamespace#Functions Functions]
-[ScriptsNamespace#Exceptions Exceptions]
+  * [ScriptsNamespace#Request_information Request information]
+  * [ScriptsNamespace#Script_information Script information]
+  * [ScriptsNamespace#Functions Functions]
+  * [ScriptsNamespace#Exceptions Exceptions]
 
 = Request information =
 
