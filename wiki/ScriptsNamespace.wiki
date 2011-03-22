@@ -6,6 +6,8 @@
 
 Karrigell scripts are Python scripts, run in a namespace prepared by the framework
 
+[ScriptsNamespace#Request_information Request information]
+
 = Request information =
 
 The script receives information from the request sent by the user. This includes the request headers, including cookies, and the data passed in the query string or in the request body (for POST requests)
