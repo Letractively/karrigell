@@ -14,6 +14,6 @@ The script receives information from the request sent by the user. This includes
 A dictionary-like object with keys and values matching the headers sent by the user
 
 ===COOKIE===
-An instance of cookie.SimpleCookie, where keys are the cookie names and values are the value associated with this name
+An instance of <font color="#336633" size="2"><b>`cookie.SimpleCookie`</b></font>, where keys are the cookie names and values are the value associated with this name
 
 The data passed in the query string or request body is passed as arguments to the functions managing the request : this is described in PassingParameters
