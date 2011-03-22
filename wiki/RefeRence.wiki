@@ -4,6 +4,7 @@
 
 = Contents =
 
+  * ScriptsNamespace
   * ApplicationSettings
   * PassingParameters
   * SessionManagement
