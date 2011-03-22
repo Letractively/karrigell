@@ -8,6 +8,7 @@
   * ApplicationSettings
   * PassingParameters
   * SessionManagement
+  * UserManagement
   * AdministrationTools
     * UsersManagement
     * TranslationManagement
