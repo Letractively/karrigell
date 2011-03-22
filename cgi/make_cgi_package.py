@@ -82,6 +82,7 @@ if set_users_db.lower() == "y":
     out.write("\n    login_url = '{}'".format(login_url))
 
 out.write('\n\napps = [App()]\n')
+out.close()
 
 # create folder for document root with the .htaccess file and an index file
 while True:
@@ -107,17 +108,20 @@ RewriteRule (.*) {0}/k_handler.cgi
 out = open(os.path.join(local_root_dir,'.htaccess'),'w')
 out.write(htaccess.format(cgi_url))
 out.close()
+print('add','.htaccess')
 
-# basic index file in folder www
-out = open(os.path.join(local_root_dir,'index.py'),'w')
-out.write("def index():\n    return 'Karrigell successfully installed'")
-out.close()
+# default folder www
+www_path = os.path.join(parent,'www')
+print('add','index.py')
+shutil.copyfile(os.path.join(www_path,'index.py'),
+    os.path.join(local_root_dir,'index.py'))
 
-# if users db defined, add folder admin_tools
+# if users db defined, add folder admin
 if set_users_db.lower() == 'y':
     os.mkdir(os.path.join(local_root_dir,'admin'))
-    admin_path = os.path.join(parent,'admin_tools')
+    admin_path = os.path.join(parent,'www','admin')
     for filename in os.listdir(admin_path):
+        print('add',filename)
         shutil.copyfile(os.path.join(admin_path,filename),
             os.path.join(local_root_dir,'admin',filename))
 
@@ -133,13 +137,15 @@ for path in ['Karrigell','HTMLTags']:
     abs_path = os.path.join(parent,path)
     os.mkdir(os.path.join(local_cgi_dir,path))
     for filename in os.listdir(abs_path):
-        print('add',filename)
-        shutil.copyfile(os.path.join(abs_path,filename),
-            os.path.join(local_cgi_dir,path,filename))
+        src = os.path.join(abs_path,filename)
+        if os.path.isfile(src):
+            print('add',filename)
+            shutil.copyfile(src,os.path.join(local_cgi_dir,path,filename))
 
 print("""
-The Karrigell distribution was created successfully. Copy/upload the content
-of subfolder "cgi_directory" in the CGI directory and the content
-of subfolder "root_directory" in the root directory. Then enter
-http://<hostname>/<root-url> in a browser. You should see the message
+The Karrigell distribution for CGI was created successfully in subfolder
+cgi-package
+Copy/upload the content of subfolder "cgi_directory" in the CGI directory 
+and the content of subfolder "root_directory" in the root directory. Then 
+enter http://<hostname>/<root-url> in a browser. You should see the message
 "Karrigell successfully installed" """)
