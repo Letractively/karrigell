@@ -100,7 +100,12 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.path_info = self.elts[2] # equivalent of CGI PATH_INFO
         elts = urllib.parse.unquote(self.path_info).split('/')
         # identify the application and set attributes from it
-        app = self.alias.get(elts[1],self.alias[''])
+        if elts[1] in self.alias:
+            app = self.alias[elts[1]]
+        elif '' in self.alias:
+            app = self.alias['']
+        else:
+            return self.send_error(404,'Unknown alias '+elts[1])
         for attr in ['root_url','root_dir','users_db','translation_db']:
             setattr(self,attr,getattr(app,attr))
         self.login_url = app.get_login_url()
@@ -376,17 +381,19 @@ class App:
     login_cookie = None
     skey_cookie = None
 
+    @classmethod
     def get_login_url(self):
         return self.login_url or \
             self.root_url.lstrip('/')+'/admin/login.py/login'
 
+    @classmethod
     def get_cookie_names(self):
         suffix = self.root_url.lstrip('/').replace('/','_')
         login_cookie = self.login_cookie or 'login_'+suffix
         skey_cookie = self.skey_cookie or 'skey_'+suffix
         return login_cookie,skey_cookie
 
-def run(handler=RequestHandler,port=80,apps=[App()]):
+def run(handler=RequestHandler,port=80,apps=[App]):
     import socketserver
     import Karrigell.check_apps
     Karrigell.check_apps.check(apps)
