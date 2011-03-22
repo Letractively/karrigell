@@ -121,7 +121,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                 redir_to = str(url)
                 return self.redir(redir_to)
             except HTTP_ERROR as msg:
-                return self.send_error(msg.args[0])
+                return self.send_error(msg.code,msg.message)
             except:
                 return self.print_exc()
         # if no filter returned a value other than None, use default
