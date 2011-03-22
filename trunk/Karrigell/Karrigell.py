@@ -250,9 +250,9 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         """Return absolute path in the file system, relative to script path"""
         return os.path.join(os.path.dirname(self.script_path),*rel_path)
 
-    def abs_url(self,rel_url):
+    def abs_url(self,*rel_url):
         base = self.url_path
-        return urllib.parse.urljoin(base[:base.rfind('/')],rel_url)
+        return urllib.parse.urljoin(base[:base.rfind('/')],*rel_url)
 
     def run(self,func):
         """Run function func in a Python script
