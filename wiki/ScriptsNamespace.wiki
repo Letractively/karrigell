@@ -10,10 +10,30 @@ Karrigell scripts are Python scripts, run in a namespace prepared by the framewo
 
 The script receives information from the request sent by the user. This includes the request headers, including cookies, and the data passed in the query string or in the request body (for POST requests)
 
-===HEADERS===
-A dictionary-like object with keys and values matching the headers sent by the user
+===REQUEST_HEADERS===
+A dictionary-like object with keys and values matching the headers sent by the user. For convenience, two headers are provided with special names : cookies and accepted languages
 
 ===COOKIE===
-An instance of <font color="#336633" size="2"><b>`cookie.SimpleCookie`</b></font>, where keys are the cookie names and values are the value associated with this name
+An instance of <font color="#336633" size="2"><b>`http.cookies.SimpleCookie`</b></font>, where keys are the cookie names and values are the value associated with this name
+
+===ACCEPTED_LANGUAGES===
+The value associated with the "accept-language" tag
 
 The data passed in the query string or request body is passed as arguments to the functions managing the request : this is described in PassingParameters
+
+= Values set in the script =
+
+===SET_COOKIE===
+An instance of <font color="#336633" size="2"><b>`http.cookies.SimpleCookie`</b></font> used to set the cookies to return to the user
+
+===RESPONSE_HEADERS===
+An instance of <font color="#336633" size="2"><b>`email.message.Message()`</b></font> used to set response headers
+
+It is initialized with the content-type header set to "text/html". If you want to change it, you must replace it with the syntax 
+
+{{{
+RESPONSE_HEADER.replace_header('Content-type',<i>value</i>)
+}}}
+
+===ENCODING===
+The encoding that the browser will use to print strings and to encode form data
