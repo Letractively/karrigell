@@ -1,4 +1,6 @@
-#summary One-sentence summary of this page.
+#summary The namespace where scripts are run
+
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
 
 = Introduction =
 
