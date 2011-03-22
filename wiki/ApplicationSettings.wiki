@@ -16,7 +16,7 @@ This page explains how you can change these default settings
 
 = Application settings =
 
-An application is described by an instance of a subclass of the class <font color="#363" size="2"><b>`Karrigell.App`</b></font>. Each subclass defines the following attributes :
+An application is described by a subclass of the class <font color="#363" size="2"><b>`Karrigell.App`</b></font>. Each subclass defines the following attributes :
 
 ===root_url===
 A string beginning with a forward slash (/), indicates the first part of the urls served by this application. Defaults to "/"
@@ -68,10 +68,10 @@ class Pictures(Karrigell.App):
     root_dir = "/path/to/pictures"
     users_db = Karrigell.admin_db.SQLiteUsersDb('/path/to/users_db')
 
-Karrigell.run(apps=[Default(),Pictures()])
+Karrigell.run(apps=[Default,Pictures])
 }}}
 
-The function run takes a keyword argument apps, set to a list of instances of application classes
+The function run takes a keyword argument apps, set to a list of application classes
 
 In this example, the server runs 2 application : the default application, and an application serving requests for urls starting with /pics/, taking the files and scripts from the specified root_dir. This application manages users login in an SQLite database at the specified location in the file system
 
