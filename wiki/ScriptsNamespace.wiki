@@ -80,3 +80,6 @@ foo = Import('foo.py')
 }}}
 
 Since the imported script is run in the "importing" script namespace, it means that all the values and functions of this namespace can be used in the imported script
+
+===Login(`[`_role`[`,login_url`]]`_),Logout(`[`redir_to`]`),Role()===
+Functions used by the built-in user management system. See UserManagement
