@@ -52,6 +52,17 @@ Defaults to None, meaning that there is no translation management for this appli
 ===login_url===
 If a users database has been defined, indicates the url where a script must be redirected if it requires user login. Defaults to root_url/admin/login.py/login (the script login.py is provided in the directory admin_tools of the distribution)
 
+===filters===
+A list of functions that take a single argument, an instance of class RequestHandler in module Karrigell
+
+The filters are applied one after the other when the request has been received from the client. The function can either return a value or raise an exception :
+- if it returns None, the next filter in the list is applied
+- if it returns another value, this value is the absolute path of a script in the file system
+- if it raises HTTP_REDIRECTION(url), the request is redirected to the specified url
+- if it raises HTTP_ERROR(code,message), the request handling stops and the specified HTTP error is sent to the client
+
+Filters offer a flexible way of managing directives like access control to files according to their extension, or to folders according to the user's role, etc
+
 = Serving an application =
 
 Edit the script server.py :
