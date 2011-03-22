@@ -63,7 +63,7 @@ The filters are applied one after the other when the request has been received f
 
 Filters offer a flexible way of managing directives like access control to files according to their extension, or to folders according to the user's role, etc
 
-= Serving an application =
+= Serving applications =
 
 Edit the script server.py :
 
