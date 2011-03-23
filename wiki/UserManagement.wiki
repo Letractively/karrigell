@@ -41,6 +41,6 @@ The optional _redir`_`to_ argument indicated the url where the user should be re
 
 ==Role()==
 This function returns :
-  * None if no users database was defined for the application
-  * False if the user is not yet authenticated
+  * <font color="#333388"><b>None</b></font> if no users database was defined for the application
+  * <font color="#333388"><b>False</b></font> if the user is not yet authenticated
   * the users role (admin, edit or visit) if he is already authenticated
