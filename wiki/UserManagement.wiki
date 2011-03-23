@@ -8,11 +8,10 @@ Different roles can be set to users, to specify different access right to script
 
 An application defines its user database by the attribute users_db (see ApplicationSettings)
 
-It is an instance of a database management class. The module admin_db provides one such class :
+It is an instance of a database management class. The module <font color="#336633"><b>admin_db</b></font> provides one such class :
 
 ==SQLiteUsersDb(_db`_`path_)==
-This class stores user information in a SQLite database
-It is initialized with one argument : the path of the database in the file system
+This class stores user information in a SQLite database. It is initialized with one argument : the path of the database in the file system
 
 = Login script =
 
