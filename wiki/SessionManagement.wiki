@@ -1,5 +1,8 @@
 #summary Session management
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+
+
 Session management is very straightforward : the built-in function Session() returns a session object that can be used to store user-specific information during his navigation on the site
 
 The storage mechanism is managed by a class defining how to store and retrieve the session object. An application defines its session storage class by the class attribute session_storage_class
