@@ -1,0 +1,7 @@
+#summary The built-in user management system
+
+Karrigell provides a set of functions to manage user management. They rely on a users database and uses a script to manage users login and logout
+
+= Users database =
+
+An application defines its user database management class by the attribute users_db (see ApplicationSettings)
