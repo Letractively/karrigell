@@ -17,7 +17,7 @@ This class has one useful attribute :
 ===session`_dir`===
 The directory where pickled objects are stored. Defaults to the subdirectory "sessions" in the applications root directory
 
-==`MemorySessionStorage`==
+==!MemorySessionStorage==
 Stores the session object in memory
 
 = Customized session storage classes =
