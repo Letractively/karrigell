@@ -1,5 +1,8 @@
 #summary The built-in user management system
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+
+
 Karrigell provides a set of functions to manage user management. They rely on a users database and uses a script to manage users login and logout
 
 Different roles can be set to users, to specify different access right to scripts or files. The levels can be "admin", "edit" or "visit". Usually, an administrator has all read and write access to all folders, files and scripts ; editors can read and modify some pages ; visitors can only see a set of pages
@@ -17,7 +20,7 @@ This class stores user information in a SQLite database. It is initialized with 
 
 An application defines a script that will be used to ask a user his login and password, and that will check that they match a user in the database
 
-The url of this script is specified with the application attribute login`_`url. It defaults to (root`_`url)/admin/login.py/login, that is, the function login() in the script login.py in folder admin of the Karrigell distribution
+The url of this script is specified with the application attribute login`_`url. It defaults to _(root`_`url)/admin/login.py/login_, that is, the function login() in the script login.py in folder admin of the Karrigell distribution
 
 The login script can be customized, but the arguments of the login() functions must remain the same as in this default script :
   * _role_ : the requested role
