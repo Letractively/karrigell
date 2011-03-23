@@ -14,7 +14,7 @@ With this class, the session object is serialized with the pickle module, and wr
 With this storage, only built-in Python types can be stored in the session object ; instances of user-defined classes or objects like database connections can't be set as attributes to the session object
 
 This class has one useful attribute :
-===session`_dir`===
+===session`_`dir===
 The directory where pickled objects are stored. Defaults to the subdirectory "sessions" in the applications root directory
 
 ==!MemorySessionStorage==
