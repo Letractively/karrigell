@@ -1,0 +1,31 @@
+#summary Session management
+
+Session management is very straightforward : the built-in function Session() returns a session object that can be used to store user-specific information during his navigation on the site
+
+The storage mechanism is managed by a class defining how to store and retrieve the session object. An application defines its session storage class by the class attribute session_storage_class
+
+= Built-in session storage classes =
+
+Karrigell provides two classes, in the module sessions :
+
+==!FileSessionStorage==
+With this class, the session object is serialized with the pickle module, and written on disk in a file identified by a session identifier, stored as a cookie on the user's browser
+
+With this storage, only built-in Python types can be stored in the session object ; instances of user-defined classes or objects like database connections can't be set as attributes to the session object
+
+This class has one useful attribute :
+===session_dir===
+The directory where pickled objects are stored. Defaults to the subdirectory "sessions" in the applications root directory
+
+==!MemorySessionStorage==
+Stores the session object in memory
+
+= Customized session storage classes =
+
+A session storage class must define two methods :
+
+===save(_handler_)===
+This method takes the instance of <font color="#336633">!Karrigell.RequestHandler</font> and specifies how the session object should be stored
+
+===get(_session`_`id_)===
+This method takes the session identifier and returns the matching session object
