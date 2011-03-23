@@ -2,6 +2,33 @@
 
 Karrigell provides a set of functions to manage user management. They rely on a users database and uses a script to manage users login and logout
 
+Different roles can be set to users, to specify different access right to scripts or files. The levels can be "admin", "edit" or "visit". Usually, an administrator has all read and write access to all folders, files and scripts ; editors can read and modify some pages ; visitors can only see a set of pages
+
 = Users database =
 
-An application defines its user database management class by the attribute users_db (see ApplicationSettings)
+An application defines its user database by the attribute users_db (see ApplicationSettings)
+
+It is an instance of a database management class. The module admin_db provides one such class :
+
+==!SQLiteUsersDb(_db`_`path_)==
+This class stores user information in a SQLite database
+It is initialized with one argument : the path of the database in the file system
+
+= Login script =
+
+An application defines a script that will be used to ask a user his login and password, and that will check that they match a user in the database
+
+The url of this script is specified with the application attribute login`_`url. It defaults to (root`_`url)/admin/login.py/login, that is, the function login() in the script login.py in folder admin of the Karrigell distribution
+
+= Functions =
+
+The functions available in scripts to manage users are :
+
+==Login(`[_role_`[`,login_url`]]`)==
+When the framework runs this function, it checks that if the user is already authenticated and has the required role (admin, edit or visit). If a user has the admin role, he also has the edit and visit role ; if it has the edit role, he also has the visit role
+
+If the user is not authenticated, or does not have the required role, a redirection to the specified login`_`url described above is performed
+
+_role_ defaults to "admin". _login`_`url_ defaults to the url of the login script defined above
+
+
