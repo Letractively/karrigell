@@ -1,5 +1,11 @@
 import os
 import tarfile
+import sys
+
+cwd,parent = os.getcwd(),os.path.dirname
+k_path = os.path.join(parent(cwd),'trunk')
+sys.path.insert(0,k_path)
+
 import Karrigell
 
 name = 'Karrigell-{}'.format(Karrigell.version)
@@ -23,7 +29,7 @@ for path in ['Karrigell','HTMLTags']:
                 arcname=os.path.join(name,path,filename))
 
 # admin tools,cgi,wsgi
-folders = ['www','cgi','wsgi',os.path.join('www','admin'),'data']
+folders = ['www','cgi','wsgi',os.path.join('www','admin'),'data','tests']
 for folder in folders:
     folder_abs = os.path.join(parent,folder)
     dist.add(os.path.join(parent,folder),arcname=os.path.join(name,folder),
