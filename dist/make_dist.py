@@ -30,7 +30,6 @@ for folder in folders:
         recursive=False)
     for path in os.listdir(folder_abs):
         if not os.path.isfile(os.path.join(folder_abs,path)):
-            print(os.path.join(folder_abs,path),'not included')
             continue
         if os.path.splitext(path)[1] in ['.sqlite']:
             continue
