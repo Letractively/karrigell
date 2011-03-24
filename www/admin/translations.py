@@ -61,6 +61,18 @@ def index(url_path='/'):
             sub_path = urllib.parse.quote_plus(sub_path)
             cell = A(_file,href="?url_path={}".format(sub_path),
                 Class="localize")
+        elif os.path.splitext(_file)[1] == '.kt':
+            try:
+                strings = script_strings.get_strings_kt(abs_path)
+                if strings:
+                    sub_path = urllib.parse.urljoin(url_path,_file)
+                    sub_path = urllib.parse.quote_plus(sub_path)
+                    cell = A(_file,href="?url_path={}".format(sub_path),
+                        Class="localize")
+                else:
+                    cell = _file
+            except UnicodeDecodeError:
+                cell = _file+"*"
         else:
             cell = _file
         table <= TR(TD('&nbsp;')+TD(cell))
@@ -75,11 +87,39 @@ def index(url_path='/'):
     container <= content
     return HTML(head+BODY(container))
 
+wrong_encoding_error = _("""
+The encoding defined in the META tag, {encoding}, can't be used to 
+decode its content""")
+
+missing_encoding_error = _("""
+No encoding is defined. The default encoding, {encoding}, can't be used to 
+decode its content.<br>
+Add a META tag such as :<P>
+<SPAN style="font-family:Courier">
+&lt;META http-equiv="Content-type" 
+content="text/html;charset=<B>{other_encoding}</B>"&gt;
+</SPAN>
+<P>where you replace <B>{other_encoding}</B> by the appropriate encoding""")
+
 def _translator(url_path,script):
     name = os.path.basename(script)
     ext = os.path.splitext(script)[1]
-    if ext in [".py"]:
+    if ext == ".py":
         strings = script_strings.get_strings(script)
+    elif ext == ".kt":
+        try:
+            strings = script_strings.get_strings_kt(script)
+        except UnicodeDecodeError:
+            msg = "Unicode error in template {}".format(script)+P()
+            encoding = script_strings.guess_encoding(script)
+            if encoding:
+                return msg + wrong_encoding_error.format(encoding=encoding)
+            else:
+                other_encoding = 'utf-8'
+                if ENCODING == other_encoding:
+                    other_encoding = 'iso-8859-1'
+                return msg + missing_encoding_error.format(encoding=ENCODING,
+                    other_encoding=other_encoding)
     langs = ACCEPTED_LANGUAGES
     if not langs:
         return _("You must select the language in your browser")
