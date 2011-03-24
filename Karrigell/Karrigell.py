@@ -273,6 +273,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         for k in dir(HTMLTags):
             if not k.startswith('_'):
                 self.namespace[k] = getattr(HTMLTags,k)
+        import Karrigell.KT
+        self.namespace['KT'] = Karrigell.KT.action(self)
         try:
             fileobj = open(self.script_path)
             src = '\n'.join([ x.rstrip() for x in fileobj.readlines()])
