@@ -11,6 +11,10 @@ class SQLiteUsersDb:
         self.path = path
         self.name = path
         if not os.path.exists(path):
+            db_dir = os.path.dirname(path)
+            if not os.path.exists(db_dir):
+                msg = "Directory of SQLite database {} doesn't exist"
+                raise ValueError(msg.format(db_dir))
             conn = sqlite3.connect(path)
             cursor = conn.cursor()
             cursor.execute('CREATE TABLE users (login TEXT,password TEXT,\
