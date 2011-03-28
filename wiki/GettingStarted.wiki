@@ -27,7 +27,7 @@ Click on the link "Login". Since it's the first connection, no user has already 
 
 When this is done, the home page prints your login, and there is a menu with 2 items : users management and translation management
 
-= Scripts =
+= Introduction to scripts =
 
 Karrigell scripts are pure Python scripts, run in a namespace prepared by the framework. Requests are managed by functions defined in the scripts : the url `http://host/path/foo.py/bar` is managed by the function bar of script foo.py
 
