@@ -7,9 +7,9 @@ Dowload the latest release from this site
 
 Unpack it in some directory, then open a console window and in this directory, run <code>python setup.py install</code>
 
-To test that everything works, go to the subdirectory www and run <code>python server.py</code>. This will start the built-in server on port 80
+To test that everything works, go to the subdirectory www and run <code>python server.py</code>
 
-If you want another port, edit server.py and change the last line
+This will start the built-in server on port 80. If you want another port, edit server.py and change the last line
 
 {{{
 Karrigell.run(apps=[MyApp])
