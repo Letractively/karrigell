@@ -51,6 +51,6 @@ def show(city):
 
 In this simple example, the function index() returns an HTML page with a form to be filled by the user. The attribute "action" of this form tells the framework to target the function "show", and passes the argument "city" to this function. Here, the function just echoes the value
 
-The names in uppercase letters (HEAD, FORM, etc) are in the execution namespace : they match all the valid HTML tags and are used to generate HTML code. See HTMLTags for more information
+The names in uppercase letters (HEAD, FORM, etc) are in the execution namespace : they match all the valid HTML tags and are used to generate HTML code. See [WriteHtml HTML Tags] for more information
 
 The names defined at the script level are available in all functions : here, the name <tt>head</tt> can be used in both functions to return the same HTML header with the page title
