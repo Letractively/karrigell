@@ -51,11 +51,7 @@ body <= table
 
 = Using HTMLTags in Karrigell scripts =
 
-All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts. That is, you don't have to start the script with the line
-
-{{{
-from HTMLTags import *
-}}}
+All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts. That is, you don't have to explicitely import the module with "from HTMLTags import *"
 
 Suppose you have a script with this function <tt>index()</tt> :
 
