@@ -3,7 +3,7 @@
 [http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
 
 
-Karrigell provides a set of functions to manage user management. They rely on a users database and uses a script to manage users login and logout
+Karrigell provides a set of functions to manage application users and their rights. They rely on a users database and uses a script to manage users login and logout
 
 Different roles can be set to users, to specify different access right to scripts or files. The levels can be "admin", "edit" or "visit". Usually, an administrator has all read and write access to all folders, files and scripts ; editors can read and modify some pages ; visitors can only see a set of pages
 
