@@ -1,4 +1,5 @@
 #summary Reference manual for Karrigell
+#labels Featured
 
 [http://code.google.com/p/karrigell/wiki/Home Home]
 
