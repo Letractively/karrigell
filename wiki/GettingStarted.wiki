@@ -1,0 +1,25 @@
+#summary One-sentence summary of this page.
+
+Dowload the latest release from this site
+
+Unpack it in some directory, then open a console window and in this directory, run <code>python setup.py install</code>
+
+To test that everything works, go to the subdirectory www and run <code>python server.py</code>. This will start the built-in server on port 80
+
+If you want another port, edit server.py and change the last line
+
+{{{
+Karrigell.run(apps=[MyApp])
+}}}
+
+to 
+
+{{{
+Karrigell.run(apps=[MyApp],port=8000)
+}}}
+
+Once the server is started, type <i>http://localhost</i> in a browser. If all went well, a home page is displayed
+
+Click on the link "Login". Since it's the first connection, no user has already been identified, so you should enter a login and password for the administrator
+
+When this is done, the home page prints your login, and there is a menu with 2 items : users management and translation management
