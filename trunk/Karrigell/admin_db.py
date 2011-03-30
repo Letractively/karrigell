@@ -127,6 +127,24 @@ class SQLiteTranslationDb:
             conn.commit()
             conn.close()
 
+    def get_original(self,src):
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute('SELECT rowid FROM translation_original '
+            'WHERE original = ?',(src,))
+        result = cursor.fetchall()
+        if not result:
+            return None
+        else:
+            return result[0][0]
+
+    def insert_original(self,src):
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO translation_original '
+            '(original) VALUES (?)',(src,))
+        conn.commit()
+
     def get_translation(self,src,language):
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
@@ -145,31 +163,21 @@ class SQLiteTranslationDb:
             else:
                 return result[0][0]
 
-    def set_translation(self,src,language,translated):
+    def set_translation(self,orig_id,language,translated):
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        cursor.execute('SELECT rowid FROM translation_original '
-            'WHERE original = ?',(src,))
-        result = cursor.fetchall()
-        if not result:
-            cursor.execute('INSERT INTO translation_original '
-                '(original) VALUES (?)',(src,))
-            rowid = cursor.lastrowid
-            conn.commit()
-        else:
-            rowid = result[0][0]
         cursor.execute('SELECT translated FROM translation '
-            'WHERE orig_id=? AND language=?',(rowid,language))
+            'WHERE orig_id=? AND language=?',(orig_id,language))
         result = cursor.fetchall()
         if not result:
             cursor.execute('INSERT INTO translation '
                 '(orig_id,language,translated) VALUES (?,?,?)',
-                (rowid,language,translated))
+                (orig_id,language,translated))
             conn.commit()
         elif translated != result[0][0]:
             cursor.execute('UPDATE translation '
                 'SET translated=? WHERE orig_id=? AND language=?',
-                (translated,rowid,language))
+                (translated,orig_id,language))
             conn.commit()
 
     def get_connection(self):

@@ -25,6 +25,14 @@ def index(url_path='/'):
         container <= content
         return HTML(head+BODY(container))
 
+    strings = set()
+    for _strings in get_strings().values():
+        strings.update(set(_strings))
+
+    for src in strings:
+        if not THIS.translation_db.get_original(src):
+           THIS.translation_db.insert_original(src)
+
     elts = url_path.lstrip('/').split('/')
 
     links = A("..",href="?")+' / '
@@ -52,15 +60,24 @@ def index(url_path='/'):
         row <= TD(A(subfolder,href=href,Class="subfolder"))
         table <= row
 
+    has_encoding_errors = set()
+
     files = [ p for p in paths if os.path.isfile(os.path.join(folder,p)) ]
     for _file in files:
         abs_path = os.path.join(folder,_file)
-        if os.path.splitext(_file)[1] == '.py' \
-            and script_strings.get_strings(abs_path):
-            sub_path = urllib.parse.urljoin(url_path,_file)
-            sub_path = urllib.parse.quote_plus(sub_path)
-            cell = A(_file,href="?url_path={}".format(sub_path),
-                Class="localize")
+        if os.path.splitext(_file)[1] == '.py':
+            try:
+                strings = script_strings.get_strings(abs_path)
+                if strings:
+                    sub_path = urllib.parse.urljoin(url_path,_file)
+                    sub_path = urllib.parse.quote_plus(sub_path)
+                    cell = A(_file,href="?url_path={}".format(sub_path),
+                        Class="localize")
+                else:
+                    cell = _file
+            except UnicodeDecodeError:
+                cell = _file+"*"
+                has_encoding_errors.add('py')
         elif os.path.splitext(_file)[1] == '.kt':
             try:
                 strings = script_strings.get_strings_kt(abs_path)
@@ -73,6 +90,7 @@ def index(url_path='/'):
                     cell = _file
             except UnicodeDecodeError:
                 cell = _file+"*"
+                has_encoding_errors.add('kt')
         else:
             cell = _file
         table <= TR(TD('&nbsp;')+TD(cell))
@@ -83,13 +101,30 @@ def index(url_path='/'):
 
     if os.path.isfile(fs_path):
         row <= TD(_translator(url_path,fs_path),Class="translation")
+    elif has_encoding_errors:
+        msg = encoding_warning
+        if "py" in has_encoding_errors:
+            msg += P()+encoding_warning_py
+        if "kt" in has_encoding_errors:
+            msg += P()+encoding_warning_kt
+        row <= TD(msg,Class="warning",valign="top")
     content <= row
     container <= content
     return HTML(head+BODY(container))
 
-wrong_encoding_error = _("""
-The encoding defined in the META tag, {encoding}, can't be used to 
-decode its content""")
+encoding_warning = """The files marked with * have encoding errors :
+either they have no encoding declared, or the encoding declared can't be used
+to decode the file"""
+encoding_warning_py = """For Python scripts, the encoding is defined by
+a line such as <br># -*- coding: <B>utf-8</B> -*-<br>"""
+encoding_warning_kt = """For Karrigell Template (KT) the encoding is defined
+in a META tag such as <P><SPAN style="font-family:Courier">
+&lt;META http-equiv="Content-type" 
+content="text/html;charset=<B>utf-8</B>"&gt;
+</SPAN>"""
+
+wrong_encoding_error = _("""The encoding defined in the META tag, {encoding}, 
+can't be used to decode its content""")
 
 missing_encoding_error = _("""
 No encoding is defined. The default encoding, {encoding}, can't be used to 
@@ -134,17 +169,18 @@ def _translator(url_path,script):
     header <= TH(_('Translation into')+'&nbsp;'+lang_str)
     lines = [header]
     for i,_string in enumerate(strings):
-        _string1 = html.escape(_string,quote=True)
-        line = TD(_string)+INPUT(Type="hidden",name="orig-%s" %i,value=_string1)
+        rowid = THIS.translation_db.get_original(_string)
+        line = TD(_string)+INPUT(Type="hidden",name="orig-%s" %i,value=rowid)
         _trans = THIS.translation_db.get_translation(_string,lang)
         if _trans is None:
-            _input = TEXTAREA(_string,name="%s-%s" %(lang,i),
+            _string1 = html.escape(_string,quote=True)
+            _input = TEXTAREA(_string1,name="%s-%s" %(lang,i),
                     cols=35,rows=1+len(_string1)/25,
                     style="font-style:italic;")
         else:
-            _trans = _trans.replace('"','&quot;')
+            _trans = html.escape(_trans,quote=True)
             _input = TEXTAREA(_trans,name="%s-%s" %(lang,i),
-                    cols=35,rows=1+len(_string1)/25)
+                    cols=35,rows=1+len(_trans)/25)
         line += TD(_input)
         lines += [TR(line)]
     
@@ -155,6 +191,7 @@ def _translator(url_path,script):
     form <= TABLE(Sum(lines),Id="hor-minimalist-b")
     form <= INPUT(Type="hidden",name="url_path",value=url_path)
     form <= INPUT(Type="submit",value=_("Save translations"))
+    
     return explain+form
 
 def update(**kw):
@@ -169,9 +206,41 @@ def update(**kw):
             dico[num][lang] = v
 
     for num in dico:
-        original = dico[num]['orig']
+        orig_id = dico[num]['orig']
         for language in [ lang for lang in dico[num] if lang != 'orig' ]:
-            THIS.translation_db.set_translation(original,language,
+            THIS.translation_db.set_translation(orig_id,language,
                 dico[num][language])
     raise HTTP_REDIRECTION("index?url_path="+url_path)
 
+def test():
+    body = H2('Translation database')
+    t = TABLE(border=1)
+    conn = THIS.translation_db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT rowid,original FROM translation_original")
+    for (rowid,original) in cursor.fetchall():
+        original = html.escape(original,quote=True)
+        cursor.execute("SELECT language,translated FROM translation \
+            WHERE orig_id=?",(rowid,))
+        for (language,translated) in cursor.fetchall():
+            t <= TR(TD('[%s]'%len(original)+PRE(original))+TD(language)+TD(PRE(translated)))
+    return body+t
+
+def get_strings():
+    strings = {}
+    errors = []
+    for dirpath,dirnames,filenames in os.walk(THIS.root_dir):
+        for _file in filenames:
+            abs_path = os.path.join(dirpath,_file)
+            if os.path.splitext(_file)[1] == '.py':
+                try:
+                    strings[abs_path] = script_strings.get_strings(abs_path)
+                except UnicodeDecodeError:
+                    errors.append(abs_path)
+            elif os.path.splitext(_file)[1] == '.kt':
+                try:
+                    strings[abs_path] = script_strings.get_strings_kt(abs_path)
+                except UnicodeDecodeError:
+                    errors.append(abs_path)
+    return strings
+            
