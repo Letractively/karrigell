@@ -1,6 +1,8 @@
 #summary Karrigell HOWTOs
 #labels Featured
 
+[http://code.google.com/p/karrigell/wiki/Home Home]
+
 =HOWTO...=
   * [http://code.google.com/p/karrigell/wiki/PronounceKarrigell Pronounce Karrigell]
   * [http://code.google.com/p/karrigell/wiki/InstallIt Install the package]
