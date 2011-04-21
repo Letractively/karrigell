@@ -27,3 +27,7 @@ The line
 {{{
 RESPONSE_HEADERS['Content-type'] = gtype
 }}}
+
+uses another name which is always available in Python scripts run by Karrigell : RESPONSE_HEADERS. It is a dictionary-like object (in fact, an instance of class email.message.Message, used to set the response headers that will be sent to the web browser. Here, the line sets the Content-type header to the type of the file received
+
+In the next line we read the binary data from the attribute "file" of src, and finally return this binary data. The Karrigell engine sends the response headers, then the binary data ; with this information, the browser renders the file content under the appropriate format : if the file was a JPEG picture, the browser prints it
