@@ -1,0 +1,18 @@
+#summary How to upload files.
+
+Create another script called upload.py :
+
+{{{
+def index():
+    form = FORM(action="upload",method="post",enctype="multipart/form-data")
+    form <= INPUT(Type="file",name="src")
+    form <= INPUT(Type="submit",value="Ok")
+    return HTML(BODY(form))
+ 
+def upload(src):
+    import mimetypes
+    gtype,encoding = mimetypes.guess_type(src.filename)
+    RESPONSE_HEADERS['Content-type'] = gtype
+    data = src.file.read()
+    return data
+}}}
