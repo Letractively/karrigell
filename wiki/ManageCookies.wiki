@@ -49,4 +49,4 @@ When this request is sent, the request headers include this cookie, received by 
 
 To erase the cookie, a link is provided, leading to the function erase(name) where name is the cookie name. The function erase() uses SET_COOKIE to erase the value, and set the expiry date to the past (10 days before today), using the function cookie_expiry_date() to transform a datetime object to the format supported by the cookie specifications
 
-At last, when these values are set for the cookie, another redirection is performed to index() : the browser receives the new information about the specified cookie. Since the expiry date is reached, it erases it. When it sends a request to http://host/cookies.py/index, it does not send a header for this cookie, which does not appear in the received cookies list
+At last, when these values are set for the cookie, another redirection is performed to index() : the browser receives the new information about the specified cookie. Since the expiry date is reached, it erases it. When it sends a request to _http://host/cookies.py/index_, it does not send a header for this cookie, which does not appear in the received cookies list
