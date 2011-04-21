@@ -1,0 +1,20 @@
+#summary How to specify the encoding for a web document
+
+The encoding of a page can be set by the built-in name ENCODING. It will define the Content-type header sent by the server
+
+It affects both the encoding used to encode the data submitted by a form, and the encoding used to transform the bytestring received on the network connection to a string printed in the browser
+
+Here is an example :
+{{{
+ENCODING = "utf-8"
+ 
+def index(**kw):
+    form = FORM(action="show",method="POST")
+    form <= INPUT(name="src")
+    form <= INPUT(Type="submit",value="Ok")
+    return HTML(BODY(form))
+ 
+def show(src):
+    return src
+}}}
+By default, ENCODING is set to sys.getdefaultencoding()
