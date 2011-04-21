@@ -14,4 +14,4 @@ mymodule = Import('mymodule.py')
 
 The argument of Import() is the url for the module, it is resolved by the server as for all other urls
 
-This module can use all the built-in names defined by Karrigell : this means that an imported module can itself import other user-defined modules by Import(), use the names in HTMLTags, the cookies received by the importing script, etc
+An imported module can use all the built-in names defined by Karrigell : it can itself import other user-defined modules by Import(), use the names in HTMLTags, the cookies received by the importing script, etc
