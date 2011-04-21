@@ -7,3 +7,4 @@
   * [http://code.google.com/p/karrigell/wiki/RunHelloWorld Run the "Hello World" script]
   * [http://code.google.com/p/karrigell/wiki/WriteHtml Use the HTMLTags module] to generate HTML from Python code
   * [http://code.google.com/p/karrigell/wiki/UploadFiles Upload files]
+  * [http://code.google.com/p/karrigell/wiki/ManageEncoding Manage encoding]
