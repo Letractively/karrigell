@@ -1,5 +1,7 @@
 #summary Coolies management
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 Cookies are managed by two variables available in the scripts :
 
    * COOKIE is a dictionary-like object holding the cookies sent by the browser and received by the script
