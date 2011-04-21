@@ -1,5 +1,7 @@
 #summary Using HTMLTags to generate HTML with Python code
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 = Introduction =
 
 A dynamic web application presents data inside an HTML document. One of the ways you can do it in Karrigell is to use the HTMLTags module
