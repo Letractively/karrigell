@@ -21,13 +21,13 @@ The function index() looks like the previous example. The changes are the enctyp
 
 In the upload function, we receive the argument src. Since it was sent as a file inside a multipart/form-data form, this object has an attribute filename matching the name of the uploaded file ; it also has an attribute file, a file-like object with a method read() that returns bytes.
 
-The Python module mimetypes can guess the type of this file by its extension ; for instance if the uploaded file was a JPEG image, with the extension .jpg, the result of mimetypes.guess_type(src.filename) will be "image/pjpeg"
+The Python module <font color="#336633" size="2"><b>`mimetypes`</b></font> can guess the type of this file by its extension ; for instance if the uploaded file was a JPEG image, with the extension .jpg, the result of mimetypes.guess_type(src.filename) will be "image/pjpeg"
 
 The line
 {{{
 RESPONSE_HEADERS['Content-type'] = gtype
 }}}
 
-uses another name which is always available in Python scripts run by Karrigell : RESPONSE_HEADERS. It is a dictionary-like object (in fact, an instance of class email.message.Message, used to set the response headers that will be sent to the web browser. Here, the line sets the Content-type header to the type of the file received
+uses another name which is always available in Python scripts run by Karrigell : RESPONSE_HEADERS. It is a dictionary-like object (in fact, an instance of class <font color="#336633" size="2"><b>`email.message.Message`</b></font>, used to set the response headers that will be sent to the web browser. Here, the line sets the Content-type header to the type of the file received
 
 In the next line we read the binary data from the attribute "file" of src, and finally return this binary data. The Karrigell engine sends the response headers, then the binary data ; with this information, the browser renders the file content under the appropriate format : if the file was a JPEG picture, the browser prints it
