@@ -24,5 +24,6 @@ In the upload function, we receive the argument src. Since it was sent as a file
 The Python module mimetypes can guess the type of this file by its extension ; for instance if the uploaded file was a JPEG image, with the extension .jpg, the result of mimetypes.guess_type(src.filename) will be "image/pjpeg"
 
 The line
-{{{RESPONSE_HEADERS['Content-type'] = gtype
+{{{
+RESPONSE_HEADERS['Content-type'] = gtype
 }}}
