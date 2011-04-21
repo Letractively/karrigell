@@ -1,5 +1,7 @@
 #summary Installing Karrigell
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 = Introduction =
 
 Download the package from the [http://code.google.com/p/karrigell/downloads/list downloads] page
