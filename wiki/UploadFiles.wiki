@@ -16,3 +16,13 @@ def upload(src):
     data = src.file.read()
     return data
 }}}
+
+The function index() looks like the previous example. The changes are the enctype parameter of the FORM, set to "multipart/form-data" ; and the type of the first INPUT field
+
+In the upload function, we receive the argument src. Since it was sent as a file inside a multipart/form-data form, this object has an attribute filename matching the name of the uploaded file ; it also has an attribute file, a file-like object with a method read() that returns bytes.
+
+The Python module mimetypes can guess the type of this file by its extension ; for instance if the uploaded file was a JPEG image, with the extension .jpg, the result of mimetypes.guess_type(src.filename) will be "image/pjpeg"
+
+The line
+{{{RESPONSE_HEADERS['Content-type'] = gtype
+}}}
