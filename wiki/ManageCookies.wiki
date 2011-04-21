@@ -39,14 +39,14 @@ def erase(name):
     raise HTTP_REDIRECTION('index')
 }}}
 
-In <code>index()</code>, the cookies sent by the browser are printed. Then a form allows the user to set another cookie, with a specified name and value
+In index(), the cookies sent by the browser are printed. Then a form allows the user to set another cookie, with a specified name and value
 
-This form is submitted to the function <code>set_cookie(name,value)</code>. In this function, a new entry is created in <code>SET_COOKIE</code> with the submitted data. The key 'path' of this entry is set to the server root. Then a redirection is performed to the <code>index()</code> function
+This form is submitted to the function set_cookie(name,value). In this function, a new entry is created in SET_COOKIE with the submitted data. The key 'path' of this entry is set to the server root. Then a redirection is performed to the index() function
 
-When this redirection is done, the newly created cookie is sent to the browser. The browser stores the value and its attribute ; then it sends a request to the url <i><nowiki>http://host/cookies.py/index</nowiki></code>
+When this redirection is done, the newly created cookie is sent to the browser. The browser stores the value and its attribute ; then it sends a request to the url _http://host/cookies.py/index_
 
-When this request is sent, the request headers include this cookie, received by the script in the variable <code>COOKIE</code> : so the cookie name and value are printed at the top of the page
+When this request is sent, the request headers include this cookie, received by the script in the variable COOKIE : so the cookie name and value are printed at the top of the page
 
-To erase the cookie, a link is provided, leading to the function <code>erase(name)</code> where <em>name</em> is the cookie name. The function <code>erase()</code> uses <code>SET_COOKIE</code> to erase the value, and set the expiry date to the past (10 days before today), using the function <code>cookie_expiry_date()</code> to transform a datetime object to the format supported by the cookie specifications
+To erase the cookie, a link is provided, leading to the function erase(name) where name is the cookie name. The function erase() uses SET_COOKIE to erase the value, and set the expiry date to the past (10 days before today), using the function cookie_expiry_date() to transform a datetime object to the format supported by the cookie specifications
 
-At last, when these values are set for the cookie, another redirection is performed to <code>index()</code> : the browser receives the new information about the specified cookie. Since the expiry date is reached, it erases it. When it sends a request to <i><nowiki>http://host/cookies.py/index</nowiki></code>, it does not send a header for this cookie, which does not appear in the received cookies list
+At last, when these values are set for the cookie, another redirection is performed to index() : the browser receives the new information about the specified cookie. Since the expiry date is reached, it erases it. When it sends a request to http://host/cookies.py/index, it does not send a header for this cookie, which does not appear in the received cookies list
