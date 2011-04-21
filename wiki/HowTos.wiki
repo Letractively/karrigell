@@ -9,3 +9,4 @@
   * [http://code.google.com/p/karrigell/wiki/UploadFiles Upload files]
   * [http://code.google.com/p/karrigell/wiki/ManageEncoding Manage encoding]
   * [http://code.google.com/p/karrigell/wiki/ManageCookies Set, read and erase cookies]
+  * [http://code.google.com/p/karrigell/wiki/ImportModule Import a module]
