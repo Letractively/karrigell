@@ -1,5 +1,7 @@
 #summary How to upload files.
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 Create another script called upload.py :
 
 {{{
