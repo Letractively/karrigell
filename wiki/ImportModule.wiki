@@ -1,5 +1,7 @@
 #summary Importing a module
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 If you want to load a module in the Python standard distribution, or in a third-party package installed in the distribution, just use the usual
 {{{
 import some_module
