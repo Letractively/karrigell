@@ -1,5 +1,7 @@
 #summary Run the "Hello world" script
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 Create a new directory. Save this script in a file called <font color="#106010" face="courier">index.py</font>:
 
 {{{
