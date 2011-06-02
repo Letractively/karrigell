@@ -19,4 +19,7 @@ def index(**kw):
 def show(src):
     return src
 }}}
+
+If you enter Chinese or Arabic in the form field, the same string will be printed after submitting the form. If another encoding was specified, the script would either raise an exception or print unexpected characters
+
 By default, ENCODING is set to sys.getdefaultencoding()
