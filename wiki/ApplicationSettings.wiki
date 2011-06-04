@@ -84,7 +84,7 @@ class Pictures(Karrigell.App):
 Karrigell.run(apps=[Default,Pictures])
 }}}
 
-The function run takes a keyword argument apps, set to a list of application classes
+The function run takes a keyword argument <font color="#333388" size="2"><b>apps</b></font>, set to a list of application classes
 
 In this example, the server runs 2 application : the default application, and an application serving requests for urls starting with /pics/, taking the files and scripts from the specified root_dir. This application manages users login in an SQLite database at the specified location in the file system
 
