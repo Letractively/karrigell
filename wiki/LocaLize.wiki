@@ -1,0 +1,6 @@
+#summary One-sentence summary of this page.
+
+Loalizing a script means that text can be displayed in different languages, without having to write a script per language
+
+In Karrigell, this is performed by the function _(_string_) (underscore)
+
