@@ -22,9 +22,9 @@ def show(foo):
     return foo
 }}}
 
-In index() we build the form, with an attribute action set to "show", the name of the function in the same script that will manage the form
+In <font color="#338" size="2"><b>index()</b></font> we build the form, with an attribute action set to "show", the name of the function in the same script that will manage the form
 
-This function takes a single argument, foo, the same as the name of the only INPUT field in the form. Here it simply returns the submitted data
+This function takes a single argument, _foo_, the same as the name of the only INPUT field in the form. Here it simply returns the submitted data
 
 In this simple example, the value of the argument is a (unicode) string
 
@@ -76,9 +76,9 @@ def upload(src):
     return data
 }}}
 
-The upload() function receives an object with 2 attributes 
-  ** file : a file-like object. Its methods read() and readline() return bytes
-  ** filename : the name of the file
+The <font color="#333388" size="2"><b>upload()</b></font> function receives an object with 2 attributes 
+  ** <font color="#333388" size="2"><b>file</b></font> : a file-like object. Its methods <font color="#333388" size="2"><b>read()</b></font> and <font color="#333388" size="2"><b>readline()</b></font> return bytes
+  ** <font color="#333388" size="2"><b>filename</b></font> : the name of the file
 
 In the example, the mimetype of the file is guessed using the Python built-in module mimetypes. It is used to set the content type of the returned data. The content of the file is read from the attribute file and sent as the return value of the function
 
