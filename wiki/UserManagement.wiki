@@ -9,7 +9,7 @@ Different roles can be set to users, to specify different access right to script
 
 = Users database =
 
-An application defines its user database by the attribute users_db (see ApplicationSettings)
+An application defines its user database by the attribute <font color="#338" size="2"><b>users_db</b></font> (see ApplicationSettings)
 
 It is an instance of a database management class. The module <font color="#336633"><b>admin_db</b></font> provides one such class :
 
@@ -20,11 +20,11 @@ This class stores user information in a SQLite database. It is initialized with 
 
 An application defines a script that will be used to ask a user his login and password, and that will check that they match a user in the database
 
-The url of this script is specified with the application attribute login`_`url. It defaults to _(root`_`url)/admin/login.py/login_, that is, the function login() in the script login.py in folder admin of the Karrigell distribution
+The url of this script is specified with the application attribute login`_`url. It defaults to _(root`_`url)/admin/login.py/login_, that is, the function <font color="#338" size="2"><b>login()</b></font> in the script <font color="#363" size="2"><b>login.py</b></font> in folder admin of the Karrigell distribution
 
-The login script can be customized, but the arguments of the login() functions must remain the same as in this default script :
+The login script can be customized, but the arguments of the <font color="#338" size="2"><b>login()</b></font> function must remain the same as in this default script :
   * _role_ : the requested role
-  * _origin_ : the url of the script where the Login() function was called. It is used to redirect the user to this original script if the login was successful
+  * _origin_ : the url of the script where the <font color="#338" size="2"><b>Login()</b></font> function was called. It is used to redirect the user to this original script if the login was successful
 
 = Functions =
 
@@ -39,7 +39,7 @@ _role_ defaults to "admin". _login`_`url_ defaults to the url of the login scrip
 
 ==Logout(_`[`redir`_`to`]`_)==
 When this function is run, the cookies used to store information about a logged in user are erased, so that he is no longer authenticated
-The optional _redir`_`to_ argument indicated the url where the user should be redirected after this logout operation was performed. It defaults to the url of the script where the Logout() function was run
+The optional _redir`_`to_ argument indicated the url where the user should be redirected after this logout operation was performed. It defaults to the url of the script where the <font color="#338" size="2"><b>Logout()</b></font> function was run
 
 ==Role()==
 This function returns :
