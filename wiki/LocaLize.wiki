@@ -2,5 +2,6 @@
 
 Loalizing a script means that text can be displayed in different languages, without having to write a script per language
 
-In Karrigell, this is performed by the function _(_string_) (underscore)
+In Karrigell, this is performed by the function `_`(_string_) (underscore). The string is translated into the first language found in the browsers language preferences
 
+Translations are stored in a translation database. The application defines it as the attribute <font color="#338" size="2"><b>translations_db</b></font>
