@@ -12,3 +12,4 @@
   * [http://code.google.com/p/karrigell/wiki/ManageEncoding Manage encoding]
   * [http://code.google.com/p/karrigell/wiki/ManageCookies Set, read and erase cookies]
   * [http://code.google.com/p/karrigell/wiki/ImportModule Import a module]
+  * [http://code.google.com/p/karrigell/wiki/LocaLize Localize (translate) a script]
