@@ -10,6 +10,3 @@
   * [http://code.google.com/p/karrigell/wiki/PassingParameters Passing parameters to a script]
   * [http://code.google.com/p/karrigell/wiki/SessionManagement Session management]
   * [http://code.google.com/p/karrigell/wiki/UserManagement Users management and authentication]
-  * [http://code.google.com/p/karrigell/wiki/AdministrationTools Administration tools]
-    * UsersManagement
-    * TranslationManagement
