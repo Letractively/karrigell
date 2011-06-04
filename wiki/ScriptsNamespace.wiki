@@ -19,7 +19,7 @@ The script receives information from the request sent by the user. This includes
 A dictionary-like object with keys and values matching the headers sent by the user. For convenience, two headers are provided with special names : cookies and accepted languages
 
 ===COOKIE===
-An instance of <font color="#336633" size="2"><b>`http.cookies.SimpleCookie`</b></font>, where keys are the cookie names and values are the value associated with this name
+An instance of <font color="#333388" size="2"><b>`http.cookies.SimpleCookie`</b></font>, where keys are the cookie names and values are the value associated with this name
 
 ===ACCEPTED_LANGUAGES===
 The value associated with the "accept-language" tag
@@ -29,7 +29,7 @@ The data passed in the query string or request body is passed as arguments to th
 = Script information =
 
 ===THIS===
-The instance of <font color="#336633" size="2"><b>`Karrigell.RequestHandler`</b></font> representing the request. It provides useful attributes and methods :
+The instance of <font color="#333388" size="2"><b>`Karrigell.RequestHandler`</b></font> representing the request. It provides useful attributes and methods :
 
 ====THIS.path_info====
 Same as the CGI PATH_INFO value : the url of script, stripped of the query string, if any
@@ -46,10 +46,10 @@ Transforms a relative url into an absolute url, based on the script url
 = Values set in the script =
 
 ===SET_COOKIE===
-An instance of <font color="#336633" size="2"><b>`http.cookies.SimpleCookie`</b></font> used to set the cookies to return to the user
+An instance of <font color="#338" size="2"><b>`http.cookies.SimpleCookie`</b></font> used to set the cookies to return to the user
 
 ===RESPONSE_HEADERS===
-An instance of <font color="#336633" size="2"><b>`email.message.Message()`</b></font> used to set response headers
+An instance of <font color="#338" size="2"><b>`email.message.Message()`</b></font> used to set response headers
 
 It is initialized with the content-type header set to "text/html". If you want to change it, you must replace it with the syntax 
 
@@ -58,7 +58,7 @@ RESPONSE_HEADER.replace_header('Content-type',<i>value</i>)
 }}}
 
 ===ENCODING===
-The encoding that the browser will use to print strings and to encode form data. Defaults to <font face="courier" color="#30D">sys.getdefaultencoding()</font>
+The encoding that the browser will use to print strings and to encode form data. Defaults to <font color="#333388" size="2"><b>sys.getdefaultencoding()</b></font>
 
 = Functions =
 
@@ -69,14 +69,14 @@ Translates the string. The translation engine takes the languages defined in the
 Reads the file at the specified url (if it is a relative url, it is resolved relatively to the script url), using the specified encoding (defaults to utf-8), and applies the Python built-in method format() to this string with the positional and keyword arguments args and kw
 
 ===Session()===
-Returns the session object. It is a Python object that is identified by a cookie called session_id. A script can set attributes to this object and retrieve this information in other pages by another call to <font face="courier" color="#30D">Session()</font>
+Returns the session object. It is a Python object that is identified by a cookie called session_id. A script can set attributes to this object and retrieve this information in other pages by another call to <font color="#333388" size="2"><b>Session()</b></font>
 
 By default, the framework stores this object in a file whose name is the session_id value. Only Python built-in objects can be set as attributes (not instances of user-defined classes). See SessionManagement for more information
 
 ===Import(_url_)===
 For modules in the Python distribution, or installed in the site-package folder, you can safely use the built-in statement "import". But for user-defined modules, this is not possible because of the way the import statement works : it is not reliable in a multi-user, multi-threaded environment
 
-The function <font face="courier" color="#30D">Import(_url_)</font> finds the Python module identified by the url (if it is a relative url, it is resolved relatively to the script url), runs it in the script namespace, and returns an object representing the imported module
+The function <font color="#333388" size="2"><b>Import(_url_)</b></font> finds the Python module identified by the url (if it is a relative url, it is resolved relatively to the script url), runs it in the script namespace, and returns an object representing the imported module
 
 The equivalent of the built-in "import foo" is :
 
