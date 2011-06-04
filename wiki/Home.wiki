@@ -11,6 +11,6 @@ The package also includes the HTMLTags module, with a name for all valid HTML ta
 
 = Contents =
 
-  * GettingStarted
+  * [http://code.google.com/p/karrigell/wiki/GettingStarted Getting started]
   * HowTos
-  * RefeRence
+  * [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
