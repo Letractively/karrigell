@@ -94,7 +94,7 @@ class TAG:
         res=io.StringIO()
         w=res.write
         if self.tag != "TEXT":
-            w("<%s" %self.tag)
+            w("<%s" %self.tag.lower())
             # attributes which will produce arg = "val"
             attr1 = [ k for k in self.attrs 
                 if not isinstance(self.attrs[k],bool) ]
@@ -114,7 +114,7 @@ class TAG:
         for child in self.children:
             w(str(child))
         if self.tag in _CLOSING_TAGS:
-            w("</%s>" %self.tag)
+            w("</%s>" %self.tag.lower())
         if self.tag in _LINE_BREAK_AFTER:
             w('\n')
         for brother in self.brothers:
@@ -161,6 +161,12 @@ class TAG:
     def __rmul__(self,n):
         """Replicate self n times, with n first : n * TAG"""
         return self*n
+
+    def __getitem__(self,attr):
+        return self.attrs[attr]
+    
+    def __setitem__(self,key,value):
+        self.attrs[key] = value
 
     def get_by_attr(self,**kw):
         """Return a list of tags whose attributes are in kw,
@@ -226,6 +232,14 @@ _CLOSING_TAGS =  ['A', 'ABBR', 'ACRONYM', 'ADDRESS', 'APPLET',
 _NON_CLOSING_TAGS = ['AREA', 'BASE', 'BASEFONT', 'BR', 'COL', 'FRAME',
             'HR', 'IMG', 'INPUT', 'ISINDEX', 'LINK',
             'META', 'PARAM']
+
+# new HTML5 tags
+_CLOSING_TAGS += [ 'ARTICLE','ASIDE','FIGURE','FOOTER','HEADER','NAV',
+    'SECTION','AUDIO','VIDEO','CANVAS','COMMAND','DATALIST',
+    'DETAILS','OUTPUT','PROGRESS','HGROUP','MARK','METER','TIME',
+    'RP','RT','RUBY']
+
+_NON_CLOSING_TAGS += ['SOURCE']
 
 # create the classes
 for _tag in _CLOSING_TAGS + _NON_CLOSING_TAGS + ['TEXT']:
