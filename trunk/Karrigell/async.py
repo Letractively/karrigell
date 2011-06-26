@@ -94,7 +94,7 @@ def run(handler=http_request_handler,port=80,apps=[Karrigell.App]):
     sock.listen(5)
     server = Server(sock)
     server.handler = handler
-    print("Async server running on port {}".format(port))
+    print("Karrigell asynchronous server running on port {}".format(port))
     asyncore.loop()
 
 if __name__=="__main__":
