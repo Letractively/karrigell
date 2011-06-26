@@ -34,7 +34,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.1"
+version = "4.2"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -116,7 +116,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         filtered = None
         for func in app.filters:
             try:
-                filtered = func(self)
+                filtered = func(app,self)
             except HTTP_REDIRECTION as url:
                 redir_to = str(url)
                 return self.redir(redir_to)
@@ -189,6 +189,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
 
     def redir(self,url):
         # redirect to the specified url
+        self.close_connection = True
         self.resp_headers['Location'] = url
         self.done(301,io.BytesIO())
 
