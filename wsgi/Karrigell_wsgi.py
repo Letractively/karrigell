@@ -27,7 +27,7 @@ class k_handler(Karrigell.RequestHandler):
         """Build Karrigell-specific attributes from the environ
         prepared by the WSGI server"""
         self.server = Server(environ["SERVER_NAME"],environ["SERVER_PORT"])
-        self.server_version = environ["SERVER_SOFTWARE"]
+        self.server_version = environ.get("SERVER_SOFTWARE","unknown server software")
 
         self.client_address = (environ["REMOTE_ADDR"],0)
         self.rfile = environ['wsgi.input'] # for POST requests
@@ -100,13 +100,12 @@ class File:
             raise StopIteration
         return buf
 
-class App(Karrigell.App):
-    
-    root_dir = r'c:\Karrigell-Python3\test'
+apps = [Karrigell.App]
 
 def application(environ,start_response):
     handler = k_handler(environ)
-    handler.alias = {'':App}
+    handler.alias = dict((app.root_url.lstrip('/'),app)
+        for app in apps)
     handler.handle()
     resp_headers = [(k,str(v)) for (k,v) in handler.resp_headers.items() ]
     start_response(handler.response, resp_headers)
