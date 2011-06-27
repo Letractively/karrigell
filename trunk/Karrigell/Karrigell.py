@@ -215,17 +215,17 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         if not self.users_db:
             raise HTTP_ERROR(500,"Can't login, no users database set")
         if not self.skey_cookie in self.cookies:
-            self.redir(login_url+'?role='+role+'&origin='+self.path)
+            raise HTTP_REDIRECTION(login_url+'?role='+role+'&origin='+self.path)
         skey = self.cookies[self.skey_cookie].value
         if not self.users_db.key_has_role(skey,role):
-            self.redir(login_url+'?role='+role+'&origin='+self.path)
+            raise HTTP_REDIRECTION(login_url+'?role='+role+'&origin='+self.path)
 
     def logout(self,redir_to=None):
         """Log out = erase login and session key cookies, then redirect"""
         redir_to = redir_to or urllib.parse.urljoin(self.path_info,'index')
         self.erase_cookie(self.login_cookie)
         self.erase_cookie(self.skey_cookie)
-        self.redir(redir_to)
+        raise HTTP_REDIRECTION(redir_to)
 
     def role(self):
         if self.users_db is None:
