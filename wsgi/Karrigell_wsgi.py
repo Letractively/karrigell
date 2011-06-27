@@ -100,9 +100,13 @@ class File:
             raise StopIteration
         return buf
 
+class App(Karrigell.App):
+    
+    root_dir = r'c:\Karrigell-Python3\test'
+
 def application(environ,start_response):
     handler = k_handler(environ)
-    handler.root = r'c:\Karrigell-Python3\test'
+    handler.alias = {'':App}
     handler.handle()
     resp_headers = [(k,str(v)) for (k,v) in handler.resp_headers.items() ]
     start_response(handler.response, resp_headers)
