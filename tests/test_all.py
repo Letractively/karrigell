@@ -93,11 +93,12 @@ server.start()
 
 class App1(Karrigell.App):
 
+    hidden = ['.sqlite']
     # test with extra app
     def hide_ext(self,handler):
-        if handler.path_info.endswith('.sqlite'):
-            print('raise exception')
-            raise Karrigell.HTTP_ERROR(403)
+        for ext in self.hidden:
+            if handler.path_info.endswith(ext):
+                raise Karrigell.HTTP_ERROR(403)
     filters = [hide_ext]
 
 server = TestServer(apps=[App1],port=8083)
