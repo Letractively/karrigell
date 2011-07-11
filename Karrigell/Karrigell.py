@@ -106,6 +106,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             app = self.alias['']
         else:
             return self.send_error(404,'Unknown alias '+elts[1])
+        self.app = app
         for attr in ['root_url','root_dir','users_db','translation_db']:
             setattr(self,attr,getattr(app,attr))
         self.login_url = app.get_login_url()
