@@ -1,5 +1,7 @@
 #summary Use an application filter to control access to files/directories
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 = Introduction =
 
 App filters are defined as methods of application classes, in server.py or the equivalent Karrigell start up script. The application class has an attibute "filters", the list of filter functions to call one after the other for each request
