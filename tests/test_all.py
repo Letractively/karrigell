@@ -49,7 +49,7 @@ class Tester(unittest.TestCase):
 
     def test_import(self):
         res = urllib.request.urlopen(self.start+"/test.py/import_test")
-        self.assertEqual(res.read(),b'<B>foobar</B>')
+        self.assertEqual(res.read(),b'<b>foobar</b>')
 
     def test_file_session(self):
         res = urllib.request.urlopen(self.start+"/test.py/set_session?name=shelley")
@@ -90,14 +90,14 @@ class Tester(unittest.TestCase):
 server = TestServer(port=8082)
 server.start()
 
-# test with extra app
-def hide_ext(handler):
-    if handler.path_info.endswith('.sqlite'):
-        print('raise exception')
-        raise Karrigell.HTTP_ERROR(403)
 
 class App1(Karrigell.App):
 
+    # test with extra app
+    def hide_ext(self,handler):
+        if handler.path_info.endswith('.sqlite'):
+            print('raise exception')
+            raise Karrigell.HTTP_ERROR(403)
     filters = [hide_ext]
 
 server = TestServer(apps=[App1],port=8083)
