@@ -13,3 +13,4 @@
   * [http://code.google.com/p/karrigell/wiki/ManageCookies Set, read and erase cookies]
   * [http://code.google.com/p/karrigell/wiki/ImportModule Import a module]
   * [http://code.google.com/p/karrigell/wiki/ControlAccess Use an application filter to control access to files/directories]
+  * [http://code.google.com/p/karrigell/wiki/SmartUrl Manage "smart urls" with an application filter]
