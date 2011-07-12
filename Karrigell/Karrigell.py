@@ -117,7 +117,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         filtered = None
         for func in app.filters:
             try:
-                filtered = func(app,self)
+                filtered = func(app,self) or filtered
             except HTTP_REDIRECTION as url:
                 redir_to = str(url)
                 return self.redir(redir_to)
