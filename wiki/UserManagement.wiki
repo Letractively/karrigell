@@ -30,12 +30,14 @@ The login script can be customized, but the arguments of the <font color="#338" 
 
 The functions available in scripts to manage users are :
 
-==Login(_`[`role`[`,login`_`url`]]`_)==
+==Login(_`[`role`[`,login`_`url`[,origin]]]`_)==
 When the framework runs this function, it checks that if the user is already authenticated and has the required role (admin, edit or visit). If a user has the admin role, he also has the edit and visit role ; if it has the edit role, he also has the visit role
 
 If the user is not authenticated, or does not have the required role, a redirection to the specified login`_`url described above is performed
 
 _role_ defaults to "admin". _login`_`url_ defaults to the url of the login script defined above
+
+After a successful authentication, the user is redirected to the url specified in _origin_. If not specified, the redirection leads to the page where the Login() function was called
 
 ==Logout(_`[`redir`_`to`]`_)==
 When this function is run, the cookies used to store information about a logged in user are erased, so that he is no longer authenticated
