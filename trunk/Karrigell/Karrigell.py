@@ -106,7 +106,6 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             app = self.alias['']
         else:
             return self.send_error(404,'Unknown alias '+elts[1])
-        self.app = app
         for attr in ['root_url','root_dir','users_db','translation_db']:
             setattr(self,attr,getattr(app,attr))
         self.login_url = app.get_login_url()
@@ -117,7 +116,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         filtered = None
         for func in app.filters:
             try:
-                filtered = func(app,self) or filtered
+                filtered = func(app,self)
             except HTTP_REDIRECTION as url:
                 redir_to = str(url)
                 return self.redir(redir_to)
@@ -181,15 +180,12 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             self.done(200,f)
 
     def print_exc(self):
-            # print exception
-            self.resp_headers.replace_header('Content-type','text/plain')
-            result = io.StringIO()
-            if hasattr(self,'imported_module'):
-                msg = 'Exception in imported module %s\n' %self.imported_module
-                result.write(msg)
-            traceback.print_exc(file=result)
-            result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
-            self.done(200,result) 
+        # print exception
+        self.resp_headers.replace_header('Content-type','text/plain')
+        result = io.StringIO()
+        traceback.print_exc(file=result)
+        result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
+        self.done(200,result)
 
     def redir(self,url):
         # redirect to the specified url
@@ -212,17 +208,18 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             new.strftime("%a, %d-%b-%Y 23:59:59 GMT")
         self.set_cookie[name]['max-age'] = 0
 
-    def login(self,role=None,login_url=None):
+    def login(self,role='admin',login_url=None,origin=None):
         """If user is logged in with specified role, do nothing, else
         redirect to login_url"""
         login_url = login_url or self.login_url
+        origin = origin or self.path
         if not self.users_db:
             raise HTTP_ERROR(500,"Can't login, no users database set")
         if not self.skey_cookie in self.cookies:
-            raise HTTP_REDIRECTION(login_url+'?role='+role+'&origin='+self.path)
+            raise HTTP_REDIRECTION(login_url+'?role=%s&origin=%s' %(role,origin))
         skey = self.cookies[self.skey_cookie].value
         if not self.users_db.key_has_role(skey,role):
-            raise HTTP_REDIRECTION(login_url+'?role='+role+'&origin='+self.path)
+            raise HTTP_REDIRECTION(login_url+'?role=%s&origin=%s' %(role,origin))
 
     def logout(self,redir_to=None):
         """Log out = erase login and session key cookies, then redirect"""
@@ -237,7 +234,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         if not self.skey_cookie in self.cookies:
             return False
         skey = self.cookies[self.skey_cookie].value
-        return self.users_db.get_role(skey)
+        return self.users_db.get_role(skey=skey)
 
     def translation(self,src,language=None):
         """Return the translation of string src in the specified language. If
@@ -333,21 +330,17 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         """Import by url - in threaded environments, "import" is unsafe
         Returns an object whose names are those of the module at this url"""
         fs_path = self.get_file(self.abs_url(url))
-        # save the module name so it can be displayed if there is an exception
-        self.imported_module = fs_path
         # update builtins so that imported scripts use script namespace
         __builtins__.update(self.namespace)
         ns = {'__builtins__':__builtins__}
         fileobj = open(fs_path)
         exec(fileobj.read(),ns)
         fileobj.close()
-        # No exception executing imported code, so clear saved module name
-        del self.imported_module
         class Imported:
             def __init__(self,ns):
                 for k,v in ns.items():
                     setattr(self,k,v)
-        return Imported(ns) 
+        return Imported(ns)
 
     def Session(self):
         """Get session object matching session_id cookie
