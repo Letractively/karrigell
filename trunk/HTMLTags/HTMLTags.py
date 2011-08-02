@@ -170,15 +170,9 @@ class TAG:
 
     def __mul__(self,n):
         """Replicate self n times, with tag first : TAG * n"""
-        if hasattr(self,'parent'):
-            for i in range(n-1):
-                self.parent.children.append(self)
-                return self
-        else:
-            res = TAG()
-            res.children = [self for i in range(n-1)]
-            res._update_parent()
-            return res
+        res = TAG()
+        res.children = [self for i in range(n)]
+        return res
 
     def __rmul__(self,n):
         """Replicate self n times, with n first : n * TAG"""
