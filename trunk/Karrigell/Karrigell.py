@@ -106,6 +106,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             app = self.alias['']
         else:
             return self.send_error(404,'Unknown alias '+elts[1])
+        self.app = app
         for attr in ['root_url','root_dir','users_db','translation_db']:
             setattr(self,attr,getattr(app,attr))
         self.login_url = app.get_login_url()
@@ -116,7 +117,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         filtered = None
         for func in app.filters:
             try:
-                filtered = func(app,self)
+                filtered = func(app,self) or filtered
             except HTTP_REDIRECTION as url:
                 redir_to = str(url)
                 return self.redir(redir_to)
@@ -180,12 +181,15 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             self.done(200,f)
 
     def print_exc(self):
-        # print exception
-        self.resp_headers.replace_header('Content-type','text/plain')
-        result = io.StringIO()
-        traceback.print_exc(file=result)
-        result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
-        self.done(200,result)
+            # print exception
+            self.resp_headers.replace_header('Content-type','text/plain')
+            result = io.StringIO()
+            if hasattr(self,'imported_module'):
+                msg = 'Exception in imported module %s\n' %self.imported_module
+                result.write(msg)
+            traceback.print_exc(file=result)
+            result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
+            self.done(200,result) 
 
     def redir(self,url):
         # redirect to the specified url
@@ -330,17 +334,21 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         """Import by url - in threaded environments, "import" is unsafe
         Returns an object whose names are those of the module at this url"""
         fs_path = self.get_file(self.abs_url(url))
+        # save the module name so it can be displayed if there is an exception
+        self.imported_module = fs_path
         # update builtins so that imported scripts use script namespace
         __builtins__.update(self.namespace)
         ns = {'__builtins__':__builtins__}
         fileobj = open(fs_path)
         exec(fileobj.read(),ns)
         fileobj.close()
+        # No exception executing imported code, so clear saved module name
+        del self.imported_module
         class Imported:
             def __init__(self,ns):
                 for k,v in ns.items():
                     setattr(self,k,v)
-        return Imported(ns)
+        return Imported(ns) 
 
     def Session(self):
         """Get session object matching session_id cookie
