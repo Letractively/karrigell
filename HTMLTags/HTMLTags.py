@@ -144,6 +144,7 @@ class TAG:
             if isinstance(other,str):
                 other = TEXT(other)
             self.children.append(other)
+        self._update_parent()
         return self
 
     def __add__(self,other):
