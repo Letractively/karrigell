@@ -1,6 +1,15 @@
 import sys
+import os
+
+# modify sys.path to use this version of Karrigell
+cwd = os.getcwd()
+sys.path.insert(0,os.path.join(os.path.dirname(cwd),'trunk'))
 
 import Karrigell
+# also import HTMLTags, so that the name "HTMLTags" will be in 
+# sys.modules when Karrigell imports it
+import HTMLTags
+
 import threading
 import unittest
 import urllib.request
@@ -86,10 +95,6 @@ class Tester(unittest.TestCase):
         res = urllib.request.urlopen(req)
         self.assertEqual(res.read(),b'smiths')
 
-# test with default app
-server = TestServer(port=8082)
-server.start()
-
 
 class App1(Karrigell.App):
 
@@ -101,6 +106,11 @@ class App1(Karrigell.App):
                 raise Karrigell.HTTP_ERROR(403)
     filters = [hide_ext]
 
+# test with default app
+server = TestServer(port=8082)
+server.start()
+
+# test with filtering app
 server = TestServer(apps=[App1],port=8083)
 server.start()
 
