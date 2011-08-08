@@ -212,6 +212,21 @@ class TAG:
                 res += child.get_by_tag(tag_name)
         return _tag_list(res)
 
+    def get(self,*tags,**kw):
+        """Search instances of classes in tags with attributes = kw"""
+        res = []
+        if not tags or self.__class__ in tags:
+            flag = True
+            for (k,v) in kw.items():
+                if k not in self.attrs or v != self.attrs[k]:
+                    flag = False
+            if flag:
+                res.append(self)
+        for child in self.children:
+            if isinstance(child,TAG):
+                res+= child.get(*tags,**kw)
+        return res
+
     def delete(self,subtag):
         """Delete subtag"""
         subtag.parent.children.remove(subtag)
