@@ -5,7 +5,11 @@ def index(**kw):
     for cookie in COOKIE:
         res += cookie+' '+COOKIE[cookie].value
     res += '<p>Role %s' %COOKIE.get('Role',None)
-    res += Template('template.zzz',**locals())
+    f = FORM(action='set_session')
+    f <= INPUT(name="name")
+    f <= INPUT(Type="submit",value="Ok")
+    res += f+P()
+    res += BR()+A('Get session',href='get_session')
     return res
 
 def hello(name):
@@ -40,3 +44,10 @@ def set_cookie(name,val):
 
 def read_cookie(name):
     return COOKIE[name].value
+
+def see():
+    import sqlite3
+    conn = sqlite3.connect('sessions.sqlite')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM sessions')
+    return cursor.fetchall()
