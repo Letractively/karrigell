@@ -181,15 +181,15 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             self.done(200,f)
 
     def print_exc(self):
-            # print exception
-            self.resp_headers.replace_header('Content-type','text/plain')
-            result = io.StringIO()
-            if hasattr(self,'imported_module'):
-                msg = 'Exception in imported module %s\n' %self.imported_module
-                result.write(msg)
-            traceback.print_exc(file=result)
-            result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
-            self.done(200,result) 
+        # print exception
+        self.resp_headers.replace_header('Content-type','text/plain')
+        result = io.StringIO()
+        if hasattr(self,'imported_module'):
+            msg = 'Exception in imported module %s\n' %self.imported_module
+            result.write(msg)
+        traceback.print_exc(file=result)
+        result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
+        self.done(200,result) 
 
     def redir(self,url):
         # redirect to the specified url
@@ -385,7 +385,7 @@ class App:
     root_url = '/'
     login_url = None
     root_dir = os.getcwd()
-    session_storage_class = Karrigell.sessions.FileSessionStorage
+    session_storage_class = Karrigell.sessions.SQLiteSessionStorage
     users_db = None
     translation_db = None
     filters = []
