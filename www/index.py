@@ -1,4 +1,5 @@
 banner = Import('admin/banner.py')
+_ = Import('translation.py').translate
 
 def index():
     head = LINK(rel="stylesheet",href="/admin/style.css")
@@ -6,7 +7,7 @@ def index():
     container = DIV(Id="container")
     container <= banner.banner(title = _("Home"))
     content = DIV(Id="content")
-    content <= "Karrigell is installed"
+    content <= _("installed")
     content <= BR()+A("Administration",href="/admin/index.py")
     container <= content
     return HTML(HEAD(head)+BODY(container))
