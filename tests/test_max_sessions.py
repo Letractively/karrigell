@@ -1,5 +1,6 @@
 import sys
 import os
+import sqlite3
 
 # modify sys.path to use this version of Karrigell
 cwd = os.getcwd()
@@ -27,8 +28,12 @@ class TestServer(threading.Thread):
 class Tester(unittest.TestCase):
 
     def test_file_session(self):
+        cursor = sqlite3.connect('sessions.sqlite').cursor()
         for i in range(200):
             res = urllib.request.urlopen(self.start+"/test.py/set_session?name=shelley")
+            cursor.execute('SELECT rowid FROM sessions')
+            nb_sessions = len(cursor.fetchall())
+            self.assertLessEqual(nb_sessions,1.1*max_sessions)
 
 class App(Karrigell.App):
 
