@@ -11,21 +11,23 @@ The storage mechanism is managed by a class defining how to store and retrieve t
 
 Karrigell provides two classes, in the module <font color="#336633"><b>sessions.py</b></font> of the Karrigell distribution :
 
-==!FileSessionStorage==
-With this class, the session object is serialized with the <font color="#336633"><b>pickle</b></font> module, and written on disk in a file identified by a session identifier, stored as a cookie on the user's browser
+==SQLiteSessionStorage==
+With this class, the session object is serialized with the <font color="#336633"><b>pickle</b></font> module, and written in a SQLite database. Each record in this database is identified by a session identifier, stored as a cookie on the user's browser
 
 With this storage, only built-in Python types can be stored in the session object ; instances of user-defined classes or objects like database connections can't be set as attributes to the session object
 
-This class has one useful attribute :
-===session`_`dir===
-The directory where pickled objects are stored. Defaults to the subdirectory "sessions" in the application root directory
+The class has 2 attributes :
+
+  * <font color="#338" size="2"><b>max_sessions</b></font> : the maximum number of sessions (defaults to 100)
+  * <font color="#338" size="2"><b>path</b></font> : the path of the SQLite database in the file system. Defaults to <font color="#338" size="2"><b>sessions.sqlite</b></font> in the root directory
+
 
 ==!MemorySessionStorage==
-Stores the session object in memory
+Stores the session object in memory. This brings much more flexibility since all kinds of Python object can be set as attributes to the session object, but it only works on a mono process web server
 
 = Customized session storage classes =
 
-A session storage class must define two methods :
+If you want to create a custom session storage class, it must define two methods :
 
 ===save(_handler_)===
 This method takes the instance of <font color="#338" size="2"><b>`Karrigell.RequestHandler`</b></font> and specifies how the session object should be stored. The session object is the attribute <font color="#338" size="2"><b>session_object</b></font> of the parameter _handler_
