@@ -401,7 +401,7 @@ _LINE_BREAK_AFTER = _NON_CLOSING_TAGS + ['HTML','HEAD','BODY',
     'TABLE','TR','TD','TH','SELECT','OPTION',
     'FORM',
     'H1', 'H2', 'H3', 'H4', 'H5', 'H6',
-    'UL','LI','OL'
+    'UL','LI','OL','DIV','SPAN'
     ]
 # tags whose opening tag should be alone in its line
 _ONE_LINE = ['HTML','HEAD','BODY',
