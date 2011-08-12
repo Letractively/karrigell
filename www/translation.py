@@ -52,7 +52,7 @@ def translate(src):
                 mo = re.search(r'^\[(.*?)\](.*)$',line)
                 if mo:
                     lang = mo.groups()[0]
-                    if lang=="src":
+                    if lang=="key": # next key
                         break
                     trad[lang] = mo.groups()[1]
                 elif lang:
@@ -63,6 +63,7 @@ def translate(src):
                 lang = lang.split('-')[0]
                 if lang in trad:
                     return trad[lang]
+            print(trad)
             if 'default' in trad:
                 return trad['default']
             return src

@@ -18,7 +18,7 @@ def index():
     cursor.execute('SELECT rowid,login,role,created,last_visit,nb_visits \
         FROM users')
     table = TABLE(Id="users-table")
-    table <= TR(TH(_('Login'))+TH(_('Role'))+TH(_('Created'))+
+    table <= TR(TH(_('login'))+TH(_('Role'))+TH(_('Created'))+
         TH(_('Last visit'))+TH(_('Visits')))
     while True:
         row = cursor.fetchone()

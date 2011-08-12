@@ -35,7 +35,6 @@ div#form_container {
 }
 
 div#content {
-    width:100%;
     padding-left:20px;
     padding-top:10px;
     line-height:1.5em;
@@ -50,7 +49,6 @@ span#url_navig {
     width: 30%:
 }
 div#bandeau {
-    width: 100%;
     height:40px;
     background: url("banner.png") repeat-y;
     background-position: 100%;
@@ -94,13 +92,13 @@ a.login:hover {color:#FFF;
 }
 
 a.subfolder {font-weight:bold;
-	text-decoration: none;
-	color: #040;
-	}
+    text-decoration: none;
+    color: #040;
+    }
 a.subfolder:visited {font-weight:bold;
-	text-decoration: none;
-	color: #040;
-	}
+    text-decoration: none;
+    color: #040;
+    }
 
 a.localize { color: #040: }
 a.localize:visited { color: #040: }

@@ -1,4 +1,5 @@
 import datetime
+_ = Import('../translation.py').translate
 banner = Import('banner.py')
 
 lifetime = 30 # how long a cookie lasts, in days
@@ -7,19 +8,18 @@ style = LINK(rel="stylesheet",href="../style.css")
 
 def login(origin,role=None):
     container = DIV(Id="container")
-    container <= banner.banner(home=True,title=_("Login"),log=False)
+    container <= banner.banner(home=True,title=_("login(verb)"),log=False)
     
     if THIS.users_db is None:
         container <= 'No users database declared for this application'
     elif THIS.users_db.is_empty():
-        container <= H4("Users database is empty. "
-            "Set administrator login and password")
+        container <= H4(_("empty_db"))
         form_container = DIV(Id="form_container")
         form = FORM(action="set_admin",method="POST")
         form <= INPUT(Type="hidden",name="origin",value=origin)
-        form <= DIV('Login',Class="login_prompt")
+        form <= DIV(_('login'),Class="login_prompt")
         form <= INPUT(name='login')
-        form <= DIV(_('Password'),Class="login_prompt")
+        form <= DIV(_('password'),Class="login_prompt")
         form <= INPUT(Type="password",name="password")
         form <= P()+INPUT(Type="submit",value="Ok")
         form_container <= form
@@ -30,19 +30,19 @@ def login(origin,role=None):
         form = FORM(action="check_login",method="POST")
         form <= INPUT(Type="hidden",name="origin",value=origin)
         form <= INPUT(Type="hidden",name="required_role",value=role)
-        form <= DIV('Login',Class="login_prompt")
+        form <= DIV(_('login'),Class="login_prompt")
         form <= INPUT(name='login')
-        form <= DIV(_('Password'),Class="login_prompt")
+        form <= DIV(_('password'),Class="login_prompt")
         form <= INPUT(Type="password",name="password")
         save = DIV(Class="remember_prompt")
-        save <= _('Remember me')
+        save <= _('remember me')
         save <= INPUT(Type="checkbox",name="remember")
         form <= save
         form <= P()+INPUT(Type="submit",value="Ok")
         form_container <= form
         container <= form_container
 
-    return HTML(HEAD(TITLE('Login')+style)+BODY(container))
+    return HTML(HEAD(TITLE('Login')+style)+BODY(str(COOKIE)+container))
 
 def _set_cookies(remember,login,password):
     SET_COOKIE[THIS.login_cookie] = login

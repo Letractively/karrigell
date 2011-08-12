@@ -1,4 +1,5 @@
 Login("admin")
+_ = Import('../translation.py').translate
 banner = Import('banner.py')
 
 def index():
@@ -9,7 +10,6 @@ def index():
     container <= banner.banner(home=True,title=_('Administration tools'))
     menu = DIV(Id="content")
     menu <= A(_('Users management'),href="../users.py")
-    menu <= BR()+A(_('Translations'),href="../translations.py")
     container <= menu
     return HTML(head+BODY(container))   
 

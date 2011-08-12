@@ -1,3 +1,51 @@
 [key]installed
 [fr]Karrigell est installé
 [default]Karrigell is installed
+
+[key]empty_db
+[fr]La base de données utilisateurs est vide. Entrer l'identifiant et le mot de passe de l'administrateur
+[default]Users database is empty. Set administrator login and password
+
+[key]login
+[fr]Identifiant
+[default]Login
+
+[key]login(verb)
+[fr]Connexion
+[default]Login
+
+[key]logout
+[fr]Déconnexion
+[default]Logout
+
+[key]password
+[fr]Mot de passe
+[default]Password
+
+[key]home
+[fr]Accueil
+[default]Home
+
+[key]Users management
+[fr]Gestion des utilisateurs
+
+[key]Translations
+[fr]Traductions
+
+[key]Administration tools
+[fr]Outils d'administration
+
+[key]Role
+[fr]Rôle
+
+[key]Created
+[fr]Créé le
+
+[key]Last visit
+[fr]Dernière visite
+
+[key]Visits
+[fr]Visites
+
+[key]Insert new...
+[fr]Insérer nouveau...
