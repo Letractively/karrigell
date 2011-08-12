@@ -16,17 +16,6 @@ import unittest
 import urllib.request
 import http.cookies
 
-template = """<html>
-<head>
-<title>template test</title>
-</head>
-<body>
-Hello tartampion
-<br>
-<a href="index">Home</a>
-</body>
-</html>"""
-
 class TestServer(threading.Thread):
 
     def __init__(self,**kw):
@@ -47,15 +36,6 @@ class Tester(unittest.TestCase):
     def test_echo(self):
         res = urllib.request.urlopen(self.start+"/test.py/hello?name=tartampion")
         self.assertEqual(res.read(),b'Hello tartampion')
-
-    def test_template(self):
-        res = urllib.request.urlopen(self.start+"/test.py/bar?name=tartampion")
-        info = res.info()
-        self.assertIn('Set-Cookie',info)
-        cookie = http.cookies.BaseCookie(info['Set-Cookie'])
-        self.assertEqual(cookie['role'].value,'tartampion')
-        self.assertEqual(cookie['role']['path'],'/')
-        self.assertEqual(res.read(),template.encode('ascii'))
 
     def test_import(self):
         res = urllib.request.urlopen(self.start+"/test.py/import_test")
