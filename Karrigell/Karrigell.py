@@ -107,7 +107,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         else:
             return self.send_error(404,'Unknown alias '+elts[1])
         self.app = app
-        for attr in ['root_url','root_dir','users_db','translation_db']:
+        for attr in ['root_url','root_dir','users_db']:
             setattr(self,attr,getattr(app,attr))
         self.login_url = app.get_login_url()
         self.session_storage = app.session_storage_class(app)
@@ -228,18 +228,6 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             return False
         skey = self.cookies[self.skey_cookie].value
         return self.users_db.get_role(skey=skey)
-
-    def translation(self,src,language=None):
-        """Return the translation of string src in the specified language. If
-        language not specified, use the browsers language order"""
-        if self.translation_db is not None:
-            if language is None:
-                langs = self.namespace['ACCEPTED_LANGUAGES']
-                if langs:
-                    language = langs.split(",")[0].split(";")[0][:2]
-            trans = self.translation_db.get_translation(src,language)
-            return trans or src
-        return src
 
     def abs_path(self,*rel_path):
         """Return absolute path in the file system, relative to script path"""
@@ -379,7 +367,6 @@ class App:
     root_dir = os.getcwd()
     session_storage_class = Karrigell.sessions.SQLiteSessionStorage
     users_db = None
-    translation_db = None
     filters = []
     # names for login and session key cookies. Should be application specific
     login_cookie = None
