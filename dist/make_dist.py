@@ -24,6 +24,8 @@ for path in ['Karrigell','HTMLTags']:
         for d in exclude:
             dirnames.remove(d)
         for filename in filenames:
+            if filename.lower().endswith('.bat'):
+                continue
             print('add',filename)
             dist.add(os.path.join(dirpath,filename),
                 arcname=os.path.join(name,path,filename))
@@ -43,3 +45,15 @@ for folder in folders:
         dist.add(os.path.join(folder_abs,path),
             arcname=os.path.join(name,folder,path))
 dist.close()
+
+# unzip in temporary folder
+import tempfile
+temp_dir = tempfile.TemporaryDirectory()
+print('Unzip in '+temp_dir.name)
+src = tarfile.open(name+'.gz')
+src.extractall(temp_dir.name)
+
+# install
+os.chdir(os.path.join(temp_dir.name,name))
+print('Install')
+os.system(sys.executable+' setup.py install')
