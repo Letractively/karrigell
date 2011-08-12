@@ -4,18 +4,28 @@
 
 Localizing a script means that text can be displayed in different languages, without having to write a script per language
 
-In Karrigell, this is performed by the function `_`(_string_) (underscore). A string is translated if the translations database has a translation for _string_ in one the languages found in the browsers language preferences, sent as the "accept-language" header
+The standard way to do this in Karrigell is to use the script <font color="#336633"><b>translation.py</b></font>, provided in folder www. In a script where you have strings to translate, begin with
 
-The translations database is defined as the attribute <font color="#338" size="2"><b>translations_db</b></font> of the application (see ApplicationSettings). Karrigell provides the class <font color="#338" size="2"><b>`SQLiteTranslationDb`</b></font> in module <font color="#336633"><b>admin_db</b></font>. The SQLite database is initialized with its path in the filesystem
+{{{
+_ = Import('translations.py').translate
+}}}
 
-= Web interface =
+This will make function <font color="#336633"><b>`_`()</b></font> available in the namespace of your script
 
-The distribution provides a script for the administrator to edit translations online. It is available from the home page once the administrator is logged in
+If your script has a line such as
+{{{
+content = _("myString")
+}}}
 
-The script browses all the scripts in the application root directory, and underlines those that have strings to translate. Clicking on a such script shows all these strings, and prompts for a translation in the first language found in the browsers preference
+it will be translated if the translations file has a translation for _myString_ in one the languages found in the browsers language preferences (the browser sends it as the "accept-language" header)
 
-= Customize the translation engine =
+The translations file is a plain text file, its path is specified in the script translation.py. Its format is very simple :
+<pre>
+  `[`key]myString
+  `[`fr]Ceci est une chaîne à traduire
+  `[`default]This is a string to translate
+</pre>
 
-The <font color="#338" size="2"><b>translations_db</b></font> application attribute can be set to any object supporting the following method :
+The translation script finds that there is a line beginning with `[key]` immediately followed by myString ; if the user has defined French as one of the languages in the browsers preference, it returns the translation in French, identified by the heading `[fr]` in the next line. If no translation is found, then the `[default]` line is returned
 
-  * <font color="#338" size="2"><b>get_translation(_src,language_)</b></font> : returns the translation of the string _src_ in the specified _language_. The language is a two-character string such as "fr" for French, "en" for English, etc (see ISO 639 for a complete list)
+By default, the translation file is supposed to be encoded in iso-8859-1 but another encoding can be specified in <font color="#336633"><b>translation.py</b></font>
