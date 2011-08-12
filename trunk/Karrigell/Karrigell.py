@@ -180,22 +180,11 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                 self.date_time_string(os.stat(fs_path).st_mtime)
             self.done(200,f)
 
-    def print_exc(self):
-        # print exception
-        self.resp_headers.replace_header('Content-type','text/plain')
-        result = io.StringIO()
-        if hasattr(self,'imported_module'):
-            msg = 'Exception in imported module %s\n' %self.imported_module
-            result.write(msg)
-        traceback.print_exc(file=result)
-        result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
-        self.done(200,result) 
-
     def redir(self,url):
         # redirect to the specified url
         self.close_connection = True
         self.resp_headers['Location'] = url
-        self.done(301,io.BytesIO())
+        self.done(302,io.BytesIO())
 
     def get_file(self,path):
         """Return a file name matching path"""
@@ -270,8 +259,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             'HTTP_REDIRECTION':HTTP_REDIRECTION,
             'HTTP_ERROR':HTTP_ERROR,
             'COOKIE':self.cookies,'SET_COOKIE':self.set_cookie,
-            'ENCODING':self.encoding,'_':self.translation,
-            'Template':self.template,'Session':self.Session,
+            'ENCODING':self.encoding,
+            'Session':self.Session,
             'Logout':self.logout,'Login':self.login,'Role':self.role,
             'Import':self._import,'THIS': self }
         # import names from HTMLTags
@@ -281,6 +270,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                 self.namespace[k] = getattr(HTMLTags,k)
         import Karrigell.KT
         self.namespace['KT'] = Karrigell.KT.action(self)
+        self.imported_modules = [] # stack of imported modules, for traceback
         try:
             fileobj = open(self.script_path)
             src = '\n'.join([ x.rstrip() for x in fileobj.readlines()])
@@ -321,21 +311,23 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.resp_headers['Content-length'] = output.tell()
         self.done(200,output)
 
-    def template(self,tmpl_url,encoding='utf-8',*args,**kw):
-        """Templating : format the sting read from the file matching tmpl_url, 
-        with the specified encoding and arguments args and kw"""
-        fs_path = self.get_file(self.abs_url(tmpl_url))
-        fileobj = open(fs_path,encoding=encoding)
-        data = fileobj.read()
-        fileobj.close()
-        return data.format(*args,**kw)
+    def print_exc(self):
+        # print exception
+        self.resp_headers.replace_header('Content-type','text/plain')
+        result = io.StringIO()
+        if hasattr(self,'imported_modules') and self.imported_modudes:
+            msg = 'Exception in imported module %s\n' %self.imported_modules
+            result.write(msg)
+        traceback.print_exc(file=result)
+        result = io.BytesIO(result.getvalue().encode('ascii','ignore'))
+        self.done(200,result) 
 
     def _import(self,url):
         """Import by url - in threaded environments, "import" is unsafe
         Returns an object whose names are those of the module at this url"""
         fs_path = self.get_file(self.abs_url(url))
         # save the module name so it can be displayed if there is an exception
-        self.imported_module = fs_path
+        self.imported_modules.append(fs_path)
         # update builtins so that imported scripts use script namespace
         __builtins__.update(self.namespace)
         ns = {'__builtins__':__builtins__}
@@ -343,7 +335,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         exec(fileobj.read(),ns)
         fileobj.close()
         # No exception executing imported code, so clear saved module name
-        del self.imported_module
+        self.imported_modules.remove(fs_path)
         class Imported:
             def __init__(self,ns):
                 for k,v in ns.items():
