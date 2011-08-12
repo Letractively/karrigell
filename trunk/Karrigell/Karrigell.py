@@ -303,7 +303,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         # print exception
         self.resp_headers.replace_header('Content-type','text/plain')
         result = io.StringIO()
-        if hasattr(self,'imported_modules') and self.imported_modudes:
+        if hasattr(self,'imported_modules') and self.imported_modules:
             msg = 'Exception in imported module %s\n' %self.imported_modules
             result.write(msg)
         traceback.print_exc(file=result)
