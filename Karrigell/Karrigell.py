@@ -34,7 +34,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.2.1"
+version = "4.3.1"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -256,8 +256,6 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         for k in dir(HTMLTags):
             if not k.startswith('_'):
                 self.namespace[k] = getattr(HTMLTags,k)
-        import Karrigell.KT
-        self.namespace['KT'] = Karrigell.KT.action(self)
         self.imported_modules = [] # stack of imported modules, for traceback
         try:
             fileobj = open(self.script_path)
