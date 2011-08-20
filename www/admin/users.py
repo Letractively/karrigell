@@ -1,8 +1,8 @@
 Login(role="admin")
 
 import Karrigell.admin_db
+_ = Import('../translation.py').translate
 banner = Import('banner.py')
-
 levels = list(Karrigell.admin_db.levels.keys())
 
 style = LINK(rel="stylesheet",href="../style.css")
@@ -49,18 +49,18 @@ def edit(rowid):
     login,role = cursor.fetchone()
 
     form = FORM(action="update",method="post")
-    form <= DIV('Login',Class="login_prompt")
+    form <= DIV(_('login'),Class="login_prompt")
     form <= INPUT(name='login',value=login)
-    form <= DIV(_('Password')+'&nbsp;'+SMALL(_('(leave empty to keep the same)')),
+    form <= DIV(_('password')+'&nbsp;'+SMALL(_('(leave empty to keep the same)')),
         Class="login_prompt")
     form <= INPUT(Type="password",name="password",value='')
-    form <= DIV(_('Role'),Class="login_prompt")
+    form <= DIV(_('role'),Class="login_prompt")
     form <= SELECT(name="role").from_list(levels).select(content=role)
     form <= P()
     form <= INPUT(Type="hidden",name="rowid",value=rowid)
-    form <= INPUT(Type="submit",name="action",value=_("Update"))
-    form <= INPUT(Type="submit",name="action",value=_("Delete"))
-    form <= INPUT(Type="submit",name="action",value=_("Cancel"))
+    form <= INPUT(Type="submit",name="action",value=_("update"))
+    form <= INPUT(Type="submit",name="action",value=_("delete"))
+    form <= INPUT(Type="submit",name="action",value=_("cancel"))
     content <= form
     body <= content
 
@@ -73,13 +73,13 @@ def new_entry():
     content = DIV(Id="content")
     content <= H4(_("New user"))
     form = FORM(action="insert",method="POST")
-    form <= DIV('Login',Class="login_prompt")
+    form <= DIV(_('login'),Class="login_prompt")
     form <= INPUT(name='login',value='')
-    form <= DIV(_('Password'),Class="login_prompt")
+    form <= DIV(_('password'),Class="login_prompt")
     form <= INPUT(Type="password",name="password",value='')
-    form <= DIV(_('Role'),Class="login_prompt")
+    form <= DIV(_('role'),Class="login_prompt")
     form <= SELECT(name="role").from_list(levels).select(content=levels[-1])
-    form <= P()+INPUT(Type="submit",value=_("Insert"))
+    form <= P()+INPUT(Type="submit",value=_("insert"))
     content <= form
     body <= content
     return HTML(HEAD(head)+BODY(body))
