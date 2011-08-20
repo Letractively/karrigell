@@ -5,7 +5,7 @@ encoding = 'iso-8859-1'
 ini = configparser.ConfigParser()
 ini.read([path],encoding=encoding)
 
-def translation(src):
+def translate(src):
     if not ini.has_section(src):
         return src
     langs = REQUEST_HEADERS.get('Accept-language').split(',')
