@@ -315,8 +315,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         # save the module name so it can be displayed if there is an exception
         self.imported_modules.append(fs_path)
         # update builtins so that imported scripts use script namespace
-        __builtins__.update(self.namespace)
-        ns = {'__builtins__':__builtins__}
+        ns = {}
+        ns.update(self.namespace)
         fileobj = open(fs_path)
         exec(fileobj.read(),ns)
         fileobj.close()
