@@ -22,6 +22,7 @@ import string
 import io
 import random
 import traceback
+import types
 import datetime
 
 import urllib.parse
@@ -149,9 +150,6 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         script_path,func = fs_path.rsplit(os.sep,1)
         if os.path.splitext(script_path)[1] == '.py':
             # Python script called with a function name
-            if func.startswith('_'): # private function
-                self.send_error(500,'Server error')
-                return
             self.url_path = elts[2]
             self.script_path = script_path
             try:
@@ -262,11 +260,15 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             src = '\n'.join([ x.rstrip() for x in fileobj.readlines()])
             fileobj.close()
             exec(src,self.namespace) # run script in namespace
-            if not func in self.namespace:
-                msg = 'No function %s in script %s' \
-                    %(func,os.path.basename(self.script_path))
-                self.done(500,io.BytesIO(msg.encode(self.encoding)))
-                return
+            func_obj = self.namespace.get(func,None)
+            if func_obj is None \
+                or not isinstance(func_obj,types.FunctionType) \
+                or not func_obj.__code__.co_filename=='<string>' \
+                or func.startswith('_'):
+                    msg = 'No function %s in script %s' \
+                        %(func,os.path.basename(self.script_path))
+                    self.done(500,io.BytesIO(msg.encode(self.encoding)))
+                    return
             # run function with self.body as argument
             result = self.namespace[func](**self.body) # string or bytes
             self.session_storage.save(self)
