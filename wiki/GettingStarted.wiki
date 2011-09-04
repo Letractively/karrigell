@@ -5,7 +5,7 @@
 
 = Installation =
 
-Dowload the latest release from this site
+Download the package from the [http://code.google.com/p/karrigell/downloads/list downloads] page
 
 Unpack it in some directory, then open a console window and in this directory, run <code>python setup.py install</code>
 
