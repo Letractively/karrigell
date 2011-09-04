@@ -36,7 +36,7 @@ You can use a SQLite users database by specifying its path in the file system :
 users_db = Karrigell.admin_db.SQLiteUsersDb(db_path)
 }}}
 
-Defaults to None, meaning that there is no users management for this application
+Defaults to <font color="#333388" size="2"><b>None</b></font>, meaning that there is no users management for this application
 
 ===translations_db===
 An object representing the translations database, used to localize the application. It must have the same interface as the class <font color="#333388" size="2"><b>`SQLiteTranslationDb`</b></font> in module <font color="#336633" size="2"><b>Karrigell.admin_db</b></font>
@@ -52,7 +52,7 @@ Defaults to <font color="#333388" size="2"><b>None</b></font>, meaning that ther
 ===login_url===
 If a users database has been defined, indicates the url where a script must be redirected if it requires user login
 
-Defaults to _root_url/admin/login.py/login_ (the script <font color="#336633" size="2"><b>login.py</b></font> is provided in the directory admin_tools of the distribution)
+Defaults to _root_url/admin/login.py/login_ (the script <font color="#336633" size="2"><b>login.py</b></font> is provided in the directory www/admin of the distribution)
 
 ===filters===
 A list of functions that take a single argument, an instance of the class <font color="#333388" size="2"><b>`RequestHandler`</b></font> in module <font color="#336633" size="2"><b>Karrigell</b></font>
