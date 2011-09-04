@@ -126,7 +126,14 @@ if method == "copy":
             dest = os.path.join(admin_dir,path)
             shutil.copyfile(src,dest)
             print('copy',path)
-        
+    # copy cgi directory
+    cgi_dir = config['cgi_dir']
+    for path in os.listdir(local_cgi_dir):
+        src = os.path.join(local_cgi_dir,path)
+        if os.path.isfile(src):
+            dest = os.path.join(cgi_dir,path)
+            shutil.copyfile(src,dest)
+            print('copy',path)    
 
 print("""
 The Karrigell distribution for CGI was created successfully in subfolder
