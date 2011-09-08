@@ -40,7 +40,7 @@ In theory `$identifiers` can be placed within translation tags, but is not recom
 ==Calling KT from within a script==
 
 ===Initialisation of the KT object===
-A kt object must be initialised by calling the in-built KT factory function. The simplest case is:
+The `KT` object is initialised by calling the built-in KT factory function. The simplest case is:
 {{{
 kt = KT()
 }}}
@@ -52,7 +52,7 @@ kt = KT(translate=_, encoding=ENCODING)
 }}}
 
 ===Rendering templates===
-The `KT` object has one method called `render`. The template to render is passed as the first parameter. Values to be included in templates are passed to the script as named arguments:
+The `KT` object has one method called `render`. The template to render is passed as the first argument. Values to be included in templates are passed to the script as named arguments:
 {{{
    result = kt(template_url, var1=var1, var2=var2, data=dict, row=row, this=THIS, ...) 
 }}}
