@@ -148,7 +148,7 @@ If the browser's default language is set to French, and the translation is defin
 <body>
 <h1>Welcome to my home page!</h1>
 <hr>
-<i>MotorisÃ© par Karrigell</i>
+<i>Propulsé par Karrigell</i>
 <p />
 </body>
 </html>
