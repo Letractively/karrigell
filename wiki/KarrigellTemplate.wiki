@@ -35,7 +35,7 @@ Translate the string using the standard Karrigell translation system (see LocaLi
   * `_[$identifier]`
 Inclusions can be controlled from the calling script by setting the value of identifier to a template URL. The $object.attribute and $dictionary.key styles can also be used. This gives a great deal of flexibility in how templates are included. For example, a master template can hold the basic design of a page, then different child templates included in it under the control of the calling script. If a $identifier is not defined, or is a False value, then no inclusion is performed. This allows an inclusion to be "turned-off" by the calling script.
 
-In theory `$identifiers` can be placed within translation tags, but is not recommended. It is better to perform translations in the calling script using the `_()` function.
+While `$identifiers` can be placed within translation tags, but is not recommended. It is better to perform translations in the calling script using the `_()` function.
 
 ==Calling KT from within a script==
 
