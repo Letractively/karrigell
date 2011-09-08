@@ -1,4 +1,5 @@
 #summary KT - Karrigell Templates
+#labels Karrigell,Templates,KT
 
 =KT - Karrigell Templates=
 
