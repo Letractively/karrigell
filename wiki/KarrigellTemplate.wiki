@@ -18,7 +18,7 @@ KT templates are saved as text files with a `.kt` extension. The language uses t
 
 ===Inclusion Tag===
   * `@[template_url]`
-Include the template specified by template_url. URLs are processed in the same way they are processed in the Import() function. Relative paths are supported, and are relative to the parent template. Inclusions are processed recursively, so child templates can include other templates.
+Include the template specified by template_url. URLs are processed in the same way they are processed in the `Import()` function (see ImportModule.) Relative paths are supported, and are relative to the parent template. Inclusions are processed recursively, so child templates can include other templates.
 
 ===Substitution Tag===
   * `$identifier`
