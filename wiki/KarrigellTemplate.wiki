@@ -1,7 +1,9 @@
 #summary KT - Karrigell Templates
 
 =KT - Karrigell Templates=
+<wiki:toc max_depth="3" />
 
+==Introduction==
 KT is a simple template engine intended for use with Karrigell scripts. The goals of KT are to:
   * Provide a simple templating system with no programatic controls (logic and loops etc to be handled in the calling Python script)
   * Support the Karrigell translation system
