@@ -26,7 +26,7 @@ Substitute an identifier with its value. Indentifiers can be either simple varia
 
 ===Translation Tag===
   * `_[string to translate]`
-Translate the string using the in-built Karrigell translation system. This is the equivalent of the _() function in .ks and python scripts and the Python Inside HTML <%_ %> syntax.
+Translate the string using the standard Karrigell translation system (see LocaLize.) This is the equivalent of the _() function in .ks and python scripts and the Python Inside HTML <%_ %> syntax.
 
 ===Combining Tags===
   * `@[$identifier]`
