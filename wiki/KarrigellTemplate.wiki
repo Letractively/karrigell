@@ -8,7 +8,7 @@ KT is a simple template engine intended for use with Karrigell scripts. The goal
   * Support variable substitutions
   * Support the inclusion of other templates
 
-The general recommendation for using KT is to use templates to define the framework of the HTML pages. Where HTML needs to be created programatically, use HTMLTags (see WriteHTML) within the Python scripts to build blocks of HTML code. The resulting HTMLTags object can be passed to the KT render method for substitution in the template.
+The general recommendation for using KT is to use templates to define the framework of the HTML pages. Where HTML needs to be created programatically, use HTMLTags (see WriteHtml) within the Python scripts to build blocks of HTML code. The resulting HTMLTags object can be passed to the KT render method for substitution in the template.
 
 ==KT template language syntax==
 
