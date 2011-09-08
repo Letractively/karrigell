@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Localisation of scripts (displaying output in different languages)
 
 [http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
 
