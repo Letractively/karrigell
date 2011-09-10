@@ -12,4 +12,4 @@
   * [http://code.google.com/p/karrigell/wiki/UserManagement Users management and authentication]
   * [http://code.google.com/p/karrigell/wiki/LocaLize Localisation (translations)]
   * [http://code.google.com/p/karrigell/wiki/WriteHtml HTMLTags] (generate HTML from Python code)
-  * [http://code.google.com/p/karrigell/wiki/WriteHtml KarrigellTemplate] Karrigell templating engine
+  * [http://code.google.com/p/karrigell/wiki/KarrigellTemplate Karrigell templating engine]
