@@ -11,3 +11,4 @@
   * [http://code.google.com/p/karrigell/wiki/SessionManagement Session management]
   * [http://code.google.com/p/karrigell/wiki/UserManagement Users management and authentication]
   * [http://code.google.com/p/karrigell/wiki/LocaLize Localisation (translations)]
+  * [http://code.google.com/p/karrigell/wiki/WriteHtml HTMLTags] (generate HTML from Python code)
