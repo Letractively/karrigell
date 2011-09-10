@@ -1,5 +1,7 @@
 #summary Smart urls management with application filters - Written by Jim Eggleston
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+
 Application filter provide a very powerful and flexible way of customizing the way Karrigell manages requests
 
 This `HowTo` (written by Jim Eggleston) shows how it can be used to manage "smart urls" ; let's take the example of a Wiki application where we want urls like _`http://kswiki/index.py/show/MyWikiPage`_
