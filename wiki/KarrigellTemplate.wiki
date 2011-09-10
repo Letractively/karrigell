@@ -1,5 +1,7 @@
 #summary KT - Karrigell Templates
 
+[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+
 =KT - Karrigell Templates=
 <wiki:toc max_depth="3" />
 
