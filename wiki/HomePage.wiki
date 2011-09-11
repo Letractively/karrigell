@@ -70,7 +70,8 @@ Karrigell scripts are run in a namespace prepared by the framework : among the n
 
 Here, for a new client, we will create an attribute user to the session object. If a client requests the home page and his session object already has this attribute, the counter will not be incremented
 {{{
-def nb_visits():
+def index():
+    body = H1("My CD collection")
     try:
         visits = int(open('counter.txt').read())
     except IOError:
@@ -82,13 +83,14 @@ def nb_visits():
         out.write(str(visits))
         out.close()
         Session()["user"] = None   # create attribute user
-    return visits
+    body += "%s visits" %visits
+    return body
 }}}
 = Importing scripts =
 
 This page counter could be used in other parts of the application, so it's better to put it in a separate file : save this part of the script in counter.py
 {{{
-def visits():
+def nb_visits():
     try:
         visits = int(open('counter.txt').read())
     except IOError:
@@ -102,50 +104,37 @@ def visits():
         Session().user = None   # create attribute user
     return visits
 }}}
-To include this script in the home page, change the script index.ks to this :
+To use this script in the home page, change the script index.py to this :
 {{{
-counter = Import('../counter.py')
+counter = Import('counter.py')
 
 def index():
-    body = "<h1>My CD collection>/h1>"
-    body += counter.visits()+" visits"
+    body = H1("My CD collection")
+    body += counter.nb_visits()+" visits"
     return body
 }}}
-Include() is another Karrigell built-in function : it takes a script url as argument, an inserts the result of this script's execution in the page
+Import() is another Karrigell built-in function : it takes a script url as argument, and returns an object that behaves exactly like an imported module
 
-You may wonder why the leading '../' before the script name, although counter.py is in the same folder as index.ks. Well, this is the only tricky thing you will encounter in Karrigell ;-) "Karrigell services" are invoked with a url of the form http://host/folder/script.ks/func_name. The resolution of relative urls in an HTML page takes the page url as the root : the relative url counter.py would be resolved as http://host/folder/script.ks/counter.py instead of what we want : http://host/folder/counter.py. In order to get this url, we must put the '../' in the relative url, to go up one folder
+So, you may wonder, why not use the usual Python keyword <tt>import</tt> ? This is because of the mechanism used by the Python interpreter to find a module by its name : it searches a module of this name in a list of directories, and in a multi threaded environment such as a web server, there is no reliable way of being sure that the directory of a Karrigell script is inside this list
 
-To make counter.py even more modular, the file name could be passed as argument to Include() :
-{{{
-def index():
-    print "<h1>My CD collection>/h1>"
-    Include('../counter.py',counter_file='counter.txt')
-}}}
-The keyword argument to Include() will be in the execution namespace when counter.py is run. Rewrite counter.py with this parameter :
-{{{
-try:
-    visits = int(open(counter_file).read())
-except IOError:
-    # first visit : the file does not exist
-    visits = 0
-if not hasattr(Session(),"user"):
-    visits += 1
-    out = open(counter_file,'w')
-    out.write(str(visits))
-    out.close()
-    Session().user = None   # create attribute user
-print "%s visits" %visits
-}}}
 = Logging in/out =
 
-Let's add the link for users to log in to the application
+Let's add a link for users to log in to the application
 {{{
+counter = Import('counter.py')
+
 def index():
-    print "<h1>My CD collection</h1>"
-    print '<a href="login">Login</a><br>'
-    Include('../counter.py',counter_file='counter.txt')
+    body = H1("My CD collection")
+    body += A("Login",href="login")
+    body += counter.nb_visits()+" visits"
+    return body
 }}}
-The link leads to the reference "login". It is a relative url to the base url, host/records/index.ks/index, so it resolves to host/records/index.ks/login, meaning that the link will invoke the execution of the function login() in the script index.ks
+To create the HTML anchor, we use the built-in class A, with the text as first argument, and the attribute 'href' set to "login". The string representation of this instance will be
+{{{
+<a href="login">Login</a>
+}}}
+
+The href attribute, "login", is a relative url to the base url, `host/mycds/index.py/index`, so it resolves to `host/mycds/index.py/login`, meaning that the link will invoke the execution of the function login() in the script index.py
 
 This function will generate an HTML form asking the user's login and password, and submitting these values to an authentication test
 {{{
