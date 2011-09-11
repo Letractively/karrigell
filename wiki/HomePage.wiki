@@ -1,14 +1,8 @@
 #summary One-sentence summary of this page.
 
-Contents
-    * [HomePage#home_page Basic home page]
-    * [HomePage#page_counter Adding a page counter]
-    3 A better page counter
-    4 Including scripts
-    5 Logging in/out
-    6 Summary
+<wiki:toc max_depth="3" />
 
-<a name="home_page">Home page
+= Home page =
 
 For the moment we'll ignore the CDs and begin writing the home page
 
@@ -28,7 +22,7 @@ In fact
 
 Notice the <tt>return</tt> statement in the index() function. Karrigell sends the result of the function to the browser ; by default, this content is supposed to be HTML code
 
-<a name="page_counter">Adding a page counter
+= Adding a page counter =
 
 The page counter will print the number of times that the page has been seen. We'll use a file, counter.txt, to store the number of visits and increment it for each visit
 
@@ -48,7 +42,8 @@ def index():
 Each time the page is reloaded, you will see the number of visits incremented by 1
 
 Notice that the file is opened by the usual open() function ; relative paths are converted to absolute paths relatively to the script directory
-[edit] A better page counter
+
+= A better page counter =
 
 A page counter should not increment if the same user repeatedly reloads the same page. This requires a way to identify the browser which is sending the request. For this task, web programming provides session management, and Karrigell has a very simple implementation of this concept
 
@@ -73,7 +68,7 @@ def index():
         Session().user = None    # create attribute user
     print "%s visits" %visits
 
-[edit] Including scripts
+= Importing scripts =
 
 This page counter could be used in other parts of the application, so it's better to put it in a separate file : save this part of the script in counter.py
 
@@ -121,7 +116,7 @@ if not hasattr(Session(),"user"):
     Session().user = None   # create attribute user
 print "%s visits" %visits
 
-[edit] Logging in/out
+= Logging in/out =
 
 Let's add the link for users to log in to the application
 
@@ -184,7 +179,7 @@ def logout():
     del Session().user
     raise HTTP_REDIRECTION,"index"
 
-[edit] Summary
+= Summary =
 
 The programming style used by Karrigell is based on namespace : in the scripts, instead of importing modules or using environment variables, a number of built-in names are available for the most common tasks. So far we have covered session management with the built-in name Session(), inclusion of scripts with Include() and HTTP redirection with the built-in exception HTTP_REDIRECTION
 
