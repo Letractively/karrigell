@@ -24,14 +24,14 @@ Notice the <tt>return</tt> statement in the index() function. Karrigell sends th
 
 = HTMLTags =
 
-HTML code can be returned as a string, but Karrigell includes a module that generates HTML. Rewrite the content of index.py with :
+Functions can return raw HTML strings, but Karrigell has a more elegant way of generating HTML. Rewrite the content of index.py with :
 
 {{{
 def index():
     return H1("My CD collection")
 }}}
 
-The name <tt>H1</tt> matches the HTML tags H1 ; all valid HTML tags (including HTML5) have their name available in Python scripts, in uppercase letters
+The name <tt>H1</tt> matches the HTML tags H1 ; all valid HTML tags (including HTML5) have their name available in Python scripts (in uppercase letters)
 
 <tt>H1</tt> is a class, in the example it is instanciated with "My CD collection" as the first argument. The string representation of this instance is the matching HTML code
 
