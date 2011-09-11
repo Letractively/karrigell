@@ -172,28 +172,30 @@ Change the function check_login() like this :
 {{{
 def check_login(login,passwd):
     if login=="john" and passwd=="doe":
-        Session().user = login
-    raise HTTP_REDIRECTION,"index"
+        Session()["user"] = login
+        raise HTTP_REDIRECTION('index')
+    else:
+        return "try again"
 }}}
-This means that after the function is run, the browser redirects to the specified url, here the one that matches the function index() in the script
+This means that after the function is run, if the user is authenticated, the browser redirects to the specified url, here the one that matches the function index() in the script
 
 We can now change the home page to welcome the authenticated user with his name, and allow him to logout :
 {{{
 def index():
-    print "<h1>My CD collection</h1>"
-    logged = hasattr(Session(),"user") and Session().user is not None
-    if logged:
-        print 'Logged in as %s<br>' %Session().user
-        print '<a href="logout">Logout</a><br>'
+    body = H1("My CD collection")
+    if "user" in Session():
+        body += 'Logged in as %s' %Session()["user"]
+        body += BR()+A("Logout",href="logout")
     else:
-        print '<a href="login">Login</a><br>'
-    Include('../counter.py',counter_file='counter.txt')
+        body += A("Login",href="login")
+    body += BR()+'%s visits' %counter.nb_visits()
+    return body
 }}}
-The logout function will only set Session().user to None and redirect to the home page :
+The logout function will only remove the attribute user from the session object and redirect to the home page :
 {{{
 def logout():
-    del Session().user
-    raise HTTP_REDIRECTION,"index"
+    del Session()["user"]
+    raise HTTP_REDIRECTION("index")
 }}}
 = Summary =
 
