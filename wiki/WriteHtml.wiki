@@ -9,7 +9,7 @@ A dynamic web application presents data inside an HTML document. One of the ways
 
 = Basics =
 
-HTMLTags defines a class for each valid HTML tag, in uppercase letters : for instance, there are classes <tt>HTML, HEAD, BODY, TABLE, B, I</tt>, etc.
+HTMLTags defines a class for each valid HTML tag (including HTML5), in uppercase letters : for instance, there are classes <tt>HTML, HEAD, BODY, TABLE, B, I</tt>, etc.
 
 These classes are initiated with a value, and optional keyword arguments :
 
@@ -30,12 +30,20 @@ print(head)
 >>> <HEAD><TITLE>FC Barcelona Home Page</TITLE></HEAD>
 }}}
 
-You can add tags :
+Tags support addition :
 
 {{{
 line = TD("email")+TD(INPUT(name="email"))
 print(line)
 >>> <TD>email</TD><TD><INPUT name="email"></TD>
+}}}
+
+and multiplication
+
+{{{
+line = TH("&nbsp;")*3
+print(line)
+>>> <TH>&nbsp;</TH><TH>&nbsp;</TH><TH>&nbsp;</TH>
 }}}
 
 The operator <= means "add child", you can use it to build complex HTML documents :
@@ -49,6 +57,25 @@ for name,birth in [("Andres Iniesta","1984-05-11"),
     ("Lionel Messi","1987-06-24")]:
     table <= TR(TD(name)+TD(birth))
 body <= table
+}}}
+
+= Editing a tag =
+
+A tag can be manipulated in the same way as a DOM element
+
+It support the dictionary interface to access the attributes. With the example above, you can add an attribute to the table :
+
+{{{
+table["width"] = "80%"
+}}}
+
+To get a specific tag inside the document tree, use the method
+
+*get(_`*`tags,`**`attrs_)* : returns a list of all the tags in the tree below self. _tags_ are tag classes, and _attrs_ are key/values arguments. The method returns the tags of the specified classes that have the specified arguments
+
+In the above example, to get all the TH elements :
+{{{
+ths = body.get(TH)
 }}}
 
 = Using HTMLTags in Karrigell scripts =
