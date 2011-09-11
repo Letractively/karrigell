@@ -183,7 +183,8 @@ We can now change the home page to welcome the authenticated user with his name,
 {{{
 def index():
     body = H1("My CD collection")
-    if "user" in Session():
+    logged = "user" in Session()
+    if logged:
         body += 'Logged in as %s' %Session()["user"]
         body += BR()+A("Logout",href="logout")
     else:
