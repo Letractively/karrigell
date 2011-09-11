@@ -5,6 +5,8 @@
 
 Session management is very straightforward : the built-in function <font color="#338" size="2"><b>Session()</b></font> returns a session object that can be used to store user-specific information during his navigation on the site
 
+Session objects are dictionary-like objects, with the restriction that values can only be built-in Python types (strings, numbers, lists, dicts)
+
 The storage mechanism is managed by a class defining how to store and retrieve the session object. An application defines its session storage class by the class attribute <font color="#338" size="2"><b>session_storage_class</b></font>
 
 = Built-in session storage classes =
@@ -23,7 +25,7 @@ The class has 2 attributes :
 
 
 ==!MemorySessionStorage==
-Stores the session object in memory. This brings much more flexibility since all kinds of Python object can be set as attributes to the session object, but it only works on a mono process web server
+Stores the session object in memory. It only works on a mono process web server
 
 = Customized session storage classes =
 
