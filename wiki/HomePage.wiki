@@ -20,7 +20,22 @@ In fact
   * if you don't specify a function name, the index() function in the script will be run, so you could have asked localhost/mycds/index.py
   * and if you don't even specify a script name in a folder, the script called index will be run. So all you have to type really is localhost/mycds
 
-Notice the <tt>return</tt> statement in the index() function. Karrigell sends the result of the function to the browser ; by default, this content is supposed to be HTML code
+Notice the <tt>return</tt> statement in the index() function. Karrigell sends the result of the function to the browser (more precisely, the string representation of the result) ; by default, this content is supposed to be HTML code
+
+= HTMLTags =
+
+HTML code can be returned as a string, but Karrigell includes a module that generates HTML. Rewrite the content of index.py with :
+
+{{{
+def index():
+    return H1("My CD collection")
+}}}
+
+The name <tt>H1</tt> matches the HTML tags H1 ; all valid HTML tags (including HTML5) have their name available in Python scripts, in uppercase letters
+
+<tt>H1</tt> is a class, in the example it is instanciated with "My CD collection" as the first argument. The string representation of this instance is the matching HTML code
+
+Although you can write applications without using these names, it will make your code much cleaner and easier to review than with raw HTML strings
 
 = Adding a page counter =
 
