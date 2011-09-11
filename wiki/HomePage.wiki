@@ -199,10 +199,12 @@ def logout():
 }}}
 = Summary =
 
-The programming style used by Karrigell is based on namespace : in the scripts, instead of importing modules or using environment variables, a number of built-in names are available for the most common tasks. So far we have covered session management with the built-in name Session(), inclusion of scripts with Include() and HTTP redirection with the built-in exception HTTP_REDIRECTION
+The programming style used by Karrigell is based on namespace : in the scripts, instead of importing modules or using environment variables, a number of built-in names are available for the most common tasks. So far we have covered 
+
+  * the names for the HTML tags
+  * session management with the built-in name Session()
+  * HTTP redirection with the built-in exception HTTP_REDIRECTION
 
 This makes programming with Karrigell extremely straightforward, thus easy to code and to maintain
-
-While other formats are available (see the documentation for pure-Python scripts, CGI, Python Inside HTML, HTML Inside Python) I suggest to use "Karrigell Services" to group most of the application logic in one script ; peripheric modules can be imported or included
 
 In the next section we will write the code to manage the CD database
