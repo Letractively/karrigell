@@ -113,28 +113,29 @@ In our simple database we can use the index of the item in the list as identifie
         body += "No CD in the collection"        
 }}}
 The function edit() will receive one argument called num. All arguments passed to functions in Karrigell Services are bytestrings, so before using this argument num as the index in a list don't forget to convert it to an integer
-
-def edit(num):
+{{{
+def edit(rowid):
     cds = simpledb.read('mycds.db')
-    artist,title = cds[int(num)]
-    print '<h1>New CD</h1>'
-    print '<form action="update_cd" method="post">'
-    print '<input name="num" type="hidden" value="%s">' %num
-    print 'Artist <input name="artist" value="%s"><br>' %artist
-    print 'Title <input name="title" value="%s"><br>' %title
-    print '<input type="submit" value="Ok">'
-    print '</form>'
+    artist,title = cds[int(rowid)]
+    body = H1('Edit CD')
+    form = FORM(action="update_cd",method="post")
+    form <= INPUT(name="num",Type="hidden",value=rowid)
+    form <= 'Artist '+INPUT(name="artist",value=artist)+BR()
+    form <= 'Title '+INPUT(name="title",value=title)
+    form <= INPUT(Type="submit",value="Ok")
+    body += form
+    return body
 
 def update_cd(num,artist,title):
     cds = simpledb.read('mycds.db')
     cds[int(num)] = (artist,title)
     simpledb.save(cds,'mycds.db')
-    raise HTTP_REDIRECTION,"index"
-
+    raise HTTP_REDIRECTION("index")
+}}}
 = Removing records =
 
 The final step is to enable deletion of CDs from the base : once again, edit the function index() like this
-
+{{{
    # print existing records
    simpledb = Import('simpledb')
    cds = simpledb.read('mycds.db')
@@ -153,15 +154,15 @@ The final step is to enable deletion of CDs from the base : once again, edit the
        print '</table><p>'
    else:
        print "No CD in the collection<p>"
-
+}}}
 and add a new function, remove():
-
+{{{
 def remove(num):
     cds = simpledb.read('mycds.db')
     del cds[int(num)]
     simpledb.save(cds,'mycds.db')
     raise HTTP_REDIRECTION,"index"
-
+}}}
 = Summary =
 
 We now have a complete application to manage our CD collection. The structure of the application in the script index.ks is as clear as in any Python module :
