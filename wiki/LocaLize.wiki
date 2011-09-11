@@ -19,7 +19,7 @@ content = _("myString")
 
 it will be translated if the translations file has a translation for _myString_ in one the languages found in the browsers language preferences (the browser sends it as the "accept-language" header)
 
-The translations file is a configuration file, under the format supported by the configparser module. Its path is specified in the script translation.py. Its format is very simple :
+The translations file is a configuration file, under the format supported by the <font color="#336633"><b>configparser module</b></font>. Its path is specified in the script translation.py. Its format is very simple :
 <pre>
   `[`myString]
   fr=Ceci est une chaîne à traduire
