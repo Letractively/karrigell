@@ -43,7 +43,7 @@ The page counter will print the number of times that the page has been seen. We'
 
 {{{
 def index():
-    print "<h1>My CD collection</h1>"
+    body = H1("My CD collection")
     try:
         visits = int(open('counter.txt').read())
     except IOError:
@@ -53,11 +53,12 @@ def index():
     out = open('counter.txt','w')
     out.write(str(visits))
     out.close()
-    print "%s visits" %visits
+    body += "%s visits" %visits
+    return body
 }}}
 Each time the page is reloaded, you will see the number of visits incremented by 1
 
-Notice that the file is opened by the usual open() function ; relative paths are converted to absolute paths relatively to the script directory
+Notice that the file is opened by the usual open() function. The current directory is the one where the server script stands ; so you will see that the file counter.txt is located in the directory <tt>www</tt>, _not_ in the subdirectory <tt>mycds</tt>
 
 = A better page counter =
 
@@ -70,7 +71,7 @@ Karrigell scripts are run in a namespace prepared by the framework : among the n
 Here, for a new client, we will create an attribute user to the session object. If a client requests the home page and his session object already has this attribute, the counter will not be incremented
 {{{
 def index():
-    print "<h1>My CD collection</h1>"
+    body = H1("My CD collection")
     try:
         visits = int(open('counter.txt').read())
     except IOError:
@@ -82,30 +83,35 @@ def index():
         out.write(str(visits))
         out.close()
         Session().user = None    # create attribute user
-    print "%s visits" %visits
+    body += "%s visits" %visits
+    return body
 }}}
 = Importing scripts =
 
 This page counter could be used in other parts of the application, so it's better to put it in a separate file : save this part of the script in counter.py
 {{{
-try:
-    visits = int(open('counter.txt').read())
-except IOError:
-    # first visit : the file does not exist
-    visits = 0
+def visits():
+    try:
+        visits = int(open('counter.txt').read())
+    except IOError:
+        # first visit : the file does not exist
+        visits = 0
     if not hasattr(Session(),"user"):
-    visits += 1
-    out = open('counter.txt','w')
-    out.write(str(visits))
-    out.close()
-    Session().user = None   # create attribute user
-print "%s visits" %visits
+        visits += 1
+        out = open('counter.txt','w')
+        out.write(str(visits))
+        out.close()
+        Session().user = None   # create attribute user
+    return visits
 }}}
 To include this script in the home page, change the script index.ks to this :
 {{{
+counter = Import('../counter.py')
+
 def index():
-    print "<h1>My CD collection>/h1>"
-    Include('../counter.py')
+    body = "<h1>My CD collection>/h1>"
+    body += counter.visits()+" visits"
+    return body
 }}}
 Include() is another Karrigell built-in function : it takes a script url as argument, an inserts the result of this script's execution in the page
 
