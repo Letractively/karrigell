@@ -119,55 +119,55 @@ def edit(rowid):
     artist,title = cds[int(rowid)]
     body = H1('Edit CD')
     form = FORM(action="update_cd",method="post")
-    form <= INPUT(name="num",Type="hidden",value=rowid)
+    form <= INPUT(name="rowid",Type="hidden",value=rowid)
     form <= 'Artist '+INPUT(name="artist",value=artist)+BR()
     form <= 'Title '+INPUT(name="title",value=title)
     form <= INPUT(Type="submit",value="Ok")
     body += form
     return body
 
-def update_cd(num,artist,title):
+def update_cd(rowid,artist,title):
     cds = simpledb.read('mycds.db')
-    cds[int(num)] = (artist,title)
+    cds[int(rowid)] = (artist,title)
     simpledb.save(cds,'mycds.db')
     raise HTTP_REDIRECTION("index")
 }}}
+
+Note that in update_cd() the record identifier must be converted to an integer : all the form fields are received as strings
+
 = Removing records =
 
 The final step is to enable deletion of CDs from the base : once again, edit the function index() like this
 {{{
-   # print existing records
-   simpledb = Import('simpledb')
-   cds = simpledb.read('mycds.db')
-   if cds:
-       print '<table border="1">'
-       print '<tr><th>Artist</th><th>Title</th>'
-       if logged:
-           print '<th> </th>'*2
-       print '</tr>'
-       for num,(artist,title) in enumerate(cds):
-           print '<tr><td>%s</td><td>%s</td>' %(artist, title)
-           if logged:
-               print '<td><a href="edit?num=%s">Edit</a></td>' %num
-               print '<td><a href="remove?num=%s">Remove</a></td>' %num
-           print '</tr>'
-       print '</table><p>'
-   else:
-       print "No CD in the collection<p>"
+    # table with all CDs
+    cds = simpledb.read('mycds.db')
+    if cds:
+        table = TABLE()
+        table <= TR(TH("Artist")+TH("Title"))
+        for i,(artist,title) in enumerate(cds):
+            row = TR(TD(artist)+TD(title))
+            if logged:
+                row <= TD(A("Edit",href="edit?rowid=%s" %i))
+                row <= TD(A("Delete",href="delete?rowid=%s" %i))
+            table <= row
+        body += table
+    else:
+        body += "No CD in the collection"        
 }}}
 and add a new function, remove():
 {{{
-def remove(num):
+def remove(rowid):
     cds = simpledb.read('mycds.db')
-    del cds[int(num)]
+    del cds[int(rowid)]
     simpledb.save(cds,'mycds.db')
-    raise HTTP_REDIRECTION,"index"
+    raise HTTP_REDIRECTION("index")
 }}}
 = Summary =
 
-We now have a complete application to manage our CD collection. The structure of the application in the script index.ks is as clear as in any Python module :
-
-simpledb = Import('simpledb')
+We now have a complete application to manage our CD collection. The structure of the application in the script index.py is as clear as in any Python module :
+{{{
+counter = Import('counter.py')
+simpledb = Import('simpledb.py')
 
 def index():
     ...
@@ -175,7 +175,7 @@ def index():
     ...
     # print existing records
     ...
-    # prompt logged in users to enter a new record
+    # prompt logged in users to edit/remove/add records
     ...
     # page counter
     ...
@@ -189,13 +189,13 @@ def new_cd():
     ...
 def insert_new_cd(artist,title):
     ...
-def edit(num):
+def edit(rowid):
     ...
-def update_cd(num,artist,title):
+def update_cd(rowid,artist,title):
     ...
-def remove(num):
+def remove(rowid):
     ...
-
+}}}
 Each function matches a page of the application. For the pages that receive user input, the fields are the arguments to the function (always as strings)
 
 Throughout this short presentation you see that all you need to know is Python and HTML. The package doesn't require any configuration, and for programmers Karrigell only provides a small set of additional built-in names
