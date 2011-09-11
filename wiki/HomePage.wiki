@@ -26,6 +26,7 @@ Notice the <tt>return</tt> statement in the index() function. Karrigell sends th
 
 The page counter will print the number of times that the page has been seen. We'll use a file, counter.txt, to store the number of visits and increment it for each visit
 
+{{{
 def index():
     print "<h1>My CD collection</h1>"
     try:
@@ -38,7 +39,7 @@ def index():
     out.write(str(visits))
     out.close()
     print "%s visits" %visits
-
+}}}
 Each time the page is reloaded, you will see the number of visits incremented by 1
 
 Notice that the file is opened by the usual open() function ; relative paths are converted to absolute paths relatively to the script directory
@@ -52,7 +53,7 @@ Use the built-in Session() function
 Karrigell scripts are run in a namespace prepared by the framework : among the names available in scripts, you have this Session() function, which returns an object specific to each individual client (it uses cookies). This object is an ordinary Python object, to which you can set any attribute you like
 
 Here, for a new client, we will create an attribute user to the session object. If a client requests the home page and his session object already has this attribute, the counter will not be incremented
-
+{{{
 def index():
     print "<h1>My CD collection</h1>"
     try:
@@ -67,11 +68,11 @@ def index():
         out.close()
         Session().user = None    # create attribute user
     print "%s visits" %visits
-
+}}}
 = Importing scripts =
 
 This page counter could be used in other parts of the application, so it's better to put it in a separate file : save this part of the script in counter.py
-
+{{{
 try:
     visits = int(open('counter.txt').read())
 except IOError:
@@ -84,25 +85,25 @@ except IOError:
     out.close()
     Session().user = None   # create attribute user
 print "%s visits" %visits
-
+}}}
 To include this script in the home page, change the script index.ks to this :
-
+{{{
 def index():
     print "<h1>My CD collection>/h1>"
     Include('../counter.py')
-
+}}}
 Include() is another Karrigell built-in function : it takes a script url as argument, an inserts the result of this script's execution in the page
 
 You may wonder why the leading '../' before the script name, although counter.py is in the same folder as index.ks. Well, this is the only tricky thing you will encounter in Karrigell ;-) "Karrigell services" are invoked with a url of the form http://host/folder/script.ks/func_name. The resolution of relative urls in an HTML page takes the page url as the root : the relative url counter.py would be resolved as http://host/folder/script.ks/counter.py instead of what we want : http://host/folder/counter.py. In order to get this url, we must put the '../' in the relative url, to go up one folder
 
 To make counter.py even more modular, the file name could be passed as argument to Include() :
-
+{{{
 def index():
     print "<h1>My CD collection>/h1>"
     Include('../counter.py',counter_file='counter.txt')
-
+}}}
 The keyword argument to Include() will be in the execution namespace when counter.py is run. Rewrite counter.py with this parameter :
-
+{{{
 try:
     visits = int(open(counter_file).read())
 except IOError:
@@ -115,20 +116,20 @@ if not hasattr(Session(),"user"):
     out.close()
     Session().user = None   # create attribute user
 print "%s visits" %visits
-
+}}}
 = Logging in/out =
 
 Let's add the link for users to log in to the application
-
+{{{
 def index():
     print "<h1>My CD collection</h1>"
     print '<a href="login">Login</a><br>'
     Include('../counter.py',counter_file='counter.txt')
-
+}}}
 The link leads to the reference "login". It is a relative url to the base url, host/records/index.ks/index, so it resolves to host/records/index.ks/login, meaning that the link will invoke the execution of the function login() in the script index.ks
 
 This function will generate an HTML form asking the user's login and password, and submitting these values to an authentication test
-
+{{{
 def login():
     print '<h1>Login</h1>'
     print '<form action="check_login" method="post">'
@@ -136,33 +137,33 @@ def login():
     print 'Password <input type="password" name="passwd"><br>'
     print '<input type="submit" value="Ok">'
     print '</form>'
-
+}}}
 The attribute "action" for the form is check_login. Again, this means that the function check_login() in index.ks will be run
 
 Unlike index() and login(), this function will take arguments : the submitted login and password. The arguments must be called like the names used in the input fields of the form : login and passwd. For the moment we'll use a very simple test to see if the user is allowed to log in
-
+{{{
 def check_login(login,passwd):
     if login=="john" and passwd=="doe":
         Session().user = login
         print "logged in"
     else:
         print "try again"
-
+}}}
 Inside this function, if the test succeeds, the attribute user of the session object is set to the user's login
 
 For the moment, all we have is the result of the test. After the test, we should be automatically sent back to the home page. The HTTP protocol provides a redirection feature, and Karrigell implementation is once again very straightforward : a built-in exception called HTTP_REDIRECTION
 
 Change the function check_login() like this :
-
+{{{
 def check_login(login,passwd):
     if login=="john" and passwd=="doe":
         Session().user = login
     raise HTTP_REDIRECTION,"index"
-
+}}}
 This means that after the function is run, the browser redirects to the specified url, here the one that matches the function index() in the script
 
 We can now change the home page to welcome the authenticated user with his name, and allow him to logout :
-
+{{{
 def index():
     print "<h1>My CD collection</h1>"
     logged = hasattr(Session(),"user") and Session().user is not None
@@ -172,13 +173,13 @@ def index():
     else:
         print '<a href="login">Login</a><br>'
     Include('../counter.py',counter_file='counter.txt')
-
+}}}
 The logout function will only set Session().user to None and redirect to the home page :
-
+{{{
 def logout():
     del Session().user
     raise HTTP_REDIRECTION,"index"
-
+}}}
 = Summary =
 
 The programming style used by Karrigell is based on namespace : in the scripts, instead of importing modules or using environment variables, a number of built-in names are available for the most common tasks. So far we have covered session management with the built-in name Session(), inclusion of scripts with Include() and HTTP redirection with the built-in exception HTTP_REDIRECTION
