@@ -139,23 +139,30 @@ The href attribute, "login", is a relative url to the base url, `host/mycds/inde
 This function will generate an HTML form asking the user's login and password, and submitting these values to an authentication test
 {{{
 def login():
-    print '<h1>Login</h1>'
-    print '<form action="check_login" method="post">'
-    print 'Login <input name="login"><br>'
-    print 'Password <input type="password" name="passwd"><br>'
-    print '<input type="submit" value="Ok">'
-    print '</form>'
+    body = H1('Login')
+    form = FORM(action="check_login",method="post")
+    form <= 'Login '+INPUT(name="login")+BR()
+    form <= 'Password '+ INPUT(Type="password",name="passwd")
+    form <= INPUT(Type="submit",value="Ok")
+    body += form
+    return body
 }}}
-The attribute "action" for the form is check_login. Again, this means that the function check_login() in index.ks will be run
+Note how the form is built : first the instance of FORM is created, with the attributes `action` and `method`. Then, the form fields are added using the operator `<=`. Of course it has nothing to see with "lesser or equal" : think of it as a left arrow, meaning "add child" to the tree node
 
-Unlike index() and login(), this function will take arguments : the submitted login and password. The arguments must be called like the names used in the input fields of the form : login and passwd. For the moment we'll use a very simple test to see if the user is allowed to log in
+Also note that
+  * you can freely add tag objects and strings
+  * for attributes that have the same name as a Python keyword, such as `type` or `class`, you must capitalize the attribute name to avoid syntax errors
+
+The attribute "action" for the form is `check_login`. Again, this means that the function check_login() in index.ky will be run
+
+Unlike index() and login(), this function will take arguments : the submitted login and password. The arguments must be called like the names used in the input fields of the form : `login` and `passwd`. For the moment we'll use a very simple test to see if the user is allowed to log in
 {{{
 def check_login(login,passwd):
     if login=="john" and passwd=="doe":
-        Session().user = login
-        print "logged in"
+        Session()["user"] = login
+        return "logged in"
     else:
-        print "try again"
+        return "try again"
 }}}
 Inside this function, if the test succeeds, the attribute user of the session object is set to the user's login
 
