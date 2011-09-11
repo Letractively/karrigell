@@ -1,10 +1,8 @@
 #summary One-sentence summary of this page.
 
 Contents
-[hide]
-
     * [HomePage#home_page Basic home page]
-    * [HomePage#page_counter] Adding a page counter
+    * [HomePage#page_counter Adding a page counter]
     3 A better page counter
     4 Including scripts
     5 Logging in/out
