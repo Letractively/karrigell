@@ -70,21 +70,19 @@ Karrigell scripts are run in a namespace prepared by the framework : among the n
 
 Here, for a new client, we will create an attribute user to the session object. If a client requests the home page and his session object already has this attribute, the counter will not be incremented
 {{{
-def index():
-    body = H1("My CD collection")
+def nb_visits():
     try:
         visits = int(open('counter.txt').read())
     except IOError:
         # first visit : the file does not exist
         visits = 0
-    if not hasattr(Session(),"user"):
+    if not "user" in Session():
         visits += 1
         out = open('counter.txt','w')
         out.write(str(visits))
         out.close()
-        Session().user = None    # create attribute user
-    body += "%s visits" %visits
-    return body
+        Session()["user"] = None   # create attribute user
+    return visits
 }}}
 = Importing scripts =
 
