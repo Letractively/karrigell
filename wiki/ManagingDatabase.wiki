@@ -2,6 +2,8 @@
 
 [TutoRial Tutorial]
 
+<wiki:toc max_depth="3" />
+
 = Database engine =
 
 Karrigell can use any database engine (MySQL, SQLite, etc) using the appropriate module. For this example we will use a very simple module that stores the data we need : for each CD in the collection, the artist name and the title of the album
