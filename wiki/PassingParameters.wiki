@@ -1,6 +1,5 @@
 #summary How to pass parameters to a script
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+#sidebar TableOfContents
 
 = Introduction =
 
