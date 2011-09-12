@@ -1,6 +1,6 @@
 #summary Table of contents
 
-  * [HomePage Home]
+  * [Home Home]
   * [GettingStarted Getting started]
   * [HowTos HOWTOs]
    ** [PronounceKarrigell Pronounce Karrigell]
