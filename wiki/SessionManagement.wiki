@@ -1,7 +1,5 @@
 #summary Session management
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
-
+#sidebar TableOfContents
 
 Session management is very straightforward : the built-in function <font color="#338" size="2"><b>Session()</b></font> returns a session object that can be used to store user-specific information during his navigation on the site
 
