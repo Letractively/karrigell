@@ -2,8 +2,6 @@
 #labels Featured
 #sidebar TableOfContents
 
-[http://code.google.com/p/karrigell/wiki/Home Home]
-
 = Contents =
 
   * [http://code.google.com/p/karrigell/wiki/ScriptsNamespace Scripts namespace]
