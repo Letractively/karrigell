@@ -13,3 +13,4 @@
   * [http://code.google.com/p/karrigell/wiki/LocaLize Localisation (translations)]
   * [http://code.google.com/p/karrigell/wiki/WriteHtml HTMLTags] (generate HTML from Python code)
   * [http://code.google.com/p/karrigell/wiki/KarrigellTemplate Karrigell templating engine]
+  * [CgiMode Running with Apache on CGI mode]
