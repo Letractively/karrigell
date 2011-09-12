@@ -1,4 +1,5 @@
 #summary Explains how to run Karrigell behind the Apache web server
+#sidebar TableOfContents
 
 Karrigell can be run with a built-in web server, but it can also be used with the Apache web server. When it receives a request for a Python script, Apache will launch the Python interpreter and run a CGI script that will execute the script and return the result to the browser
 
