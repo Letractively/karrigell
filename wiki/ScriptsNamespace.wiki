@@ -1,8 +1,6 @@
 #summary The namespace where scripts are run
 #sidebar TableOfContents
 
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
-
 Karrigell scripts are Python scripts, run in a namespace prepared by the framework
 
 <wiki:toc max_depth="3" />
