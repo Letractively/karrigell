@@ -1,6 +1,5 @@
 #summary How to pronounce "Karrigell"
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+#sidebar TableOfContents
 
 Karrigell is a Breton word, it means "cart"
 
