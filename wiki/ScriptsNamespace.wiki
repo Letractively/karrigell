@@ -2,8 +2,6 @@
 
 [http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
 
-= Introduction =
-
 Karrigell scripts are Python scripts, run in a namespace prepared by the framework
 
 <wiki:toc max_depth="3" />
