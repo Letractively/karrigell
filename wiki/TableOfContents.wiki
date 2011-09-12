@@ -1,6 +1,7 @@
 #summary Table of contents
 
   * [HomePage Home]
+  * [GettingStarted Getting started]
   * [HowTos HOWTOs]
   * [RefeRence Reference]
   * [TutoRial Tutorial]
