@@ -1,6 +1,5 @@
 #summary Tutorial : database management
-
-[TutoRial Tutorial]
+#sidebar TableOfContents
 
 <wiki:toc max_depth="3" />
 
