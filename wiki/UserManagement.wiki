@@ -1,7 +1,5 @@
 #summary The built-in user management system
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
-
+#sidebar TableOfContents
 
 Karrigell provides a set of functions to manage application users and their rights. They rely on a users database and use a script to manage users login and logout
 
