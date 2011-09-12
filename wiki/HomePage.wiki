@@ -1,8 +1,6 @@
 #summary Tutorial - building the home page
 #sidebar TableOfContents
 
-[TutoRial Tutorial]
-
 <wiki:toc max_depth="3" />
 
 = Home page =
