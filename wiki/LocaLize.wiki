@@ -1,6 +1,5 @@
 #summary Localisation of scripts (displaying output in different languages)
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+#sidebar TableOfContents
 
 Localizing a script means that text can be displayed in different languages, without having to write a script per language
 
