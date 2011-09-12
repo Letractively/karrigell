@@ -1,5 +1,6 @@
 #summary How to get started with Karrigell
 #labels Featured
+#sidebar TableOfContents
 
 [http://code.google.com/p/karrigell/wiki/Home Home]
 
