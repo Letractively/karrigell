@@ -1,5 +1,6 @@
 #summary Home page
 #labels Featured
+#sidebar TableOfContents
 
 = Introduction =
 
