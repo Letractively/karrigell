@@ -3,7 +3,11 @@ import re
 import shutil
 import urllib.request
 
-proxy_handler = urllib.request.ProxyHandler(proxies={'http':'http://p-goodway.rd.francetelecom.fr:3128'})
+proxies = {}
+if os.path.exists('proxy.dat'):
+    proxies = {'http':open('proxy.dat').read()}
+
+proxy_handler = urllib.request.ProxyHandler(proxies=proxies)
 opener = urllib.request.build_opener(proxy_handler)
 
 url = "http://code.google.com/p/karrigell/w/list"
@@ -14,15 +18,19 @@ for mo in re.finditer('(?s)<td class="vt id col_0"><a href="/p/karrigell/wiki/(.
     pages.append(mo.groups()[0])
 
 if os.path.exists('html'):
-    shutil.rmtree('html')
-os.mkdir('html')
-os.mkdir(os.path.join('html','images'))
-
-for path in ['wiki.css','prettify.js']:
-    shutil.copyfile(path,os.path.join('html',path))
-for path in os.listdir('images'):
-    shutil.copyfile(os.path.join('images',path),
-        os.path.join('html','images',path))
+    for path in os.listdir('html'):
+        if path.endswith('.html'):
+            os.remove(os.path.join('html',path))
+else:
+    os.mkdir('html')
+    os.mkdir(os.path.join('html','images'))
+    for path in ['wiki.css','prettify.js']:
+        shutil.copyfile(path,os.path.join('html',path))
+    for path in os.listdir('images'):
+        if not path.endswith('.gif'):
+            continue
+        shutil.copyfile(os.path.join('images',path),
+            os.path.join('html','images',path))
         
 for page in pages:
     print(page,'...')
