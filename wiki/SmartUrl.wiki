@@ -1,6 +1,5 @@
 #summary Smart urls management with application filters - Written by Jim Eggleston
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+#sidebar TableOfContents
 
 Application filter provide a very powerful and flexible way of customizing the way Karrigell manages requests
 
