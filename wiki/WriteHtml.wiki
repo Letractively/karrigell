@@ -1,6 +1,5 @@
 #summary Using HTMLTags to generate HTML with Python code
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
+#sidebar TableOfContents
 
 = Introduction =
 
