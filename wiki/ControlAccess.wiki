@@ -1,6 +1,5 @@
 #summary Use an application filter to control access to files/directories
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+#sidebar TableOfContents
 
 = Introduction =
 
