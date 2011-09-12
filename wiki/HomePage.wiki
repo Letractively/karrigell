@@ -1,4 +1,5 @@
 #summary Tutorial - building the home page
+#sidebar TableOfContents
 
 [TutoRial Tutorial]
 
