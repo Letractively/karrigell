@@ -1,6 +1,5 @@
 #summary Coolies management
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+#sidebar TableOfContents
 
 Cookies are managed by two variables available in the scripts :
 
