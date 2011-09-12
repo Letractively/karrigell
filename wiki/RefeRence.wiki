@@ -1,5 +1,6 @@
 #summary Reference manual for Karrigell
 #labels Featured
+#sidebar TableOfContents
 
 [http://code.google.com/p/karrigell/wiki/Home Home]
 
