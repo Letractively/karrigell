@@ -1,4 +1,5 @@
 #summary The namespace where scripts are run
+#sidebar TableOfContents
 
 [http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
 
