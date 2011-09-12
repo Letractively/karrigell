@@ -1,6 +1,5 @@
 #summary How to specify the encoding for a web document
-
-[http://code.google.com/p/karrigell/wiki/Home Home] / [http://code.google.com/p/karrigell/wiki/HowTos Howtos]
+#sidebar TableOfContents
 
 The encoding of a page can be set by the built-in name ENCODING. It will define the Content-type header sent by the server
 
