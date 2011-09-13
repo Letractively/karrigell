@@ -6,6 +6,14 @@ body {
 
 div {font-size: 13px;}
 
+#title{
+    text-align: center;
+    background-color:#eee;
+    font-size:large;
+    font-weight:bold;
+    padding:15px;
+}
+
 #wikicontent {
     max-width: 700px;
 }
@@ -43,6 +51,10 @@ pre.prettyprint {
   padding: 5px 25px 10px 10px;
   background-color: #fff;
   min-width: 64em;
+}
+
+#sidebarcontainer {
+    width:300px;
 }
 
 .prettyprint .str { color: #080; }

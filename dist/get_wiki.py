@@ -1,7 +1,12 @@
+import sys
 import os
 import re
 import shutil
 import urllib.request
+
+parent = os.path.dirname(os.getcwd())
+sys.path.insert(0,os.path.join(parent,'trunk'))
+from Karrigell import version
 
 proxies = {}
 if os.path.exists('proxy.dat'):
@@ -47,9 +52,15 @@ for page in pages:
     src = re.sub('(?s)<div id="wikiauthor"(.*?)</div>','',src)
     src = re.sub('(?s)<img (.*?)star_off.gif(.*?)>','',src)
     src = re.sub('(?s)<a class="label" (.*?)>Featured</a>','',src)
+    src = re.sub('(?s)<div id="wikiheader">(.*?)<div>(.*?)</div>(.*?)</div>','',src)
 
     stylesheet = '<link rel="stylesheet" href="wiki.css">\n'
-    src = src.replace('<head>','<head>\n'+stylesheet)
+    meta = '<meta http-equiv="Content-type" content="text/html;charset=utf-8">\n'
+
+    src = src.replace('<head>','<head>\n'+stylesheet+meta)
+    
+    title = '<div id="title">Karrigell-%s documentation</div>\n' %version
+    src = src.replace('<body>','<body>\n'+title)
 
     prettify = """<script src="prettify.js"></script>
      <script type="text/javascript">
