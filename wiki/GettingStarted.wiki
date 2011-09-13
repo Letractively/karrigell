@@ -40,7 +40,6 @@ An application with several pages can be defined in a single Python script :
 head = HEAD(TITLE("Cities"))
 
 def index():
-
         form = FORM(action="show")
         form <= INPUT(name="city")
         form <= INPUT(Type="submit",value="Ok")
