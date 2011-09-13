@@ -30,6 +30,18 @@ for path in ['Karrigell','HTMLTags']:
             dist.add(os.path.join(dirpath,filename),
                 arcname=os.path.join(name,path,filename))
 
+# documentation
+for (dirpath,dirnames,filenames) in os.walk('doc'):
+    exclude = [ d for d in dirnames if d[0] in '._' ]
+    for d in exclude:
+        dirnames.remove(d)
+    for filename in filenames:
+        if filename.lower().endswith('.bat'):
+            continue
+        print('add',dirpath,filename)
+        dist.add(os.path.join(dirpath,filename),
+            arcname=os.path.join(name,dirpath,filename))
+
 # admin tools,cgi,wsgi
 folders = ['www','cgi','wsgi',os.path.join('www','admin'),'data','tests']
 for folder in folders:
