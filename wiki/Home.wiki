@@ -8,10 +8,6 @@ Karrigell is a Pythonic web framework. The first version was published in 2002, 
 
 The scripts in Karrigell use the usual Python syntax, with additional built-in names to manage web programming : there are names for cookie management, redirection, session handling, etc. 
 
-The package also includes the HTMLTags module, with a name for all valid HTML tags, so that HTML code can be built with Python code instead of string with raw HTML code
-
-= Contents =
-
-  * [http://code.google.com/p/karrigell/wiki/GettingStarted Getting started]
-  * [http://code.google.com/p/karrigell/wiki/RefeRence Reference]
-  * HowTos
+The package also includes 
+  * the HTMLTags module, with a name for all valid HTML tags, so that HTML code can be built with Python code instead of string with raw HTML code
+  * a simple templating engine
