@@ -10,4 +10,4 @@ The scripts in Karrigell use the usual Python syntax, with additional built-in n
 
 The package also includes 
   * the HTMLTags module, with a name for all valid HTML tags, so that HTML code can be built with Python code instead of string with raw HTML code
-  * a simple templating engine
+  * a simple templating system with no programatic controls (logic and loops etc to be handled in the calling Python script) 
