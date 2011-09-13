@@ -22,20 +22,20 @@ pages = []
 for mo in re.finditer('(?s)<td class="vt id col_0"><a href="/p/karrigell/wiki/(.*?)">(.*?)</a></td>',src):
     pages.append(mo.groups()[0])
 
-if os.path.exists('html'):
-    for path in os.listdir('html'):
+if os.path.exists('doc'):
+    for path in os.listdir('doc'):
         if path.endswith('.html'):
-            os.remove(os.path.join('html',path))
+            os.remove(os.path.join('doc',path))
 else:
-    os.mkdir('html')
-    os.mkdir(os.path.join('html','images'))
+    os.mkdir('doc')
+    os.mkdir(os.path.join('doc','images'))
     for path in ['wiki.css','prettify.js']:
-        shutil.copyfile(path,os.path.join('html',path))
+        shutil.copyfile(path,os.path.join('doc',path))
     for path in os.listdir('images'):
         if not path.endswith('.gif'):
             continue
         shutil.copyfile(os.path.join('images',path),
-            os.path.join('html','images',path))
+            os.path.join('doc','images',path))
         
 for page in pages:
     print(page,'...')
@@ -69,6 +69,6 @@ for page in pages:
     """
     src = src.replace('</body>',prettify+'</body>')
 
-    out = open(os.path.join('html','%s.html' %page),'w',encoding="utf-8")
+    out = open(os.path.join('doc','%s.html' %page),'w',encoding="utf-8")
     out.write(src)
     out.close()
