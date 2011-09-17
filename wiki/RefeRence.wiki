@@ -4,14 +4,14 @@
 
 = Contents =
 
-  * [http://code.google.com/p/karrigell/wiki/ScriptsNamespace Scripts namespace]
-  * [http://code.google.com/p/karrigell/wiki/ApplicationSettings Application settings]
-  * [http://code.google.com/p/karrigell/wiki/PassingParameters Passing parameters to a script]
-  * [http://code.google.com/p/karrigell/wiki/ImportModule Importing a module]
-  * [http://code.google.com/p/karrigell/wiki/SessionManagement Session management]
-  * [http://code.google.com/p/karrigell/wiki/UserManagement Users management and authentication]
-  * [http://code.google.com/p/karrigell/wiki/LocaLize Localisation (translations)]
-  * [http://code.google.com/p/karrigell/wiki/WriteHtml HTMLTags] (generate HTML from Python code)
-  * [http://code.google.com/p/karrigell/wiki/KarrigellTemplate Karrigell templating engine]
+  * [ScriptsNamespace Scripts namespace]
+  * [ApplicationSettings Application settings]
+  * [PassingParameters Passing parameters to a script]
+  * [ImportModule Importing a module]
+  * [SessionManagement Session management]
+  * [UserManagement Users management and authentication]
+  * [LocaLize Localisation (translations)]
+  * [WriteHtml HTMLTags] (generate HTML from Python code)
+  * [KarrigellTemplate Karrigell templating engine]
   * [CgiMode Running with Apache on CGI mode]
   * [WsgiMode Running with Apache with WSGI]
