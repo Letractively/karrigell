@@ -14,7 +14,7 @@
    ** [WriteHtml HTMLTags] (generate HTML from Python code)
    ** [KarrigellTemplate Karrigell templating engine]  
    ** [CgiMode Running with Apache - CGI mode]
-   ** [WsgiMode Running with Apache - WSGI]
+   ** [WsgiMode Running with Apache - WSGI mode]
   * [HowTos HOWTOs]
    ** [PronounceKarrigell Pronounce Karrigell]
    ** [InstallIt Install the package]
