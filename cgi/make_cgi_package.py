@@ -99,7 +99,7 @@ out.close()
 
 # add Karrigell and HTMLTags modules
 for path in ['Karrigell','HTMLTags']:
-    abs_path = os.path.join(parent,'trunk',path)
+    abs_path = os.path.join(parent,path)
     os.mkdir(os.path.join(local_cgi_dir,path))
     for filename in os.listdir(abs_path):
         src = os.path.join(abs_path,filename)
