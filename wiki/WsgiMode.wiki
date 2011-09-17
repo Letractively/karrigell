@@ -1,0 +1,4 @@
+#summary Explains how to run Karrigell behind the Apache web server
+#sidebar TableOfContents
+
+[http://wsgi.org/wsgi/ WSGI] is the Web Server Gateway Interface. It is a specification for web servers and application servers to communicate with web applications. It is a Python standard, described in detail in PEP 333. 
