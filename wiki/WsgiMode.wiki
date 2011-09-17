@@ -7,6 +7,12 @@ To run Karrigell with WSGI behing Apache, download the appropriate Apache module
 
 The edit the Apache configuration file (httpd.conf):
 
-- in section "# Dynamic Shared Object (DSO) Support", add the line {{{LoadModule wsgi_module modules/mod_wsgi-py3.so}}}
+- in section "# Dynamic Shared Object (DSO) Support", add the line 
 
-- after the line `DocumentRoot`, add this line : {{{WSGIScriptAlias / "C:/Karrigell-Python3/cgi-test/wsgi/Karrigell-wsgi.py"}}} (replace by the actual path to Karrigell-wsgi.py. It is located in the directory wsgi of the Karrigell distribution)
+{{{LoadModule wsgi_module modules/mod_wsgi-py3.so}}}
+
+- after the line `DocumentRoot`, add this line : 
+
+{{{WSGIScriptAlias / "C:/Karrigell-Python3/cgi-test/wsgi/Karrigell-wsgi.py"}}} 
+
+(replace by the actual path to Karrigell-wsgi.py. It is located in the directory wsgi of the Karrigell distribution)
