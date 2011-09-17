@@ -15,7 +15,7 @@ div {font-size: 13px;}
 }
 
 #wikicontent {
-    max-width: 700px;
+    width: 100%;
 }
 
 #wikicontent code, tt, #wikicontent pre,
@@ -50,11 +50,9 @@ pre.prettyprint {
 #wikimaincol {
   padding: 5px 25px 10px 10px;
   background-color: #fff;
-  min-width: 64em;
 }
 
 #sidebarcontainer {
-    width:300px;
 }
 
 .prettyprint .str { color: #080; }
@@ -80,4 +78,12 @@ pre.prettyprint {
   .prettyprint .tag { color: #006; font-weight: bold; }
   .prettyprint .atn { color: #404; }
   .prettyprint .atv { color: #060; }
+}
+
+table {
+	width: 100%;
+}
+
+td.sidebarcontent {
+	width: 25%;
 }
