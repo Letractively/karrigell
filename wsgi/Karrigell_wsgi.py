@@ -72,7 +72,7 @@ class k_handler(Karrigell.RequestHandler):
         return
 
     def done(self, code, infile):
-        self.send_response(code)
+        self.send_response_only(code)
         if code == 500:
             self.resp_headers.replace_header('Content-Type','text/plain')
         for morsel in self.set_cookie.values():
@@ -100,12 +100,14 @@ class File:
             raise StopIteration
         return buf
 
-apps = [Karrigell.App]
+class App(Karrigell.App):
+    root_dir = os.path.dirname(__file__)
+
+apps = [App]
 
 def application(environ,start_response):
     handler = k_handler(environ)
-    handler.alias = dict((app.root_url.lstrip('/'),app)
-        for app in apps)
+    handler.alias = {'':App}
     handler.handle()
     resp_headers = [(k,str(v)) for (k,v) in handler.resp_headers.items() ]
     start_response(handler.response, resp_headers)
