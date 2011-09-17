@@ -3,7 +3,10 @@ import configparser
 path = os.path.join(THIS.root_dir,'translations.ini')
 encoding = 'iso-8859-1'
 ini = configparser.ConfigParser()
-ini.read([path],encoding=encoding)
+try:
+    ini.read([path],encoding=encoding)
+except:
+    ini.read([path]) # encoding is not supported by Python3.1
 
 def translate(src):
     if not ini.has_section(src):
