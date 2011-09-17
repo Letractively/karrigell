@@ -13,8 +13,8 @@
    ** [LocaLize Localisation (translations)]
    ** [WriteHtml HTMLTags] (generate HTML from Python code)
    ** [KarrigellTemplate Karrigell templating engine]  
-   ** [CgiMode Running with Apache on CGI mode]
-   ** [WsgiMode Running with Apache with WSGI]
+   ** [CgiMode Running with Apache - CGI mode]
+   ** [WsgiMode Running with Apache - WSGI]
   * [HowTos HOWTOs]
    ** [PronounceKarrigell Pronounce Karrigell]
    ** [InstallIt Install the package]
