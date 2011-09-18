@@ -56,7 +56,7 @@ The data passed in the query string or request body is passed as arguments to th
 
 = Functions =
 
-===KT(_`[`encoding,`*`args,`**`kw`]`_)===
+===KT(_`[`translate,encoding`]`_)===
  Returns an instance of the [KarrigellTemplating Templating system]
 
 ===Session()===
