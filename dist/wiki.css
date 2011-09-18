@@ -1,7 +1,7 @@
 body {
     background:#fff;
     font-family: arial,sans-serif;
-    margin:3px 0 3px 0;
+    margin:8px;
 }
 
 div {font-size: 13px;}
@@ -12,10 +12,6 @@ div {font-size: 13px;}
     font-size:large;
     font-weight:bold;
     padding:15px;
-}
-
-#wikicontent {
-    width: 100%;
 }
 
 #wikicontent code, tt, #wikicontent pre,
@@ -43,16 +39,9 @@ pre.prettyprint {
   padding-bottom: 10px;
 }
 
-#wikipage #wikimaincol {
-  border: 1px solid #ccc;
-}
-
 #wikimaincol {
   padding: 5px 25px 10px 10px;
   background-color: #fff;
-}
-
-#sidebarcontainer {
 }
 
 .prettyprint .str { color: #080; }
@@ -83,7 +72,17 @@ pre.prettyprint {
 table {
 	width: 100%;
 }
-
 td.sidebarcontent {
-	width: 25%;
+	width: 23%;
+}
+
+#sidebarcontainer a {
+	color: #006;
+	text-decoration: none;
+}
+#sidebarcontainer a:visited {
+	color: #006;
+}
+#sidebarcontainer a:hover {
+	color: #66C;
 }
