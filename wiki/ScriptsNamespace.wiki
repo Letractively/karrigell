@@ -57,7 +57,7 @@ The data passed in the query string or request body is passed as arguments to th
 = Functions =
 
 ===KT(_`[`translate,encoding`]`_)===
- Returns an instance of the [KarrigellTemplating Templating system]
+ Returns an instance of the [KarrigellTemplate Templating system]
 
 ===Session()===
  Returns the session object. It is a Python object that is identified by a cookie called session_id. A script can set attributes to this object and retrieve this information in other pages by another call to <font color="#333388" size="2"><b>Session()</b></font>
