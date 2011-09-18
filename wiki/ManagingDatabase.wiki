@@ -7,7 +7,7 @@
 
 Karrigell can use any database engine (MySQL, SQLite, etc) using the appropriate module. For this example we will use a very simple module that stores the data we need : for each CD in the collection, the artist name and the title of the album
 
-Copy this in a module called simpledb.py :
+Copy this in a module called <font color="#106010" face="courier">simpledb.py</font> :
 {{{
 def read(filename):
     records = []
@@ -87,7 +87,7 @@ def insert_new_cd(artist,title):
     simpledb.save(cds,'mycds.db')
     raise HTTP_REDIRECTION("index")
 }}}
-Add these functions to index.py and enter a couple of CDs in the database. Each time you are back to the home page you should see the collection growing
+Add these functions to <font color="#106010" face="courier">index.py</font> and enter a couple of CDs in the database. Each time you are back to the home page you should see the collection growing
 
 = Editing records =
 
@@ -111,7 +111,7 @@ In our simple database we can use the index of the item in the list as identifie
     else:
         body += "No CD in the collection"        
 }}}
-The function edit() will receive one argument called num. All arguments passed to functions in Karrigell Services are bytestrings, so before using this argument num as the index in a list don't forget to convert it to an integer
+The function edit() will receive one argument called num. All arguments passed to functions in Karrigell Services are strings, so before using this argument num as the index in a list don't forget to convert it to an integer
 {{{
 def edit(rowid):
     cds = simpledb.read('mycds.db')
@@ -131,8 +131,6 @@ def update_cd(rowid,artist,title):
     simpledb.save(cds,'mycds.db')
     raise HTTP_REDIRECTION("index")
 }}}
-
-Note that in update_cd() the record identifier must be converted to an integer : all the form fields are received as strings
 
 = Removing records =
 
@@ -163,7 +161,7 @@ def remove(rowid):
 }}}
 = Summary =
 
-We now have a complete application to manage our CD collection. The structure of the application in the script index.py is as clear as in any Python module :
+We now have a complete application to manage our CD collection. The structure of the application in the script <font color="#106010" face="courier">index.py</font> is as clear as in any Python module :
 {{{
 counter = Import('counter.py')
 simpledb = Import('simpledb.py')
