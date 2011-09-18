@@ -59,7 +59,7 @@ def index():
 }}}
 Each time the page is reloaded, you will see the number of visits incremented by 1
 
-Notice that the file is opened by the usual open() function. The current directory is the one where the server script stands ; so you will see that the file <font color="#106010" face="courier">counter.txt</font> is located in the directory <tt>www</tt>, _not_ in the subdirectory <<font color="#106010" face="courier">>mycds</font>
+Notice that the file is opened by the usual open() function. The current directory is the one where the server script stands ; so you will see that the file <font color="#106010" face="courier">counter.txt</font> is located in the directory <font color="#106010" face="courier">www</font>, _not_ in the subdirectory <font color="#106010" face="courier">mycds</font>
 
 = A better page counter =
 
@@ -135,7 +135,7 @@ To create the HTML anchor, we use the HTMLTags class A, with the text as first a
 <a href="login">Login</a>
 }}}
 
-The href attribute, "login", is a relative url to the base url, `host/mycds/index.py/index`, so it resolves to `host/mycds/index.py/login`, meaning that the link will invoke the execution of the function login() in the script <font color="#106010" face="courier">index.py</font>
+The href attribute, "login", is a relative url to the base url, _host/mycds/index.py/index_, so it resolves to _host/mycds/index.py/login_, meaning that the link will invoke the execution of the function login() in the script <font color="#106010" face="courier">index.py</font>
 
 This function will generate an HTML form asking the user's login and password, and submitting these values to an authentication test
 {{{
@@ -148,7 +148,7 @@ def login():
     body += form
     return body
 }}}
-Note how the form is built : first the instance of FORM is created, with the attributes `action` and `method`. Then, the form fields are added using the operator `<=`. Of course it has nothing to see with "lesser or equal" : think of it as a left arrow, meaning "add child" to the tree node
+Note how the form is built : first the instance of FORM is created, with the attributes `action` and `method`. Then, the form fields are added using the operator `<=`. Of course it has nothing to do with "lesser or equal" : think of it as a left arrow, meaning "add child" to the tree node
 
 Also note that
   * you can freely add tag objects and strings
