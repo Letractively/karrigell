@@ -70,7 +70,9 @@ table["width"] = "80%"
 
 To get a specific tag inside the document tree, use the method
 
-*get(_`*`tags,`**`attrs_)* : returns a list of all the tags in the tree below self. _tags_ are tag classes, and _attrs_ are key/values arguments. The method returns the tags of the specified classes that have the specified arguments
+*get(_`*`tags,`**`attrs_)*
+
+ Returns a list of all the tags in the tree below self. _tags_ are tag classes, and _attrs_ are key/values arguments. The method returns the tags of the specified classes that have the specified arguments
 
 In the above example, to get all the TH elements :
 {{{
@@ -79,7 +81,7 @@ ths = body.get(TH)
 
 = Using HTMLTags in Karrigell scripts =
 
-All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts. That is, you don't have to explicitely import the module with "from HTMLTags import `*`"
+All the names defined by HTMLTags are present in the execution namespace of Karrigell scripts
 
 Suppose you have a script with this function <tt>index()</tt> :
 
