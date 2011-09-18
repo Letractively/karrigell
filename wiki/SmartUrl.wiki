@@ -7,7 +7,7 @@ This `HowTo` (written by Jim Eggleston) shows how it can be used to manage "smar
 
 Basically Karrigell would return a 404 Not found error. However it can be made to work using an app filter. 
 
-This is a sample server.py :
+This is a sample <font color="#106010" face="courier">server.py</font> :
 
 {{{
 import urllib.parse
@@ -41,7 +41,7 @@ app after it has parsed the URL but before attempts to process it.
 
 Looking at the filter method ktwiki_filter, you will see it takes the parameter handler, that is, the request handler object. The handler object holds the data and methods required to process requests. It is the handler object that we will be manipulating.
 
-To handle a URL like _`/ktwiki/index.py/show/MyWikiPage`_, `MyWikiPage` has to be trimmed off the end. `MyWikiPage` has to be put somewhere where the show() function in index.py can get to it.
+To handle a URL like _`/ktwiki/index.py/show/MyWikiPage`_, `MyWikiPage` has to be trimmed off the end. `MyWikiPage` has to be put somewhere where the show() function in <font color="#106010" face="courier">index.py</font> can get to it.
 
 Ok, now I'll step through ktwiki_filter:
 
