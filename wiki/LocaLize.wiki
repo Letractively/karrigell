@@ -3,7 +3,7 @@
 
 Localizing a script means that text can be displayed in different languages, without having to write a script per language
 
-The standard way to do this in Karrigell is to use the script <font color="#336633"><b>translation.py</b></font>, provided in folder www. In a script where you have strings to translate, begin with
+The standard way to do this in Karrigell is to use the script <font color="#106010" face="courier">translation.py</font>, provided in folder <font color="#106010" face="courier">www</font>. In a script where you have strings to translate, begin with
 
 {{{
 _ = Import('translation.py').translate
@@ -16,9 +16,9 @@ If your script has a line such as
 content = _("myString")
 }}}
 
-it will be translated if the translations file has a translation for _myString_ in one the languages found in the browsers language preferences (the browser sends it as the "accept-language" header)
+it will be translated if the translations file has a translation for _myString_ in one the languages found in the browsers language preferences (the browser sends it as the "Accept-language" header)
 
-The translations file is a configuration file, under the format supported by the <font color="#336633"><b>configparser module</b></font>. Its path is specified in the script translation.py. Its format is very simple :
+The translations file is a configuration file, under the format supported by the <font color="#336633"><b>configparser</b></font> module. Its path is specified in the script <font color="#106010" face="courier">translation.py</font>. Its format is very simple :
 <pre>
   `[`myString]
   fr=Ceci est une chaîne à traduire
@@ -27,4 +27,4 @@ The translations file is a configuration file, under the format supported by the
 
 The translation script finds that the configuration file has a section  `[myString]` ; if the user has defined French as one of the languages in the browsers preference, it returns the translation in French, identified by the option `fr` in the section. If there is no translation for the browsers language, then the `default` option is returned (if no default is specified, the string is returned unchanged)
 
-By default, the translation file is supposed to be encoded in iso-8859-1 but another encoding can be specified in <font color="#336633"><b>translation.py</b></font>
+By default, the translation file is supposed to be encoded in iso-8859-1 but another encoding can be specified in <font color="#106010" face="courier">translation.py</font>
