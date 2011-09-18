@@ -7,40 +7,40 @@
 
 For the moment we'll ignore the CDs and begin writing the home page
 
-Create a new folder mycds in your Karrigell distribution, under the www folder. With your favorite text editor, save this text in a file called index.py
+Create a new folder mycds in your Karrigell distribution, under the folder <font color="#106010" face="courier">www</font>. With your favorite text editor, save this text in a file called <font color="#106010" face="courier">index.py</font>
 {{{
 def index():
     return "<h1>My CD collection</h1>"
 }}}
 In your browser ask localhost/mycds/index.py/index
 
-Karrigell maps urls to functions in Python scripts : here, index.py/index means that the function index() will send the data back to the browser
+Karrigell maps urls to functions in Python scripts : here, _index.py/index_ means that the function index() will send the data back to the browser
 
 In fact
 
-  * if you don't specify a function name, the index() function in the script will be run, so you could have asked localhost/mycds/index.py
-  * and if you don't even specify a script name in a folder, the script called index will be run. So all you have to type really is localhost/mycds
+  * if you don't specify a function name, the index() function in the script will be run, so you could have asked _localhost/mycds/index.py_
+  * and if you don't even specify a script name in a folder, the script <font color="#106010" face="courier">index.py</font> will be run. So all you have to type really is _localhost/mycds_
 
 Notice the <tt>return</tt> statement in the index() function. Karrigell sends the result of the function to the browser (more precisely, the string representation of the result) ; by default, this content is supposed to be HTML code
 
 = HTMLTags =
 
-Functions can return raw HTML strings, but Karrigell has a more elegant way of generating HTML. Rewrite the content of index.py with :
+Functions can return raw HTML strings, but Karrigell has a more elegant way of generating HTML. Rewrite the content of <font color="#106010" face="courier">index.py</font> with :
 
 {{{
 def index():
     return H1("My CD collection")
 }}}
 
-The name <tt>H1</tt> matches the HTML tags H1 ; all valid HTML tags (including HTML5) have their name available in Python scripts (in uppercase letters)
+The name <tt>H1</tt> matches the HTMLTags class H1 ; all valid HTML tags (including HTML5) have their name available in Python scripts (in uppercase letters)
 
-<tt>H1</tt> is a class, in the example it is instanciated with "My CD collection" as the first argument. The string representation of this instance is the matching HTML code
+In the example the class H1 is instanciated with "My CD collection" as the first argument. The string representation of this instance is the matching HTML code
 
 Although you can write applications without using these names, it will make your code much cleaner and easier to review than with raw HTML strings
 
 = Adding a page counter =
 
-The page counter will print the number of times that the page has been seen. We'll use a file, counter.txt, to store the number of visits and increment it for each visit
+The page counter will print the number of times that the page has been seen. We'll use a file, <font color="#106010" face="courier">counter.txt</font>, to store the number of visits and increment it for each visit
 
 {{{
 def index():
@@ -59,7 +59,7 @@ def index():
 }}}
 Each time the page is reloaded, you will see the number of visits incremented by 1
 
-Notice that the file is opened by the usual open() function. The current directory is the one where the server script stands ; so you will see that the file counter.txt is located in the directory <tt>www</tt>, _not_ in the subdirectory <tt>mycds</tt>
+Notice that the file is opened by the usual open() function. The current directory is the one where the server script stands ; so you will see that the file <font color="#106010" face="courier">counter.txt</font> is located in the directory <tt>www</tt>, _not_ in the subdirectory <<font color="#106010" face="courier">>mycds</font>
 
 = A better page counter =
 
@@ -89,7 +89,7 @@ def index():
 }}}
 = Importing scripts =
 
-This page counter could be used in other parts of the application, so it's better to put it in a separate file : save this part of the script in counter.py
+This page counter could be used in other parts of the application, so it's better to put it in a separate file : save this part of the script in <font color="#106010" face="courier">counter.py</font>
 {{{
 def nb_visits():
     try:
@@ -105,7 +105,7 @@ def nb_visits():
         Session().user = None   # create attribute user
     return visits
 }}}
-To use this script in the home page, change the script index.py to this :
+To use this script in the home page, change the script <font color="#106010" face="courier">index.py</font> to this :
 {{{
 counter = Import('counter.py')
 
@@ -130,12 +130,12 @@ def index():
     body += counter.nb_visits()+" visits"
     return body
 }}}
-To create the HTML anchor, we use the built-in class A, with the text as first argument, and the attribute 'href' set to "login". The string representation of this instance will be
+To create the HTML anchor, we use the HTMLTags class A, with the text as first argument, and the attribute 'href' set to "login". The string representation of this instance will be
 {{{
 <a href="login">Login</a>
 }}}
 
-The href attribute, "login", is a relative url to the base url, `host/mycds/index.py/index`, so it resolves to `host/mycds/index.py/login`, meaning that the link will invoke the execution of the function login() in the script index.py
+The href attribute, "login", is a relative url to the base url, `host/mycds/index.py/index`, so it resolves to `host/mycds/index.py/login`, meaning that the link will invoke the execution of the function login() in the script <font color="#106010" face="courier">index.py</font>
 
 This function will generate an HTML form asking the user's login and password, and submitting these values to an authentication test
 {{{
@@ -154,7 +154,7 @@ Also note that
   * you can freely add tag objects and strings
   * for attributes that have the same name as a Python keyword, such as `type` or `class`, you must capitalize the attribute name to avoid syntax errors
 
-The attribute "action" for the form is `check_login`. Again, this means that the function check_login() in index.ky will be run
+The attribute "action" for the form is `check_login`. Again, this means that the function check_login() in <font color="#106010" face="courier">index.ky</font> will be run
 
 Unlike index() and login(), this function will take arguments : the submitted login and password. The arguments must be called like the names used in the input fields of the form : `login` and `passwd`. For the moment we'll use a very simple test to see if the user is allowed to log in
 {{{
