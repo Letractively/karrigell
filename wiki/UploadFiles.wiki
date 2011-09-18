@@ -1,7 +1,7 @@
 #summary How to upload files.
 #sidebar TableOfContents
 
-Create another script called upload.py :
+Create another script called <font color="#106010" face="courier">upload.py</font> :
 
 {{{
 def index():
