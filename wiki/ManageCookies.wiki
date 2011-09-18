@@ -6,7 +6,7 @@ Cookies are managed by two variables available in the scripts :
    * COOKIE is a dictionary-like object holding the cookies sent by the browser and received by the script
    * SET_COOKIE is a dictionary-like object used by the script to set cookies values, path, expiry date etc. and send them to the browser
 
-Here is a simple script, cookies.py, that shows how to set, read and erase cookies :
+Here is a simple script, <font color="#106010" face="courier">cookies.py</font>, that shows how to set, read and erase cookies :
 {{{
 def index(**kw):
     body = 'Received cookies'
