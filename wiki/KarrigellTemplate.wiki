@@ -70,9 +70,9 @@ For convenience, the Python built-in `locals()` function can be assigned to a na
 
 ===Encoding management===
 By default KT uses an encoding of UTF-8. This can be overridden when the KT object is instantiated:
-
+{{{
 kt = KT(encoding='utf-8')
-
+}}}
 If a specific template is encoded with another encoding, you can specify it with :
 {{{
 text = kt.render(template_file, encoding=foo)
@@ -91,7 +91,7 @@ Templates are processed as follows:
 
 ==Example==
 
-This is an example of a KT template, called `template/master.kt`:
+This is an example of a KT template, called <font color="#106010" face="courier">template/master.kt</font>:
 {{{
 <html>
 <head>
@@ -108,13 +108,13 @@ This is an example of a KT template, called `template/master.kt`:
 }}}
 Note how THIS is passed to KT and used to help define URLs to CSS style sheets and the like.
 
-The tag `@[$data.bodytmpl]` includes another template, the name of which is held by the identifier `$data.bodytmpl`. In this example, we will set the value of `$data.bodytmpl` to `index.kt`. Note that the path to `index.kt` is relative to the parent template, `template/master.kt`. This means that `index.kt` must be physically located in the `template` directory. 
+The tag `@[$data.bodytmpl]` includes another template, the name of which is held by the identifier `$data.bodytmpl`. In this example, we will set the value of `$data.bodytmpl` to `index.kt`. Note that the path to <font color="#106010" face="courier">index.kt</font> is relative to the parent template, <font color="#106010" face="courier">template/master.kt</font>. This means that <font color="#106010" face="courier">index.kt</font> must be physically located in the <font color="#106010" face="courier">template</font> directory. 
 
-`template/index.kt` contains this code:
+<font color="#106010" face="courier">template/index.kt</font> contains this code:
 {{{
 <h1>Welcome to $data.who home page!<h1>
 }}}
-This code snippet shows how the template would be called from within a script called `/myapp.py`:
+This code snippet shows how the template would be called from within a script called <font color="#106010" face="courier">myapp.py</font>:
 {{{
 ENCODING = 'utf-8'
 _ = Import('translations.py').translate
@@ -126,7 +126,7 @@ def index():
     bodytmpl = 'index.kt'
     return kt.render('template/master.kt', data=locals(), this=THIS)
 }}}
-If the reader's browser was set to English, calling `/myapp.py/index` would produce this html:
+If the reader's browser was set to English, calling _/myapp.py/index_ would produce this html:
 {{{
 <html>
 <head>
