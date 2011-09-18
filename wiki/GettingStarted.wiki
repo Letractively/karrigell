@@ -8,9 +8,9 @@ Download the package from the [http://code.google.com/p/karrigell/downloads/list
 
 Unpack it in some directory, then open a console window and in this directory, run <code>python setup.py install</code>
 
-To test that everything works, go to the subdirectory www and run <code>python server.py</code>
+To test that everything works, go to the subdirectory <font color="#106010" face="courier">www</font> and run <code>python server.py</code>
 
-This will start the built-in server on port 80. If you want another port, edit server.py and change the last line
+This will start the built-in server on port 80. If you want another port, edit <font color="#106010" face="courier">server.py</font> and change the last line
 
 {{{
 Karrigell.run(apps=[MyApp])
@@ -30,7 +30,7 @@ When this is done, the home page prints your login, and there is a link to a use
 
 = Introduction to scripts =
 
-Karrigell scripts are pure Python scripts, run in a namespace prepared by the framework. Requests are managed by functions defined in the scripts : the url <i>`http://host/path/foo.py/bar`</i> is managed by the function bar of script foo.py
+Karrigell scripts are pure Python scripts, run in a namespace prepared by the framework. Requests are managed by functions defined in the scripts : the url <i>`http://host/path/foo.py/bar`</i> is managed by the function bar of script <font color="#106010" face="courier">foo.py</font>
 
 The matching between host/path and the directory where the script stands is defined by the application settings (see ApplicationSettings)
 
