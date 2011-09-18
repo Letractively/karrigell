@@ -12,7 +12,7 @@ Create a new folder mycds in your Karrigell distribution, under the folder <font
 def index():
     return "<h1>My CD collection</h1>"
 }}}
-In your browser ask localhost/mycds/index.py/index
+In your browser enter _http://localhost/mycds/index.py/index_
 
 Karrigell maps urls to functions in Python scripts : here, _index.py/index_ means that the function index() will send the data back to the browser
 
