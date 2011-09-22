@@ -254,6 +254,12 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         for k in dir(HTMLTags):
             if not k.startswith('_'):
                 self.namespace[k] = getattr(HTMLTags,k)
+        # Add KT wrapper function to the namespace
+        import Karrigell.KT
+        def KT(encoding=self.encoding, translate=str):
+            return Karrigell.KT.KT(encoding=encoding,
+                    translate=translate, handler=self)
+        self.namespace['KT'] = KT
         self.imported_modules = [] # stack of imported modules, for traceback
         try:
             fileobj = open(self.script_path)
