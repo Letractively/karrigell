@@ -42,20 +42,24 @@ for (dirpath,dirnames,filenames) in os.walk('doc'):
         dist.add(os.path.join(dirpath,filename),
             arcname=os.path.join(name,dirpath,filename))
 
-# admin tools,cgi,wsgi
-folders = ['www','cgi','wsgi',os.path.join('www','admin'),'data','tests']
+# admin tools,cgi,wsgi,data,tests
+folders = ['www','cgi','wsgi','data','tests']
 for folder in folders:
     folder_abs = os.path.join(parent,folder)
     dist.add(os.path.join(parent,folder),arcname=os.path.join(name,folder),
         recursive=False)
-    for path in os.listdir(folder_abs):
-        if not os.path.isfile(os.path.join(folder_abs,path)):
-            continue
-        if os.path.splitext(path)[1] in ['.sqlite']:
-            continue
-        print('add',path)
-        dist.add(os.path.join(folder_abs,path),
-            arcname=os.path.join(name,folder,path))
+        
+    for dirpath,dirnames,filenames in os.walk(folder_abs):
+        exclude = [ d for d in dirnames if d[0] in '._' ]
+        for d in exclude:
+            dirnames.remove(d)
+        for filename in filenames:
+            if os.path.splitext(filename)[1] in ['.sqlite']:
+                continue
+            print('add',filename)
+            print('arcname',os.path.join(name,folder,dirpath[len(folder_abs)+1:],filename))
+            dist.add(os.path.join(folder_abs,dirpath,filename),
+                arcname=os.path.join(name,folder,dirpath[len(folder_abs)+1:],filename))
 dist.close()
 
 # unzip in temporary folder
