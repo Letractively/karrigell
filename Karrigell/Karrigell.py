@@ -35,7 +35,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.1"
+version = "4.3.2"
 
 class HTTP_REDIRECTION(Exception):
     pass
