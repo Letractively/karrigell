@@ -380,8 +380,12 @@ class App:
 
     @classmethod
     def get_login_url(self):
-        return self.login_url or \
-            self.root_url.lstrip('/')+'/admin/login.py/login'
+        if self.login_url is not None:
+            return self.login_url
+        elif self.root_url == '/':
+            return '/admin/login.py/login'
+        else:
+            return self.root_url+'/admin/login.py/login'
 
     @classmethod
     def get_cookie_names(self):
