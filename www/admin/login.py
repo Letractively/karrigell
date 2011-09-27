@@ -42,7 +42,7 @@ def login(origin,role=None):
         form_container <= form
         container <= form_container
 
-    return HTML(HEAD(TITLE('Login')+style)+BODY(str(COOKIE)+container))
+    return HTML(HEAD(TITLE('Login')+style)+BODY(container))
 
 def _set_cookies(remember,login,password):
     SET_COOKIE[THIS.login_cookie] = login
