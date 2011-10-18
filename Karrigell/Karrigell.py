@@ -261,8 +261,25 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                     translate=translate, handler=self)
         self.namespace['KT'] = KT
         self.imported_modules = [] # stack of imported modules, for traceback
+        # get encoding from first 2 lines of Python source (PEP 0263)
+        src_enc = "ascii"
+        bfo = open(self.script_path,'rb')
         try:
-            fileobj = open(self.script_path)
+            mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
+            if mo:
+                src_enc = mo.groups()[0].decode('ascii')
+            else:
+                try:
+                    mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
+                    if mo:
+                        src_enc = mo.groups()[0].decode('ascii')
+                except:
+                    pass
+        except:
+            pass
+        
+        try:
+            fileobj = open(self.script_path,encoding=src_enc)
             src = '\n'.join([ x.rstrip() for x in fileobj.readlines()])
             fileobj.close()
             exec(src,self.namespace) # run script in namespace
