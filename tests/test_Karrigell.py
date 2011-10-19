@@ -52,6 +52,15 @@ class Tester(unittest.TestCase):
         res = urllib.request.urlopen(req)
         self.assertEqual(res.read(),b'smiths')
 
+    def test_pep0263(self):
+        # test handling of source encoding as defined by PEP 0263
+        data = open('text_for_pep0263_tests.txt','rb').read()
+        res = urllib.request.urlopen(self.start+"/test_pep0263_line.py/index")
+        self.assertEqual(res.read(),data)
+        res = urllib.request.urlopen(self.start+"/test_pep0263_bom.py/index")
+        self.assertEqual(res.read(),data)
+        
+
 class SessionTester(unittest.TestCase):
 
     def test_session(self):
