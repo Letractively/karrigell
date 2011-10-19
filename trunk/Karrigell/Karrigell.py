@@ -35,7 +35,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.4"
+version = "4.3.5"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -235,6 +235,37 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         base = self.url_path
         return urllib.parse.urljoin(base[:base.rfind('/')],*rel_url)
 
+    def source(self,script_path):
+        # manages encoding of Python source code (PEP 0263)
+        src_enc = "ascii"
+        bfo = open(script_path,'rb')
+        try:
+            head = bfo.read(3)
+            if head == b'\xef\xbb\xbf': # BOM for utf-8
+                src = bfo.read().decode('utf-8')
+                bfo.close()
+                return src.replace('\r\n','\n')
+        except:
+            pass
+        bfo.seek(0)
+        try:
+            mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
+            if mo:
+                src_enc = mo.groups()[0].decode('ascii')
+            else:
+                try:
+                    mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
+                    if mo:
+                        src_enc = mo.groups()[0].decode('ascii')
+                except:
+                    pass
+            bfo.seek(0)
+        except:
+            pass
+        src = bfo.read().decode(src_enc)
+        bfo.close()
+        return src.replace('\r\n','\n')
+
     def run(self,func):
         """Run function func in a Python script
         Function arguments are key/values in request body or query string"""
@@ -261,27 +292,9 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                     translate=translate, handler=self)
         self.namespace['KT'] = KT
         self.imported_modules = [] # stack of imported modules, for traceback
-        # get encoding from first 2 lines of Python source (PEP 0263)
-        src_enc = "ascii"
-        bfo = open(self.script_path,'rb')
-        try:
-            mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
-            if mo:
-                src_enc = mo.groups()[0].decode('ascii')
-            else:
-                try:
-                    mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
-                    if mo:
-                        src_enc = mo.groups()[0].decode('ascii')
-                except:
-                    pass
-        except:
-            pass
         
+        src = self.source(self.script_path)
         try:
-            fileobj = open(self.script_path,encoding=src_enc)
-            src = '\n'.join([ x.rstrip() for x in fileobj.readlines()])
-            fileobj.close()
             exec(src,self.namespace) # run script in namespace
             func_obj = self.namespace.get(func,None)
             if func_obj is None \
@@ -342,9 +355,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         # update builtins so that imported scripts use script namespace
         ns = {}
         ns.update(self.namespace)
-        fileobj = open(fs_path)
-        exec(fileobj.read(),ns)
-        fileobj.close()
+        exec(self.source(fs_path),ns)
         # No exception executing imported code, so clear saved module name
         self.imported_modules.remove(fs_path)
         class Imported:
