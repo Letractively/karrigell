@@ -237,7 +237,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
 
     def source(self,script_path):
         # manages encoding of Python source code (PEP 0263)
-        src_enc = "ascii"
+        src_enc = "utf-8" # default (PEP 3120)
         bfo = open(script_path,'rb')
         try:
             head = bfo.read(3)
