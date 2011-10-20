@@ -407,7 +407,7 @@ _LINE_BREAK_AFTER = _NON_CLOSING_TAGS + ['HTML','HEAD','BODY',
 _ONE_LINE = ['HTML','HEAD','BODY',
     'FRAMESET'
     'SCRIPT',
-    'TABLE','TR','TD','TH','SELECT','OPTION',
+    'TABLE','TR','SELECT','OPTION',
     'FORM','UL','OL'
     ]
 
