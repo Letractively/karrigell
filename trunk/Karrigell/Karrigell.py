@@ -17,6 +17,7 @@ to a specified URL : raise HTTP_REDIRECTION(url)
 
 import sys
 import os
+import shutil
 import re
 import string
 import io
@@ -24,6 +25,7 @@ import random
 import traceback
 import types
 import datetime
+import gzip
 
 import urllib.parse
 import cgi
@@ -35,7 +37,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.5"
+version = "4.3.6"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -45,6 +47,9 @@ class HTTP_ERROR(Exception):
     def __init__(self,code,message=None):
         self.code = code
         self.message = message
+
+class ScriptError(Exception):
+    pass
 
 class RequestHandler(http.server.CGIHTTPRequestHandler):
     """One instance of this class is created for each HTTP request"""
@@ -173,10 +178,27 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                         return self.done(304,io.BytesIO())
             ctype = self.guess_type(fs_path)
             self.resp_headers.replace_header('Content-type',ctype)
-            self.resp_headers['Content-length'] = str(os.fstat(f.fileno())[6])
             self.resp_headers["Last-modified"] = \
                 self.date_time_string(os.stat(fs_path).st_mtime)
-            self.done(200,f)
+            # zip ?
+            accept_encoding = self.headers.get('accept-encoding','').split(',')
+            accept_encoding = [ x.strip() for x in accept_encoding ]
+            # if gzip is supported by the user agent, and content type is text
+            # or javascript, use gzip compression
+            if 'gzip' in accept_encoding and ctype and \
+                (ctype.startswith('text/') 
+                    or ctype=='application/x-javascript'):
+                    sio = io.BytesIO()
+                    gzf = gzip.GzipFile(fileobj=sio,mode="wb")
+                    shutil.copyfileobj(f,gzf)
+                    self.resp_headers['Content-length'] = gzf.tell()
+                    self.resp_headers["Content-Encoding"] = "gzip"
+                    gzf.close()
+                    sio.seek(0)
+                    self.done(200,sio)
+            else:
+                self.resp_headers['Content-length'] = str(os.fstat(f.fileno())[6])
+                self.done(200,f)
 
     def redir(self,url):
         # redirect to the specified url
@@ -238,33 +260,27 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
     def source(self,script_path):
         # manages encoding of Python source code (PEP 0263)
         src_enc = "utf-8" # default (PEP 3120)
-        bfo = open(script_path,'rb')
+        src = open(script_path,'rb')
+        head = src.read(3)
+        if not head == b'\xef\xbb\xbf': # BOM for utf-8
+            head = ''
+            src.seek(0)
+            first2lines = [src.readline(),src.readline()]
+            for line in first2lines:
+                mo = re.search(b"coding[:=]\s*([-\w.]+)",line)
+                if mo:
+                    src_enc = mo.groups()[0].decode('ascii')
+                    break
+        src.seek(len(head))
         try:
-            head = bfo.read(3)
-            if head == b'\xef\xbb\xbf': # BOM for utf-8
-                src = bfo.read().decode('utf-8')
-                bfo.close()
-                return src.replace('\r\n','\n')
-        except:
-            pass
-        bfo.seek(0)
-        try:
-            mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
-            if mo:
-                src_enc = mo.groups()[0].decode('ascii')
-            else:
-                try:
-                    mo = re.search(b"coding[:=]\s*([-\w.]+)",bfo.readline())
-                    if mo:
-                        src_enc = mo.groups()[0].decode('ascii')
-                except:
-                    pass
-            bfo.seek(0)
-        except:
-            pass
-        src = bfo.read().decode(src_enc)
-        bfo.close()
-        return src.replace('\r\n','\n')
+            lines = []
+            for n,line in enumerate(src):
+                lines.append(line.rstrip().decode(src_enc))
+            src.close()
+            return '\n'.join(lines)
+        except UnicodeDecodeError as exc:
+            raise ScriptError("Error in file %s at line %d" %
+                (script_path, n+1)) from exc 
 
     def run(self,func):
         """Run function func in a Python script
