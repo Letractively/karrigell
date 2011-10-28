@@ -53,8 +53,10 @@ for folder in folders:
         exclude = [ d for d in dirnames if d[0] in '._' ]
         for d in exclude:
             dirnames.remove(d)
+        if folder == "tests" and "sessions" in dirnames:
+            dirnames.remove("sessions")
         for filename in filenames:
-            if os.path.splitext(filename)[1] in ['.sqlite']:
+            if os.path.splitext(filename)[1].lower() in ['.sqlite','.bat']:
                 continue
             print('add',filename)
             print('arcname',os.path.join(name,folder,dirpath[len(folder_abs)+1:],filename))
