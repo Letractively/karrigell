@@ -59,7 +59,8 @@ class Tester(unittest.TestCase):
         self.assertEqual(res.read(),data)
         res = urllib.request.urlopen(self.start+"/test_pep0263_bom.py/index")
         self.assertEqual(res.read(),data)
-        
+        res = urllib.request.urlopen(self.start+"/test_pep0263_line_wrong_encoding.py/index")
+        self.assertIn(b'Karrigell.ScriptError',res.read())
 
 class SessionTester(unittest.TestCase):
 
