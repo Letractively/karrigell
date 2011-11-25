@@ -48,7 +48,7 @@ The data passed in the query string or request body is passed as arguments to th
  It is initialized with the content-type header set to "text/html". If you want to change it, you must replace it with the syntax 
 
  {{{
- RESPONSE_HEADER.replace_header('Content-type',value)
+ RESPONSE_HEADERS.replace_header('Content-type',value)
  }}}
 
 ===ENCODING===
