@@ -149,7 +149,7 @@ for v,tag in r:
 </td>
 <td>
 {{{
-one <input Type="radio" value="0" CHECKED>
+one <input Type="radio" value="0" checked>
 two <input Type="radio" value="1">
 }}}
 </td>
