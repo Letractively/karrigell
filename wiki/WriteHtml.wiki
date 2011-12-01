@@ -1,6 +1,8 @@
 #summary Using HTMLTags to generate HTML with Python code
 #sidebar TableOfContents
 
+<wiki:toc max_depth="3" />
+
 = Introduction =
 
 A dynamic web application presents data inside an HTML document. One of the ways you can do it in Karrigell is to use the HTMLTags module
@@ -65,59 +67,110 @@ This tag has additional methods to build it from a list, and to select  options
 ===from_list(_items,`[`use_content`]`_)===
 Builds the OPTION tags inside the SELECT tag, using the list _items_. Each option matches an element in the list. If _use`_`content_ is set to True, the option value for the n-th item is set to items[n] ; if set to False (default), it is set to n. The method returns the SELECT tag itself
 
-Example
-{{{
-SELECT(name="foo").from_list(["one","two"])
-}}}
-generates the HTML code
-{{{
-<SELECT name="foo">
-<OPTION value="0">one
-<OPTION value="1">two
-</SELECT>
-}}}
-
-{{{
-SELECT(name="foo").from_list(["one","two"],use_content=True)
-}}}
-generates the HTML code
-{{{
-<SELECT name="foo">
-<OPTION value="one">one
-<OPTION value="two">two
-</SELECT>
-}}}
-
-
-
 ===select(value=v_arg,content=c_arg)===
 Select the options with the specified value or content
 If v_arg is a list, select the options whose value is in the list. Same thing if content is a list
 
+Examples
+<table>
+<tr>
+<th>Python code</th>
+<th>generates HTML code</th>
+</tr>
+<tr>
+<td align="top">
 {{{
 sel = SELECT(name="foo").from_list(["one","two"])
 sel.select(value=0)
 }}}
-generates the HTML code
+</td>
+<td align="top">
 {{{
 <SELECT name="foo">
 <OPTION value="0" SELECTED>one
 <OPTION value="1">two
 </SELECT>
 }}}
-
+</td>
+</tr>
+<tr>
+<td>
 {{{
 sel = SELECT(name="foo").from_list(["one","two"])
 sel.select(content="two")
 }}}
-generates the HTML code
+</td>
+<td>
 {{{
 <SELECT name="foo">
 <OPTION value="0">one
 <OPTION value="1" SELECTED>two
 </SELECT>
 }}}
+</td>
+</tr>
+</table>
 
+= The RADIO and CHECKBOX classes =
+
+These classes are provided for the HTML INPUT tags of types radio and checkbox
+
+The constructor is
+
+===RADIO(items,_values=None,**attrs)===
+
+It builds a list of INPUT tags, one per item in the list *items*. Each INPUT tag has the attributes *attrs*
+If *_values* is specified, it must be a list of the same size as *items*. Each INPUT tag value is taken from *_values*
+If it is not specified, the value is the index in *items*
+
+An instance of RADIO is an iterator on a list of tuples (value,tag) where value is the value in items, and tag is the matching INPUT instance
+
+Instances of RADIO and CHECKBOX support the method
+
+===check(value=arg) _or_ check(content=arg)===
+
+If the key is value, arg is an index (or a list of indices), the method check the tag at the given index or indices
+If key is content, arg is a string (or a list of strings), the method checks the tag whose value is the given string
+
+Examples
+<table>
+<tr>
+<th>Python code</th>
+<th>generates HTML code</th>
+</tr>
+<tr>
+<td>
+{{{
+r = RADIO(["one","two"])
+r.check(value=0)
+for v,tag in r:
+    print(v,tag)
+}}}
+</td>
+<td>
+{{{
+one <input Type="radio" value="0" CHECKED>
+two <input Type="radio" value="1">
+}}}
+</td>
+</tr>
+<tr>
+<td>
+{{{
+r = RADIO(["one","two"],["ONE","TWO"])
+r.check(content="two")
+for v,tag in r:
+    print(v,tag)
+}}}
+</td>
+<td>
+{{{
+one <input Type="radio" value="ONE">
+two <input Type="radio" value="TWO" checked>
+}}}
+</td>
+</tr>
+</table>
 
 = Editing a tag =
 
