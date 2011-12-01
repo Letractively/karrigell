@@ -58,9 +58,9 @@ def edit(rowid):
     form <= SELECT(name="role").from_list(levels).select(content=role)
     form <= P()
     form <= INPUT(Type="hidden",name="rowid",value=rowid)
-    form <= INPUT(Type="submit",name="action",value=_("update"))
-    form <= INPUT(Type="submit",name="action",value=_("delete"))
-    form <= INPUT(Type="submit",name="action",value=_("cancel"))
+    form <= INPUT(Type="submit",name="b_update",value=_("update"))
+    form <= INPUT(Type="submit",name="b_delete",value=_("delete"))
+    form <= INPUT(Type="submit",name="b_cancel",value=_("cancel"))
     content <= form
     body <= content
 
@@ -84,7 +84,8 @@ def new_entry():
     body <= content
     return HTML(HEAD(head)+BODY(body))
 
-def update(action,rowid,role,login='',password=''):
+def update(rowid,role,login='',password='',**kw):
+    action = list(kw.keys())[0][2:]
     if login=='':
         return _error('Login field was empty')
     if len(login)<6:
@@ -94,11 +95,11 @@ def update(action,rowid,role,login='',password=''):
     if login == password:
         return _error('Password and Login must be different')    
     role = levels[int(role)]
-    if action == _("Cancel"):
+    if action == 'cancel':
         raise HTTP_REDIRECTION("index")
     conn = THIS.users_db.get_connection()
     cursor = conn.cursor()
-    if action == _("Update"):
+    if action == 'update':
         if password:
             import hashlib
             _hash = hashlib.md5()
@@ -109,7 +110,7 @@ def update(action,rowid,role,login='',password=''):
             cursor.execute("UPDATE users SET login=?,role=? WHERE rowid=?",
                 (login,role,rowid))
         
-    elif action == _("Delete"):
+    elif action == 'delete':
         cursor.execute("DELETE FROM users WHERE rowid=?",(rowid,))
     conn.commit()
     raise HTTP_REDIRECTION("index")
