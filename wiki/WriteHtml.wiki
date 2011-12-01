@@ -58,6 +58,67 @@ for name,birth in [("Andres Iniesta","1984-05-11"),
 body <= table
 }}}
 
+= The SELECT tag =
+
+This tag has additional methods to build it from a list, and to select  options
+
+===from_list(_items,`[`use_content`]`_)===
+Builds the OPTION tags inside the SELECT tag, using the list _items_. Each option matches an element in the list. If _use`_`content_ is set to True, the option value for the n-th item is set to items[n] ; if set to False (default), it is set to n. The method returns the SELECT tag itself
+
+Example
+{{{
+SELECT(name="foo").from_list(["one","two"])
+}}}
+generates the HTML code
+{{{
+<SELECT name="foo">
+<OPTION value="0">one
+<OPTION value="1">two
+</SELECT>
+}}}
+
+{{{
+SELECT(name="foo").from_list(["one","two"],use_content=True)
+}}}
+generates the HTML code
+{{{
+<SELECT name="foo">
+<OPTION value="one">one
+<OPTION value="two">two
+</SELECT>
+}}}
+
+
+
+===select(value=v_arg,content=c_arg)===
+Select the options with the specified value or content
+If v_arg is a list, select the options whose value is in the list. Same thing if content is a list
+
+{{{
+sel = SELECT(name="foo").from_list(["one","two"])
+sel.select(value=0)
+}}}
+generates the HTML code
+{{{
+<SELECT name="foo">
+<OPTION value="0" SELECTED>one
+<OPTION value="1">two
+</SELECT>
+}}}
+
+{{{
+sel = SELECT(name="foo").from_list(["one","two"])
+sel.select(content="two")
+}}}
+generates the HTML code
+{{{
+<SELECT name="foo">
+<OPTION value="0">one
+<OPTION value="1" SELECTED>two
+</SELECT>
+}}}
+
+
 = Editing a tag =
 
 A tag can be manipulated in the same way as a DOM element
