@@ -117,20 +117,22 @@ These classes are provided for the HTML INPUT tags of types radio and checkbox
 
 The constructor is
 
-===RADIO(items,_values=None,**attrs)===
+===RADIO(items,`[`values,`[**`attrs`]]`)===
 
 It builds a list of INPUT tags, one per item in the list *items*. Each INPUT tag has the attributes *attrs*
-If *_values* is specified, it must be a list of the same size as *items*. Each INPUT tag value is taken from *_values*
+
+If *values* is specified, it must be a list of the same size as *items*. Each INPUT tag value is taken from *values*
 If it is not specified, the value is the index in *items*
 
-An instance of RADIO is an iterator on a list of tuples (value,tag) where value is the value in items, and tag is the matching INPUT instance
+An instance of RADIO is an iterator on a list of tuples _(value,tag)_ where _value_ is the value in *items*, and _tag_ is the matching INPUT instance
 
 Instances of RADIO and CHECKBOX support the method
 
 ===check(value=arg) _or_ check(content=arg)===
 
-If the key is value, arg is an index (or a list of indices), the method check the tag at the given index or indices
-If key is content, arg is a string (or a list of strings), the method checks the tag whose value is the given string
+If the key is *value*, arg is an index (or a list of indices), the method checks the tag(s) at the given index or indices in *items*
+
+If key is *content*, arg is a string (or a list of strings), the method checks the tag(s) whose value is the given string, or in the list of strings
 
 Examples
 <table>
@@ -141,7 +143,7 @@ Examples
 <tr>
 <td>
 {{{
-r = RADIO(["one","two"])
+r = RADIO(["one","two"],name="foo")
 r.check(value=0)
 for v,tag in r:
     print(v,tag)
@@ -149,15 +151,15 @@ for v,tag in r:
 </td>
 <td>
 {{{
-one <input Type="radio" value="0" checked>
-two <input Type="radio" value="1">
+one <input Type="radio" name="foo" value="0" checked>
+two <input Type="radio" name="foo" value="1">
 }}}
 </td>
 </tr>
 <tr>
 <td>
 {{{
-r = RADIO(["one","two"],["ONE","TWO"])
+r = RADIO(["one","two"],[350,18],name="foo")
 r.check(content="two")
 for v,tag in r:
     print(v,tag)
@@ -165,8 +167,8 @@ for v,tag in r:
 </td>
 <td>
 {{{
-one <input Type="radio" value="ONE">
-two <input Type="radio" value="TWO" checked>
+one <input Type="radio" name="foo" value="350">
+two <input Type="radio" name="foo" value="18" checked>
 }}}
 </td>
 </tr>
