@@ -1,12 +1,20 @@
 import os
 import configparser
-path = os.path.join(THIS.root_dir,'translations.ini')
-encoding = 'iso-8859-1'
-ini = configparser.ConfigParser()
-try:
-    ini.read([path],encoding=encoding)
-except:
-    ini.read([path]) # encoding is not supported by Python3.1
+
+ini = None
+
+def use(path=None,encoding='iso-8859-1'):
+    global ini
+    if path is None:
+        path = os.path.join(THIS.root_dir,'translations.ini')
+    else:
+        path = THIS.abs_path(path)
+    ini = configparser.ConfigParser()
+    try:
+        ini.read([path],encoding=encoding)
+    except TypeError:
+        ini.read([path]) # encoding is not supported by Python3.1
+    return ini
 
 def translate(src):
     if not ini.has_section(src):
@@ -23,3 +31,5 @@ def translate(src):
         return ini.get(src,'default')
     except configparser.NoOptionError:
         return src 
+
+use()
