@@ -5,6 +5,12 @@ import datetime
 
 levels = {'admin':1000,'edit':500,'visit':100}
 
+class User:
+
+    def __init__(self,login,role):
+        self.login = login
+        self.role = role
+        
 class SQLiteUsersDb:
 
     def __init__(self,path):
@@ -61,7 +67,7 @@ class SQLiteUsersDb:
         else: # user found, specified required role
             return levels[role] >= levels[req_role]
 
-    def get_role(self,**kw):
+    def get_user(self,**kw):
         """Return the role of user with session key skey"""
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
@@ -74,12 +80,18 @@ class SQLiteUsersDb:
                 value = _hash.digest()
             args.append(value)
         clause = ' AND '.join(key+'=?' for key in kw.keys())
-        cursor.execute('SELECT role FROM users WHERE '+clause,args)
+        cursor.execute('SELECT login,role FROM users WHERE '+clause,args)
         result = cursor.fetchall()
         if not result:
             return None
         else:
-            return result[0][0]
+            return User(result[0][0],result[0][1])
+
+    def get_role(self,**kw):
+        user = self.get_user(**kw)
+        if not user:
+            return user
+        return user.role
 
     def set_session_key(self,login,skey):
         conn = sqlite3.connect(self.path)
