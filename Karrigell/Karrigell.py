@@ -37,7 +37,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.6"
+version = "4.3.7"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -241,13 +241,13 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.erase_cookie(self.skey_cookie)
         raise HTTP_REDIRECTION(redir_to)
 
-    def role(self):
+    def user(self):
         if self.users_db is None:
             return None
         if not self.skey_cookie in self.cookies:
             return False
         skey = self.cookies[self.skey_cookie].value
-        return self.users_db.get_role(skey=skey)
+        return self.users_db.get_user(skey=skey)
 
     def abs_path(self,*rel_path):
         """Return absolute path in the file system, relative to script path"""
@@ -294,7 +294,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             'COOKIE':self.cookies,'SET_COOKIE':self.set_cookie,
             'ENCODING':self.encoding,
             'Session':self.Session,
-            'Logout':self.logout,'Login':self.login,'Role':self.role,
+            'Logout':self.logout,'Login':self.login,'User':self.user,
             'Import':self._import,'THIS': self }
         # import names from HTMLTags
         import HTMLTags
