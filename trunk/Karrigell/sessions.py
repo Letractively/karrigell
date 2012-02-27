@@ -119,23 +119,17 @@ class SQLiteSessionStorage:
         SessionElement instance"""
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        try:
-            cursor.execute('SELECT * FROM sessions WHERE session_id=?',
-                (session_id,))
-            res = cursor.fetchone()
-            if not res:
-                obj = SessionElement()
-                s_obj = pickle.dumps({})
-                now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-                cursor.execute('INSERT INTO sessions VALUEs (?,?,?)',
-                    (session_id,now,s_obj))
-            else:
-                obj = pickle.loads(res[2])
-        except (IOError,AttributeError):
+        cursor.execute('SELECT * FROM sessions WHERE session_id=?',
+            (session_id,))
+        res = cursor.fetchone()
+        if not res:
             obj = SessionElement()
-            out = open(session_file,'wb')
-            pickle.dump({},out)
-            out.close()
+            s_obj = pickle.dumps({})
+            now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            cursor.execute('INSERT INTO sessions VALUEs (?,?,?)',
+                (session_id,now,s_obj))
+        else:
+            obj = pickle.loads(res[2])
         return obj
 
     def clear_sessions(self,conn):
