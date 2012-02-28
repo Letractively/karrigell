@@ -260,6 +260,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
     def source(self,script_path):
         # manages encoding of Python source code (PEP 0263)
         src_enc = "utf-8" # default (PEP 3120)
+        enc_msg = "Default encoding utf-8"
         src = open(script_path,'rb')
         head = src.read(3)
         if not head == b'\xef\xbb\xbf': # BOM for utf-8
@@ -270,6 +271,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                 mo = re.search(b"coding[:=]\s*([-\w.]+)",line)
                 if mo:
                     src_enc = mo.groups()[0].decode('ascii')
+                    enc_msg = 'Declared encoding "%s"' %src_enc
                     break
         src.seek(len(head))
         try:
@@ -279,8 +281,10 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             src.close()
             return '\n'.join(lines)
         except UnicodeDecodeError as exc:
-            raise ScriptError("Error in file %s at line %d" %
-                (script_path, n+1)) from exc 
+            msg = "Encoding error in file %s\n" %script_path
+            msg += enc_msg
+            msg += " but there are non-%s characters in line %d" %(src_enc,n+1)
+            raise ScriptError(msg) from exc 
 
     def run(self,func):
         """Run function func in a Python script
@@ -311,11 +315,12 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         
         src = self.source(self.script_path)
         try:
-            exec(src,self.namespace) # run script in namespace
+            exec(compile(src.encode('utf-8'),self.script_path,'exec'),
+                self.namespace) # run script in namespace
             func_obj = self.namespace.get(func,None)
             if func_obj is None \
                 or not isinstance(func_obj,types.FunctionType) \
-                or not func_obj.__code__.co_filename=='<string>' \
+                or not func_obj.__code__.co_filename==self.script_path \
                 or func.startswith('_'):
                     msg = 'No function %s in script %s' \
                         %(func,os.path.basename(self.script_path))
@@ -371,7 +376,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         # update builtins so that imported scripts use script namespace
         ns = {}
         ns.update(self.namespace)
-        exec(self.source(fs_path),ns)
+        src = self.source(fs_path)
+        exec(compile(src.encode('utf-8'),fs_path,'exec'),ns)
         # No exception executing imported code, so clear saved module name
         self.imported_modules.remove(fs_path)
         class Imported:
