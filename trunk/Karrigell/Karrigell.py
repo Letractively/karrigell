@@ -398,6 +398,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             chars = string.ascii_letters + string.digits
             self.session_id = ''.join([random.choice(chars) for i in range(16)])
             self.set_cookie["session_id"] = self.session_id
+            self.set_cookie["session_id"]["path"] = "/"
         self.session_object = self.session_storage.get(self.session_id)
         return self.session_object
 
