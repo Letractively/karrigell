@@ -38,6 +38,9 @@ The functions available in scripts to manage users are :
  When this function is run, the cookies used to store information about a logged in user are erased, so that he is no longer authenticated
  The optional _redir`_`to_ argument indicated the url where the user should be redirected after this logout operation was performed. It defaults to the url of the script where the <font color="#338" size="2"><b>Logout()</b></font> function was run
 
+==User()==
+ This function returns an object with the attributes _login_ and _role_, matching user login and role, or <font color="#333388"><b>None</b></font> if no user is authenticated
+
 ==Role()==
  This function returns :
   * <font color="#333388"><b>None</b></font> if no users database was defined for the application
