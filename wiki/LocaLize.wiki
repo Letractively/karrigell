@@ -32,6 +32,14 @@ By default, the translation file is <font color="#106010" face="courier">transla
 
 You can choose to use another translation file with another encoding by using the module-level function 
 
-use(path,encoding)
+===use(_path,encoding_)===
 
-where 'path' is the path of the translation file in the file system. 'encoding' defaults to iso-8859-1
+  where _path_ is the path of the translation file in the file system. _encoding_ defaults to iso-8859-1
+
+For instance :
+
+{{{
+translation = Import("translation.py")
+translation.use("foo.ini",encoding="utf-8")
+_ = translation.translate
+}}}
