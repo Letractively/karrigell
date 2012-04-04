@@ -37,7 +37,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.7"
+version = "4.3.8"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -275,11 +275,11 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                     break
         src.seek(len(head))
         try:
-            lines = []
             for n,line in enumerate(src):
-                lines.append(line.rstrip().decode(src_enc))
-            src.close()
-            return '\n'.join(lines)
+                line.rstrip().decode(src_enc)
+            # if encoding is correct, return bytes
+            src.seek(0)
+            return src.read()
         except UnicodeDecodeError as exc:
             msg = "Encoding error in file %s\n" %script_path
             msg += enc_msg
@@ -315,7 +315,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         
         src = self.source(self.script_path)
         try:
-            exec(compile(src.encode('utf-8'),self.script_path,'exec'),
+            exec(compile(src,self.script_path,'exec'),
                 self.namespace) # run script in namespace
             func_obj = self.namespace.get(func,None)
             if func_obj is None \
@@ -377,7 +377,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         ns = {}
         ns.update(self.namespace)
         src = self.source(fs_path)
-        exec(compile(src.encode('utf-8'),fs_path,'exec'),ns)
+        exec(compile(src,fs_path,'exec'),ns)
         # No exception executing imported code, so clear saved module name
         self.imported_modules.remove(fs_path)
         class Imported:
