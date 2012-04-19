@@ -423,6 +423,8 @@ class App:
     login_url = None
     root_dir = os.getcwd()
     session_storage_class = Karrigell.sessions.SQLiteSessionStorage
+    session_storage_class.path = os.path.join(os.path.dirname(root_dir),
+        'data','sessions.sqlite')
     users_db = None
     filters = []
     # names for login and session key cookies. Should be application specific
