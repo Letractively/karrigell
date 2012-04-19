@@ -42,7 +42,8 @@ class FileSessionStorage:
 
     def __init__(self,app):
         if self.session_dir is None:
-            self.session_dir = os.path.join(app.root_dir,"sessions")
+            self.session_dir = os.path.join(os.path.dirname(app.root_dir),
+                "data","sessions")
         if not os.path.exists(self.session_dir):
             os.mkdir(self.session_dir)
 
@@ -82,8 +83,6 @@ class SQLiteSessionStorage:
     max_sessions = 100
 
     def __init__(self,app):
-        if self.path is None:
-            self.path = os.path.join(app.root_dir,"sessions.sqlite")
         if not os.path.exists(self.path):
             conn = sqlite3.connect(self.path)
             cursor = conn.cursor()
