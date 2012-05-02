@@ -32,3 +32,7 @@ RESPONSE_HEADERS['Content-type'] = gtype
 uses another name which is always available in Python scripts run by Karrigell : RESPONSE_HEADERS. It is a dictionary-like object (in fact, an instance of class <font color="#336633" size="2"><b>`email.message.Message`</b></font>, used to set the response headers that will be sent to the web browser. Here, the line sets the Content-type header to the type of the file received
 
 In the next line we read the binary data from the attribute "file" of src, and finally return this binary data. The Karrigell engine sends the response headers, then the binary data ; with this information, the browser renders the file content under the appropriate format : if the file was a JPEG picture, the browser prints it
+
+== Warning ==
+
+The _action_ parameter of a form must match the function in the targetted script ; if this function is <font color="#338" size="2"><b>index()</b></font> in script <font color="#106010" face="courier">foo.py</font>, _action_ must be <font color="#338" size="2"><b>foo.py/index</b></font>, not just <font color="#338" size="2"><b>foot.py</b></font> : in the second case, the form will be redirected by Karrigell to <font color="#338" size="2"><b>foo.py/index</b></font>, but all form data will be lost in the redirection
