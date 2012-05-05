@@ -24,7 +24,7 @@ An application is described by a subclass of the class <font color="#333388" siz
  The directory in the file system to serve scripts and documents from. Defaults to the directory where the server script stands
 
 ===session_storage_class===
- The class used to manage the storage and retrieval of session objects (see SessionManagement). Defaults to the class <font color="#333388" size="2"><b>`FileSessionManagement`</b></font> in module <font color="#336633" size="2"><b>Karrigell.sessions</b></font>
+ The class used to manage the storage and retrieval of session objects (see SessionManagement). Defaults to the class <font color="#333388" size="2"><b>`SQLiteSessionManagement`</b></font> in module <font color="#336633" size="2"><b>Karrigell.sessions</b></font>
 
 ===users_db===
  An object representing the users database. It must have the same interface as the class <font color="#333388" size="2"><b>`SQLiteUsersDb`</b></font> in module <font color="#336633" size="2"><b>Karrigell.admin_db</b></font>
