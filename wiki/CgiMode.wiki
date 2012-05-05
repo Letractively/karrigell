@@ -10,7 +10,7 @@ There are a couple of things you must know in order to get things running :
 
 This information and other options must be declared in the configuration file <font color="#106010" face="courier">cgi.ini</font>, located in the directory <font color="#106010" face="courier">cgi</font> of the Karrigell distribution. Detailed explanations are given on the expected values
 
-Once you have filled it, run the script make_cgi_config.py : it will generate a package located in the subdirectory <font color="#106010" face="courier">cgi-package</font>, consisting into 2 directories :
+Once you have filled it, run the script make_cgi_config.py : it will generate a package located in the subdirectory <font color="#106010" face="courier">cgi-package</font>, consisting in 2 directories :
   * <font color="#106010" face="courier">cgi-bin</font> : its content must be copied or uploaded on the server's CGI directory
   * <font color="#106010" face="courier">root_directory</font> : its content must be copied or uploaded on the document root
 
