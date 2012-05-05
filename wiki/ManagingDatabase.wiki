@@ -145,7 +145,7 @@ The final step is to enable deletion of CDs from the base : once again, edit the
             row = TR(TD(artist)+TD(title))
             if logged:
                 row <= TD(A("Edit",href="edit?rowid=%s" %i))
-                row <= TD(A("Delete",href="delete?rowid=%s" %i))
+                row <= TD(A("Delete",href="remove?rowid=%s" %i))
             table <= row
         body += table
     else:
