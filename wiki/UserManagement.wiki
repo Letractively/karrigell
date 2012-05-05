@@ -39,10 +39,4 @@ The functions available in scripts to manage users are :
  The optional _redir`_`to_ argument indicated the url where the user should be redirected after this logout operation was performed. It defaults to the url of the script where the <font color="#338" size="2"><b>Logout()</b></font> function was run
 
 ==User()==
- This function returns an object with the attributes _login_ and _role_, matching user login and role, or <font color="#333388"><b>None</b></font> if no user is authenticated
-
-==Role()==
- This function returns :
-  * <font color="#333388"><b>None</b></font> if no users database was defined for the application
-  * <font color="#333388"><b>False</b></font> if the user is not yet authenticated
-  * the users role (admin, edit or visit) if he is already authenticated
+ This function returns an object with the attributes _login_ and _role_, matching user login and role (admin, edit or visit), or <font color="#333388"><b>None</b></font> if no user is authenticated
