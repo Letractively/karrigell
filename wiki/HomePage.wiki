@@ -7,21 +7,21 @@
 
 For the moment we'll ignore the CDs and begin writing the home page
 
-Create a new folder mycds in your Karrigell distribution, under the folder <font color="#106010" face="courier">www</font>. With your favorite text editor, save this text in a file called <font color="#106010" face="courier">index.py</font>
+Create a new folder <font color="#106010" face="courier">mycds</font> in your Karrigell distribution, under the folder <font color="#106010" face="courier">www</font>. With your favorite text editor, save this text in a file called <font color="#106010" face="courier">index.py</font>
 {{{
 def index():
     return "<h1>My CD collection</h1>"
 }}}
 In your browser enter _http://localhost/mycds/index.py/index_
 
-Karrigell maps urls to functions in Python scripts : here, _index.py/index_ means that the function index() will send the data back to the browser
+Karrigell maps urls to functions in Python scripts : here, _index.py/index_ means that the function <font color="#333388" size="2"><b>index()</b></font> will send the data back to the browser
 
 In fact
 
-  * if you don't specify a function name, the index() function in the script will be run, so you could have asked _localhost/mycds/index.py_
+  * if you don't specify a function name, the <font color="#333388" size="2"><b>index()</b></font> function in the script will be run, so you could have asked _localhost/mycds/index.py_
   * and if you don't even specify a script name in a folder, the script <font color="#106010" face="courier">index.py</font> will be run. So all you have to type really is _localhost/mycds_
 
-Notice the <tt>return</tt> statement in the index() function. Karrigell sends the result of the function to the browser (more precisely, the string representation of the result) ; by default, this content is supposed to be HTML code
+Notice the <tt>return</tt> statement in the <font color="#333388" size="2"><b>index()</b></font> function. Karrigell sends the result of the function to the browser (more precisely, the string representation of the result) ; by default, this content is supposed to be HTML code
 
 = HTMLTags =
 
@@ -59,17 +59,17 @@ def index():
 }}}
 Each time the page is reloaded, you will see the number of visits incremented by 1
 
-Notice that the file is opened by the usual open() function. The current directory is the one where the server script stands ; so you will see that the file <font color="#106010" face="courier">counter.txt</font> is located in the directory <font color="#106010" face="courier">www</font>, _not_ in the subdirectory <font color="#106010" face="courier">mycds</font>
+Notice that the file is opened by the usual <tt>open()</tt> function. The current directory is the one where the server script stands ; so you will see that the file <font color="#106010" face="courier">counter.txt</font> is located in the directory <font color="#106010" face="courier">www</font>, _not_ in the subdirectory <font color="#106010" face="courier">mycds</font>
 
 = A better page counter =
 
 A page counter should not increment if the same user repeatedly reloads the same page. This requires a way to identify the browser which is sending the request. For this task, web programming provides session management, and Karrigell has a very simple implementation of this concept
 
-Use the built-in Session() function
+Use the built-in <font color="#333388" size="2"><b>Session()</b></font> function
 
-Karrigell scripts are run in a namespace prepared by the framework : among the names available in scripts, you have this Session() function, which returns an object specific to each individual client (it uses cookies). This object is an ordinary Python object, to which you can set any attribute you like
+Karrigell scripts are run in a namespace prepared by the framework : among the names available in scripts, you have this <font color="#333388" size="2"><b>Session()</b></font> function, which returns an object specific to each individual client (it uses cookies). This object is an ordinary Python dictionary, to which you can set key/value pairs
 
-Here, for a new client, we will create an attribute user to the session object. If a client requests the home page and his session object already has this attribute, the counter will not be incremented
+Here, for a new client, we will create a key key _user_ for the session object. If a client requests the home page and his session object already has this key, the counter will not be incremented
 {{{
 def index():
     body = H1("My CD collection")
@@ -114,7 +114,7 @@ def index():
     body += counter.nb_visits()+" visits"
     return body
 }}}
-Import() is another Karrigell built-in function : it takes a script url as argument, and returns an object that behaves exactly like an imported module
+<font color="#333388" size="2"><b>Import()</b></font> is another Karrigell built-in function : it takes a script url as argument, and returns an object that behaves exactly like an imported module
 
 So, you may wonder, why not use the usual Python keyword <tt>import</tt> ? This is because of the mechanism used by the Python interpreter to find a module by its name : it searches a module of this name in a list of directories, and in a multi threaded environment such as a web server, there is no reliable way of being sure that the directory of a Karrigell script is inside this list
 
@@ -130,12 +130,12 @@ def index():
     body += counter.nb_visits()+" visits"
     return body
 }}}
-To create the HTML anchor, we use the HTMLTags class A, with the text as first argument, and the attribute 'href' set to "login". The string representation of this instance will be
+To create the HTML anchor, we use the HTMLTags class A, with the text as first argument, and the attribute _href_ set to "login". The string representation of this instance will be
 {{{
 <a href="login">Login</a>
 }}}
 
-The href attribute, "login", is a relative url to the base url, _host/mycds/index.py/index_, so it resolves to _host/mycds/index.py/login_, meaning that the link will invoke the execution of the function login() in the script <font color="#106010" face="courier">index.py</font>
+The _href_ attribute, "login", is a relative url to the base url, _host/mycds/index.py/index_, so it resolves to _host/mycds/index.py/login_, meaning that the link will invoke the execution of the function <font color="#333388" size="2"><b>login()</b></font> in the script <font color="#106010" face="courier">index.py</font>
 
 This function will generate an HTML form asking the user's login and password, and submitting these values to an authentication test
 {{{
