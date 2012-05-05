@@ -1,9 +1,9 @@
 #summary How to pass parameters to a script
 #sidebar TableOfContents
 
-The user enters data in an HTML form. Each field in the form is identified by a name ; the form itself has an argument "action" to specify the url of the script that will handle the submitted data
+The user enters data in an HTML form. Each field in the form is identified by a name ; the form itself has an argument _action_ to specify the url of the script that will handle the submitted data
 
-In Karrigell, the "action" is a function in a script, and the form field names are the arguments of this function
+In Karrigell, the _action_ is a function in a script, and the form field names are the arguments of this function
 
 = Basic example =
 
@@ -19,9 +19,9 @@ def show(foo):
     return foo
 }}}
 
-In <font color="#338" size="2"><b>index()</b></font> we build the form, with an attribute action set to "show", the name of the function in the same script that will manage the form
+In <font color="#338" size="2"><b>index()</b></font> we build the form, with an attribute _action_ set to "show", the name of the function in the same script that will manage the form
 
-This function takes a single argument, foo, the same as the name of the only INPUT field in the form. Here it simply returns the submitted data
+This function takes a single argument, _foo_, the same as the name of the only INPUT field in the form. Here it simply returns the submitted data
 
 In this simple example, the value of the argument is a (unicode) string
 
