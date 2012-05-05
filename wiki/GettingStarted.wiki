@@ -49,7 +49,7 @@ def show(city):
         return HTML(head+BODY(city))
 }}}
 
-In this simple example, the function index() returns an HTML page with a form to be filled by the user. The attribute "action" of this form tells the framework to target the function "show", and passes the argument "city" to this function. Here, the function just echoes the value
+In this simple example, the function <font color="#333388" size="2"><b>index()</b></font> returns an HTML page with a form to be filled by the user. The attribute _action_ of this form tells the framework to target the function <font color="#333388" size="2"><b>show()</b></font>, and passes the argument _city_ to this function. Here, the function just echoes the value
 
 The names in uppercase letters (HEAD, FORM, etc) are in the execution namespace : they match all the valid HTML tags and are used to generate HTML code. See [WriteHtml HTML Tags] for more information
 
