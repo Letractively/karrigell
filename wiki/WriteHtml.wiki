@@ -5,7 +5,7 @@
 
 = Introduction =
 
-A dynamic web application presents data inside an HTML document. One of the ways you can do it in Karrigell is to use the HTMLTags module
+A dynamic web application presents data inside an HTML document. The best way to generate HTML is to use the HTMLTags module
 
 
 = Basics =
@@ -65,9 +65,9 @@ body <= table
 This tag has additional methods to build it from a list, and to select  options
 
 ===from_list(_items,`[`use_content`]`_)===
-Builds the OPTION tags inside the SELECT tag, using the list _items_. Each option matches an element in the list. If _use`_`content_ is set to True, the option value for the n-th item is set to items[n] ; if set to False (default), it is set to n. The method returns the SELECT tag itself
+Builds the OPTION tags inside the SELECT tag, using the list _items_. Each option matches an element in the list. If _use`_`content_ is set to True, the option value for the n-th item is set to items`[n`] ; if set to False (default), it is set to n. The method returns the SELECT tag itself
 
-===select(value=v_arg,content=c_arg)===
+===select(_value=v_arg,content=c_arg_)===
 Select the options with the specified value or content
 If v_arg is a list, select the options whose value is in the list. Same thing if content is a list
 
@@ -117,7 +117,7 @@ These classes are provided for the HTML INPUT tags of types radio and checkbox
 
 The constructor is
 
-===RADIO(items,`[`values,`[**`attrs`]]`)===
+===RADIO(_items,`[`values,`[**`attrs`]]`_)===
 
 It builds a list of INPUT tags, one per item in the list *items*. Each INPUT tag has the attributes *attrs*
 
@@ -128,7 +128,7 @@ An instance of RADIO is an iterator on a list of tuples _(value,tag)_ where _val
 
 Instances of RADIO and CHECKBOX support the method
 
-===check(value=arg) _or_ check(content=arg)===
+===check(_value=arg_) _or_ check(_content=arg_)===
 
 If the key is *value*, arg is an index (or a list of indices), the method checks the tag(s) at the given index or indices in *items*
 
@@ -178,7 +178,7 @@ two <input Type="radio" name="foo" value="18" checked>
 
 A tag can be manipulated in the same way as a DOM element
 
-It support the dictionary interface to access the attributes. With the example above, you can add an attribute to the table :
+It supports the dictionary interface to access the attributes. With the example above, you can add an attribute to the table :
 
 {{{
 table["width"] = "80%"
