@@ -193,7 +193,7 @@ def index():
     body += BR()+'%s visits' %counter.nb_visits()
     return body
 }}}
-The logout function will only remove the attribute user from the session object and redirect to the home page :
+The logout() function will only remove the key _user_ from the session object and redirect to the home page :
 {{{
 def logout():
     del Session()["user"]
