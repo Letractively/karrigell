@@ -21,9 +21,6 @@ class MemorySessionStorage:
 
     sessions = {}
 
-    def __init__(self,app):
-        pass
-
     def save(self,handler):
         """Save session object as a dictionary"""
         if hasattr(handler,'session_object'):
@@ -36,16 +33,17 @@ class MemorySessionStorage:
 
 class FileSessionStorage:
 
-    session_dir = None
     # lock for thread-safe session storage
     rlock = threading.RLock()
 
-    def __init__(self,app):
-        if self.session_dir is None:
-            self.session_dir = os.path.join(os.path.dirname(app.root_dir),
-                "data","sessions")
+    def __init__(self,session_dir):
+        self.session_dir = session_dir
         if not os.path.exists(self.session_dir):
-            os.mkdir(self.session_dir)
+            try:
+                os.mkdir(self.session_dir)
+            except IOError:
+                msg = "Can't create directory for file session storage %s"
+                raise ValueError(msg %self.session_dir)
 
     def save(self,handler):
         """Save session object as a dictionary"""
@@ -79,12 +77,18 @@ class FileSessionStorage:
 
 class SQLiteSessionStorage:
 
-    path = None
     max_sessions = 100
 
-    def __init__(self,app):
+    def __init__(self,path):
+        self.path = path
+        if self.path is None:
+            raise ValueError("Path for SQLite session storage not defined")
         if not os.path.exists(self.path):
-            conn = sqlite3.connect(self.path)
+            try:
+                conn = sqlite3.connect(self.path)
+            except:
+                msg = "Can't create a SQLite database with path %s"
+                raise ValueError(msg %self.path)
             cursor = conn.cursor()
             fields = "session_id TEXT,mtime TEXT,s_obj TEXT"
             cursor.execute('CREATE TABLE sessions (%s)' %fields)
