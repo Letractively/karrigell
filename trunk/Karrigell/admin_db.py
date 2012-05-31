@@ -16,12 +16,15 @@ class SQLiteUsersDb:
     def __init__(self,path):
         self.path = path
         self.name = path
-        if not os.path.exists(path):
-            db_dir = os.path.dirname(path)
+    
+    def setup(self):
+        """called by check_apps on server startup"""
+        if not os.path.exists(self.path):
+            db_dir = os.path.dirname(self.path)
             if not os.path.exists(db_dir):
                 msg = "Directory of SQLite database {} doesn't exist"
                 raise ValueError(msg.format(db_dir))
-            conn = sqlite3.connect(path)
+            conn = sqlite3.connect(self.path)
             cursor = conn.cursor()
             cursor.execute('CREATE TABLE users (login TEXT,password TEXT,\
                 role TEXT, skey TEXT, created TEXT, last_visit TEXT,\
