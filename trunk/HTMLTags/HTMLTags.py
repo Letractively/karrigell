@@ -97,10 +97,15 @@ class TAG:
                 child.parent = self
 
     def __str__(self):
-        import sys
         res=io.StringIO()
         w=res.write
-        if self.tag not in ["TEXT","TAG"]:
+        if self.tag == "COMMENT":
+            w("<!--")
+            for child in self.children:
+                w(str(child))
+            w("-->")
+            return res.getvalue()
+        elif self.tag not in ["TAG"]:
             w("<%s" %self.tag.lower())
             # attributes which will produce arg = "val"
             attr1 = [ k for k in self.attrs 
@@ -141,8 +146,6 @@ class TAG:
         if other.__class__ is TAG:
             self.children += other.children
         else:
-            if isinstance(other,str):
-                other = TEXT(other)
             self.children.append(other)
         self._update_parent()
         return self
@@ -262,7 +265,7 @@ _NON_CLOSING_TAGS = ['AREA', 'BASE', 'BASEFONT', 'BR', 'COL', 'FRAME',
 
 # new HTML5 tags
 _CLOSING_TAGS += [ 'ARTICLE','ASIDE','FIGURE','FOOTER','HEADER','NAV',
-    'SECTION','AUDIO','VIDEO','CANVAS','COMMAND','DATALIST',
+    'SECTION','AUDIO','VIDEO','CANVAS','COMMAND','COMMENT','DATALIST',
     'DETAILS','OUTPUT','PROGRESS','HGROUP','MARK','METER','TIME',
     'RP','RT','RUBY']
 
@@ -447,3 +450,5 @@ if __name__ == '__main__':
     print(lines)
     
     print("à"+B('z'))
+
+    print(COMMENT('commentaire'))
