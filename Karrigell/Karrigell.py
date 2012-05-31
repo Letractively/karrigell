@@ -106,17 +106,20 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.path_info = self.elts[2] # equivalent of CGI PATH_INFO
         elts = urllib.parse.unquote(self.path_info).split('/')
         # identify the application and set attributes from it
-        if elts[1] in self.alias:
-            app = self.alias[elts[1]]
-        elif '' in self.alias:
-            app = self.alias['']
+        host = self.headers.get("host",None).split(':')[0]
+        if (host, elts[1]) in self.alias:
+            app = self.alias[(host, elts[1])]
+        elif (host, '') in self.alias:
+            app = self.alias[(host, '')]
         else:
             return self.send_error(404,'Unknown alias '+elts[1])
         self.app = app
         for attr in ['root_url','root_dir','users_db']:
             setattr(self,attr,getattr(app,attr))
         self.login_url = app.get_login_url()
-        self.session_storage = app.session_storage_class(app)
+        self.session_storage = None
+        if app.session_storage:
+            self.session_storage = app.session_storage
         self.login_cookie,self.skey_cookie = app.get_cookie_names()
         
         # apply application filters
@@ -208,9 +211,10 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
 
     def get_file(self,path):
         """Return a file name matching path"""
-        elts = urllib.parse.unquote(path).split('/')
-        if elts[1] in self.alias:
-            return os.path.join(self.root_dir,*elts[2:])
+        if self.root_url == '/':
+            elts = urllib.parse.unquote(path).split('/')
+        else:
+            elts = urllib.parse.unquote(path[len(self.root_url):]).split('/')
         return os.path.join(self.root_dir,*elts)
 
     def erase_cookie(self,name):
@@ -228,11 +232,13 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         origin = origin or self.path
         if not self.users_db:
             raise HTTP_ERROR(500,"Can't login, no users database set")
+        args = {'role':role,'origin':origin}
+        qs = urllib.parse.urlencode(args)
         if not self.skey_cookie in self.cookies:
-            raise HTTP_REDIRECTION(login_url+'?role=%s&origin=%s' %(role,origin))
+            raise HTTP_REDIRECTION(login_url+'?'+qs)
         skey = self.cookies[self.skey_cookie].value
         if not self.users_db.key_has_role(skey,role):
-            raise HTTP_REDIRECTION(login_url+'?role=%s&origin=%s' %(role,origin))
+            raise HTTP_REDIRECTION(login_url+'?'+qs)
 
     def logout(self,redir_to=None):
         """Log out = erase login and session key cookies, then redirect"""
@@ -328,9 +334,9 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                     return
             # run function with self.body as argument
             result = self.namespace[func](**self.body) # string or bytes
-            self.session_storage.save(self)
+            self.save_session()
         except HTTP_REDIRECTION as url:
-            self.session_storage.save(self)
+            self.save_session()
             return self.redir(url)
         except HTTP_ERROR as msg:
             return self.send_error(msg.code,msg.message)
@@ -390,6 +396,8 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         """Get session object matching session_id cookie
         If no session_id cookie was received, generate one and return an
         empty SessionElement instance"""
+        if self.session_storage is None:
+            raise Exception("No session storage defined")
         if hasattr(self,'session_object'):
             return self.session_object
         if "session_id" in self.cookies:
@@ -401,6 +409,10 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
             self.set_cookie["session_id"]["path"] = "/"
         self.session_object = self.session_storage.get(self.session_id)
         return self.session_object
+
+    def save_session(self):
+        if self.session_storage:
+            self.session_storage.save(self)
 
     def done(self, code, infile):
         """Send response, cookies, response headers + 
@@ -422,14 +434,13 @@ class App:
     root_url = '/'
     login_url = None
     root_dir = os.getcwd()
-    session_storage_class = Karrigell.sessions.SQLiteSessionStorage
-    session_storage_class.path = os.path.join(os.path.dirname(root_dir),
-        'data','sessions.sqlite')
+    session_storage = None
     users_db = None
     filters = []
     # names for login and session key cookies. Should be application specific
     login_cookie = None
     skey_cookie = None
+    hosts = ['localhost', '127.0.0.1']
 
     @classmethod
     def get_login_url(self):
@@ -452,8 +463,11 @@ def run(handler=RequestHandler,port=80,apps=[App]):
     import Karrigell.check_apps
     Karrigell.check_apps.check(apps)
     handler.apps = apps
-    handler.alias = dict((app.root_url.lstrip('/'),app)
-        for app in apps)
+    handler.alias = {}
+    for app in apps :
+        root_url = app.root_url.lstrip('/')
+        for host in app.hosts :
+            handler.alias[(host, root_url)] = app
     s=socketserver.ThreadingTCPServer(('',port),handler)
     print("%s %s running on port %s" %(handler.name,version,port))
     s.serve_forever()
