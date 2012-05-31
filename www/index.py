@@ -8,6 +8,7 @@ def index():
     container <= banner.banner(title = _("home"))
     content = DIV(Id="content")
     content <= _("installed")
-    content <= BR()+A("Administration",href="/admin/index.py")
+    content <= P()+A("Administration",href="/admin/index.py")
+    content <= P()+A("Documentation",href="/doc/Home.html")
     container <= content
     return HTML(HEAD(head)+BODY(container))
