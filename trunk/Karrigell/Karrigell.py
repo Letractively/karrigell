@@ -27,6 +27,7 @@ import types
 import datetime
 import gzip
 
+import socketserver
 import urllib.parse
 import cgi
 import http.server
@@ -37,7 +38,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.8"
+version = "4.3.9"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -458,8 +459,8 @@ class App:
         skey_cookie = self.skey_cookie or 'skey_'+suffix
         return login_cookie,skey_cookie
 
-def run(handler=RequestHandler,port=80,apps=[App]):
-    import socketserver
+def run(handler=RequestHandler,port=80,apps=[App],
+    server=socketserver.ThreadingTCPServer):
     import Karrigell.check_apps
     Karrigell.check_apps.check(apps)
     handler.apps = apps
@@ -468,7 +469,7 @@ def run(handler=RequestHandler,port=80,apps=[App]):
         root_url = app.root_url.lstrip('/')
         for host in app.hosts :
             handler.alias[(host, root_url)] = app
-    s=socketserver.ThreadingTCPServer(('',port),handler)
+    s=server(('',port),handler)
     print("%s %s running on port %s" %(handler.name,version,port))
     s.serve_forever()
 
