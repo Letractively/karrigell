@@ -182,6 +182,9 @@ class TAG:
         """Replicate self n times, with n first : n * TAG"""
         return self*n
 
+    def __contains__(self,attr):
+        return attr in self.attrs
+
     def __getitem__(self,attr):
         return self.attrs[attr]
     
