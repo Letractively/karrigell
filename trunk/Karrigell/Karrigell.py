@@ -27,6 +27,7 @@ import types
 import datetime
 import gzip
 
+import socket
 import socketserver
 import urllib.parse
 import cgi
@@ -38,7 +39,7 @@ import email.message
 import Karrigell.sessions
 import Karrigell.admin_db as admin_db
 
-version = "4.3.9"
+version = "4.3.10"
 
 class HTTP_REDIRECTION(Exception):
     pass
@@ -107,7 +108,7 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
         self.path_info = self.elts[2] # equivalent of CGI PATH_INFO
         elts = urllib.parse.unquote(self.path_info).split('/')
         # identify the application and set attributes from it
-        host = self.headers.get("host",None).split(':')[0]
+        host = (urllib.parse.urlparse("http://"+self.headers.get("host",None)).hostname) 
         if (host, elts[1]) in self.alias:
             app = self.alias[(host, elts[1])]
         elif (host, '') in self.alias:
@@ -441,7 +442,7 @@ class App:
     # names for login and session key cookies. Should be application specific
     login_cookie = None
     skey_cookie = None
-    hosts = ['localhost', '127.0.0.1']
+    hosts = ['localhost', '127.0.0.1','::1']
 
     @classmethod
     def get_login_url(self):
@@ -460,7 +461,8 @@ class App:
         return login_cookie,skey_cookie
 
 def run(handler=RequestHandler,port=80,apps=[App],
-    server=socketserver.ThreadingTCPServer):
+    server=socketserver.ThreadingTCPServer, address_family=socket.AF_INET):
+    server.address_family=address_family
     import Karrigell.check_apps
     Karrigell.check_apps.check(apps)
     handler.apps = apps
@@ -470,7 +472,8 @@ def run(handler=RequestHandler,port=80,apps=[App],
         for host in app.hosts :
             handler.alias[(host, root_url)] = app
     s=server(('',port),handler)
-    print("%s %s running on port %s" %(handler.name,version,port))
+    print("%s %s running on port %s (%s)" %(handler.name,version,port,
+        {socket.AF_INET : "IPV4", socket.AF_INET6 : "IPV6"}[address_family]))
     s.serve_forever()
 
 def run_app(host="http://localhost",*args,**kw):
