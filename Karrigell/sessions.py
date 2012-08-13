@@ -8,13 +8,19 @@ import datetime
 
 class SessionElement(dict):
 
+    def __init__(self,restricted = True):
+        dict.__init__(self)
+        self.restricted = restricted
+
     def __setitem__(self,key,value):
-        try:
-            marshal.dumps(value)
-        except ValueError:
-            msg = 'Bad type for session object key %s ' %key
-            msg += ': expected built-in type, got %s' %value.__class__
-            raise ValueError(msg)
+        if self.restricted:
+            # test that value is a Python built-in type
+            try:
+                marshal.dumps(value)
+            except ValueError:
+                msg = 'Bad type for session object key %s ' %key
+                msg += ': expected built-in type, got %s' %value.__class__
+                raise ValueError(msg)
         dict.__setitem__(self,key,value)
 
 class MemorySessionStorage:
@@ -29,7 +35,7 @@ class MemorySessionStorage:
     def get(self,session_id):
         """Return the session object using self.session_id, or an empty
         SessionElement instance"""
-        return self.sessions.get(session_id,SessionElement())
+        return self.sessions.get(session_id,SessionElement(False))
 
 class FileSessionStorage:
 
