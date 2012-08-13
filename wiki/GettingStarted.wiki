@@ -22,6 +22,8 @@ to
 Karrigell.run(apps=[MyApp],port=8000)
 }}}
 
+The server supports IPv6. To specify it, set the option <font color="#333388" size="2"><b>address_family</b></font> to <font color="#333388" size="2"><b>socket.AF_INET6</b></font>
+
 Once the server is started, type <i>`http://localhost`</i> in a browser (or <i>`http://localhost:8000`</i>). If all went well, a home page is displayed
 
 Click on the link "Login". Since it's the first connection, no user has already been identified, so you should enter a login and password for the administrator
