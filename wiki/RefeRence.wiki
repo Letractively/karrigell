@@ -15,4 +15,4 @@
   * [KarrigellTemplate Karrigell templating engine]
   * [CgiMode Running with Apache - CGI mode]
   * [WsgiMode Running with Apache - WSGI mode]
-  * [BuiltinServer Built-in web server]
+  * [BuiltinServer Built-in web server options]
