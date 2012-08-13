@@ -5,7 +5,7 @@ Session management is very straightforward : the built-in function <font color="
 
 The server sets a cookie identifying the user and the application he is using : the session object is different for different applications run by the same user
 
-Session objects are dictionary-like objects, with the restriction that values can only be built-in Python types (strings, numbers, lists, dicts)
+Session objects are dictionary-like objects. Except in the case when they are stored in memory, values can only be built-in Python types (strings, numbers, lists, dicts...)
 
 The storage mechanism is managed by an object defining how to store and retrieve the session object. An application defines its session storage by the class attribute <font color="#338" size="2"><b>session_storage</b></font>
 
@@ -42,7 +42,7 @@ Karrigell provides 3 classes, in the module <font color="#336633"><b>sessions.py
  Stores the serialized session object in a file, one per user. As for SQLite, only built-in Python types can be stored in the session object
 
 ==!MemorySessionStorage==
- Stores the session object in memory. It only works on a mono process web server
+ Stores the session object in memory. It only works on a mono process web server. In this case, arbitrary objects can be stored, including non built-in Python objects (e.g. database connections)
 
 = Customized session storage classes =
 
