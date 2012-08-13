@@ -15,7 +15,7 @@
    ** [KarrigellTemplate Karrigell templating engine]  
    ** [CgiMode Running with Apache - CGI mode]
    ** [WsgiMode Running with Apache - WSGI mode]
-   ** [SslServer SSL server]
+   ** [BuiltinServer Built-in web server options]
   * [HowTos HOWTOs]
    ** [PronounceKarrigell Pronounce Karrigell]
    ** [InstallIt Install the package]
