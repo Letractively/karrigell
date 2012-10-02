@@ -4,7 +4,7 @@
   * [GettingStarted Getting started]
   * [TutoRial Tutorial]
   * [RefeRence Reference]
-   ** [ScriptsNamespace Scripts namespace]
+  ** [ScriptsNamespace Scripts namespace]
    ** [ApplicationSettings Application settings]
    ** [PassingParameters Passing parameters to a script]
    ** [ImportModule Importing a module]
