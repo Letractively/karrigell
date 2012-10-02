@@ -80,3 +80,21 @@ The <font color="#333388" size="2"><b>upload()</b></font> function receives an o
 In the example, the mimetype of the file is guessed using the Python built-in module mimetypes. It is used to set the content type of the returned data. The content of the file is read from the attribute file and sent as the return value of the function
 
 If the uploaded file was a JPEG image, the image will be displayed in the browser
+
+==Image inputs==
+For input fields with type = "image", the value sent by the user agent is the position of the mouse when the user clicked the image, relative to the upper left corner
+
+In Karrigell, the value matching the field name is a Python objet with two attributes, <font color="#338" size="2"><b>x</b></font> and <font color="#338" size="2"><b>y</b></font>, holding these coordinates
+
+Example :
+{{{
+def index():
+     i = INPUT(type="image", name="img_pos", src="../pic.jpg")
+     f = FORM(i, enctype="multipart/form-data", action="click",
+        method="POST")
+     return HTML(BODY(f))
+
+def click(img_pos):
+     body = "click coordinates %s %s" %(img_pos.x,img_pos.y)
+     return HTML(body)
+}}}
