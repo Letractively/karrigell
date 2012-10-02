@@ -53,6 +53,9 @@ class HTTP_ERROR(Exception):
 class ScriptError(Exception):
     pass
 
+class ImageInput:
+     pass 
+
 class RequestHandler(http.server.CGIHTTPRequestHandler):
     """One instance of this class is created for each HTTP request"""
 
@@ -91,7 +94,17 @@ class RequestHandler(http.server.CGIHTTPRequestHandler):
                     if k.endswith('[]'):
                         data[k[:-2]] = [body[k].value]
                     else:
-                        data[k] = body[k].value
+                        if '.' in k : 
+                            # if field is <input type="image" name="foo"> 
+                            # then data has keys foo.x and foo.y
+                            n,a = k.split('.')
+                            try :
+                                setattr(data[n], a, body[k].value)
+                            except KeyError:
+                                data[n] = ImageInput()
+                                setattr(data[n], a, body[k].value)
+                        else:
+                            data[k] = body[k].value 
         self.body = data
         self.handle_data()
 
