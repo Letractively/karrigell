@@ -154,7 +154,7 @@ Also note that
   * you can freely add tag objects and strings
   * for attributes that have the same name as a Python keyword, such as `type` or `class`, you must capitalize the attribute name to avoid syntax errors
 
-The attribute "action" for the form is `check_login`. Again, this means that the function check_login() in <font color="#106010" face="courier">index.ky</font> will be run
+The attribute "action" for the form is `check_login`. Again, this means that the function check_login() in <font color="#106010" face="courier">index.py</font> will be run
 
 Unlike index() and login(), this function will take arguments : the submitted login and password. The arguments must be called like the names used in the input fields of the form : `login` and `passwd`. For the moment we'll use a very simple test to see if the user is allowed to log in
 {{{
