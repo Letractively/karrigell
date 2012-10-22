@@ -24,13 +24,13 @@ def save(records,filename):
         out.write('#'.join(items)+'\n')
     out.close()
 }}}
-When you import the module in a script you simply use its functions read() and save(). The information is stored in a list of tuples
+When you import the module in a script you simply use its functions <font color="#333388" size="2"><b>read()</b></font> and <font color="#333388" size="2"><b>save()</b></font>. The information is stored in a list of tuples
 
 For our CD collection application, the information will consist in only 2 values : the artist name and the CD title
 
 = Home page with the CD list =
 
-We can now modify the index() function to print the list of CDs:
+We can now modify the <font color="#333388" size="2"><b>index()</b></font> function to print the list of CDs:
 {{{
 counter = Import('counter.py')
 simpledb = Import('simpledb.py')
@@ -62,11 +62,11 @@ def index():
     body += P()+'%s visits' %counter.nb_visits()
     return body
 }}}
-Notice that simpledb is imported at the module level, not inside the function index() : the names defined at module level are available in the functions, exactly like in ordinary Python scripts
+Notice that simpledb is imported at the module level, not inside the function <font color="#333388" size="2"><b>index()</b></font> : the names defined at module level are available in the functions, exactly like in ordinary Python scripts
 
 = Adding new CDs =
 
-For logged-in users there is a link to enter new CDs in the database. The href attribute of this link is new_cd, so we must write a function new_cd()
+For logged-in users there is a link to enter new CDs in the database. The href attribute of this link is new_cd, so we must write a function <font color="#333388" size="2"><b>new_cd()</b></font>
 
 This function will print a form to enter the CD artist and title, and submit the data to another function which will actually write the information in the database, then return to the home page
 
@@ -111,7 +111,7 @@ In our simple database we can use the index of the item in the list as identifie
     else:
         body += "No CD in the collection"        
 }}}
-The function edit() will receive one argument called num. All arguments passed to functions in Karrigell Services are strings, so before using this argument num as the index in a list don't forget to convert it to an integer
+The function <font color="#333388" size="2"><b>edit()</b></font> will receive one argument called num. All arguments passed to functions in Karrigell Services are strings, so before using this argument num as the index in a list don't forget to convert it to an integer
 {{{
 def edit(rowid):
     cds = simpledb.read('mycds.db')
@@ -134,7 +134,7 @@ def update_cd(rowid,artist,title):
 
 = Removing records =
 
-The final step is to enable deletion of CDs from the base : once again, edit the function index() like this
+The final step is to enable deletion of CDs from the base : once again, edit the function <font color="#333388" size="2"><b>index()</b></font> like this
 {{{
     # table with all CDs
     cds = simpledb.read('mycds.db')
@@ -151,7 +151,7 @@ The final step is to enable deletion of CDs from the base : once again, edit the
     else:
         body += "No CD in the collection"        
 }}}
-and add a new function, remove():
+and add a new function, <font color="#333388" size="2"><b>remove()</b></font>:
 {{{
 def remove(rowid):
     cds = simpledb.read('mycds.db')
