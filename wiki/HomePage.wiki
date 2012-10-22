@@ -69,7 +69,7 @@ Use the built-in <font color="#333388" size="2"><b>Session()</b></font> function
 
 Karrigell scripts are run in a namespace prepared by the framework : among the names available in scripts, you have this <font color="#333388" size="2"><b>Session()</b></font> function, which returns an object specific to each individual client (it uses cookies). This object is an ordinary Python dictionary, to which you can set key/value pairs
 
-Here, for a new client, we will create a key key _user_ for the session object. If a client requests the home page and his session object already has this key, the counter will not be incremented
+Here, for a new client, we will create a key _user_ for the session object. If a client requests the home page and his session object already has this key, the counter will not be incremented
 {{{
 def index():
     body = H1("My CD collection")
