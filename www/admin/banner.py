@@ -13,6 +13,6 @@ def banner(home=False,title='',log=True):
             bandeau <= DIV(c_log,Class="login")
         else:
             c_log = A(_("login(verb)"),href="/admin/login.py/login?origin="+
-                THIS.path_info,Class="banner")+str(_)
+                THIS.path_info,Class="banner")
             bandeau <= DIV(c_log,Class="login")
     return bandeau
