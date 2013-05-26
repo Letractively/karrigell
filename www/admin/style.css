@@ -46,12 +46,11 @@ div#content a {
 }
 
 span#url_navig {
-    width: 30%:
+    width: 30%;
 }
 div#bandeau {
     height:40px;
-    background: url("banner.png") repeat-y;
-    background-position: 100%;
+    background-color: #002302;
     font-size: 25px;
     padding:15px;
     color: #FFF;
