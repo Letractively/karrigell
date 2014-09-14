@@ -27,6 +27,18 @@ The translations file is a configuration file, under the format supported by the
 
 The translation script finds that the configuration file has a section  `[myString]` ; if the user has defined French as one of the languages in the browsers preference, it returns the translation in French, identified by the option `fr` in the section. If there is no translation for the browsers language, then the `default` option is returned (if no default is specified, the string is returned unchanged)
 
+As of r524 the translation script has been enhanced to allow a default language to be specified in the configuration file. For example, a configuration file containing this text would set _en_ as the default language:
+
+<pre>
+  `[`__default__]
+  default_language=en
+  
+  `[`myString]
+  fr=Ceci est une chaîne à traduire
+  en=This is a string to translate
+</pre>
+
+
 == Path and encoding of translation file ==
 By default, the translation file is <font color="#106010" face="courier">translation.ini</font>, in the same folder as <font color="#106010" face="courier">translation.py</font>, and it is supposed to be encoded in iso-8859-1
 
