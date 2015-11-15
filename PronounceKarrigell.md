@@ -1,0 +1,7 @@
+Karrigell is a Breton word, it means "cart"
+
+In the IPA alphabet : /kaʁiɡɛl/
+
+For French speakers : cariguelle
+
+For English speakers : like "car-eagle", but rhyming with "bell"
